@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: sistema-observatorio-worker
+    runtime: docker
+    dockerfilePath: ./Dockerfile.worker
+    plan: starter
+    autoDeploy: true
+    healthCheckPath: /api/health
+    disk:
+      name: observatorio-data
+      mountPath: /var/data/observatorio
+      sizeGB: 10
+    envVars:
+      - key: OBSERVATORIO_DATA_DIR
+        value: /var/data/observatorio
+      - key: OBSERVATORIO_ALLOWED_ORIGINS
+        value: https://sistema-observatorio.vercel.app
+      - key: OBSERVATORIO_ALLOWED_ORIGIN_REGEX
+        value: https://.*\\.vercel\\.app
+      - key: OBSERVATORIO_EDITOR_TOKEN
+        sync: false

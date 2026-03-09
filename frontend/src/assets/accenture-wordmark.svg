@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 270 48" role="img" aria-labelledby="title">
+  <title id="title">Accenture</title>
+  <defs>
+    <linearGradient id="accenturePulse" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e11d48" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+  <text
+    x="3"
+    y="35"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="33"
+    letter-spacing="0.35"
+    font-weight="700"
+    fill="#0f172a"
+  >
+    accenture
+  </text>
+  <polygon points="162,6 179,12 162,18" fill="url(#accenturePulse)" />
+  <rect x="181.5" y="11" width="4.5" height="2.6" rx="1.3" fill="#0f172a" opacity="0.7" />
+</svg>

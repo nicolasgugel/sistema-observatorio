@@ -1,0 +1,4 @@
+interface:
+  display_name: "Frontend Design Elite"
+  short_description: "Diseño frontend premium, distintivo y production-ready"
+  default_prompt: "Diseña e implementa una interfaz frontend de nivel élite, con dirección de arte clara y calidad de producción."

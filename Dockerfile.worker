@@ -1,0 +1,24 @@
+FROM mcr.microsoft.com/playwright/python:v1.58.0-noble
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    OBSERVATORIO_DATA_DIR=/var/data/observatorio
+
+WORKDIR /app
+
+COPY requirements.txt ./requirements.txt
+COPY requirements.full.txt ./requirements.full.txt
+COPY scraper_clean/requirements.txt ./scraper_clean/requirements.txt
+
+RUN python -m pip install --upgrade pip && \
+    python -m pip install -r requirements.full.txt && \
+    python -m playwright install chromium
+
+COPY . .
+
+RUN mkdir -p /var/data/observatorio
+
+EXPOSE 8000
+
+CMD ["python", "scripts/run_worker.py"]

@@ -1,0 +1,17 @@
+{
+  "id": "20260309_111848_02457e93",
+  "created_at": "2026-03-09T11:18:48.543233+00:00",
+  "run_id": "ff344ca42b994830abe19c97d734dce0",
+  "mode": "full",
+  "brand_scope": "Samsung",
+  "competitors": [
+    "Amazon"
+  ],
+  "record_count": 1211,
+  "files": {
+    "master_prices_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\data\\history\\20260309_111848_02457e93\\master_prices.csv",
+    "latest_prices_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\data\\history\\20260309_111848_02457e93\\latest_prices.csv",
+    "latest_prices_json": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\data\\history\\20260309_111848_02457e93\\latest_prices.json",
+    "price_comparison_live_html": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\data\\history\\20260309_111848_02457e93\\price_comparison_live.html"
+  }
+}

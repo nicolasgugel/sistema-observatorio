@@ -1,0 +1,4 @@
+interface:
+  display_name: "Observatorio Competitor Scraping"
+  short_description: "Run and validate Santander+competitor price scraping"
+  default_prompt: "Use this skill to scrape Samsung prices (cash, financing, renting where available), validate coverage, and update docs/project_checkpoint.md."

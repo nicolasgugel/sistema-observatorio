@@ -1,0 +1,23 @@
+.cursor
+.vscode
+.npm-cache
+__pycache__
+**/__pycache__
+
+frontend/node_modules
+frontend/dist
+frontend/.vite
+frontend/.npm-cache
+
+scripts
+skills
+elcorteingles_scraper
+
+output/**
+!output/latest_prices.json
+!output/latest_prices.csv
+!output/price_comparison_live.html
+
+unified_last_scrapes_with_book copy.bak_*.csv
+image.png
+hola.txt

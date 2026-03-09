@@ -1,0 +1,50 @@
+# Python
+**/__pycache__/
+*.pyc
+*.pyo
+.venv/
+.env
+.codex/
+.cursor/
+.vscode/
+
+# Datos generados
+output/
+!output/latest_prices.json
+!output/latest_prices.csv
+!output/unified_last_scrapes_with_book.csv
+!output/price_comparison_live.html
+!output/master_prices.csv
+data/*
+!data/current/
+!data/history/
+!data/current/**
+!data/history/**
+data/logs/
+data/observatorio.sqlite3
+data/editor_token.txt
+data/public_worker_url.txt
+
+# Backups y temporales
+*.bak_*
+
+# App runtime
+.observatorio_app_pids.json
+.observatorio_worker_pids.json
+
+# Assets de desarrollo (no relevantes para código)
+santander_boutique_home.png
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# Deploy
+.vercel
+.vercel-global/
+.npm-cache/
+frontend/.npm-cache/
+hola.txt
+image.png
+scraping_*.log

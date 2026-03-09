@@ -1,0 +1,19 @@
+# Sistema Comparador de Precios — Santander Boutique
+# Instalar con: pip install -r requirements.txt
+# Para los fetchers de browser: pip install scrapling[fetchers]
+# Para camoufox (StealthyFetcher): pip install camoufox[geoip]
+
+# Core scraping
+scrapling[fetchers]>=0.4
+
+# Anti-bot stealth browser
+camoufox[geoip]>=0.4
+
+# Excel export
+openpyxl>=3.1.0
+
+# Product name fuzzy matching
+rapidfuzz>=3.0.0
+
+# Logging
+loguru>=0.7.0

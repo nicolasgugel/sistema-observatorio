@@ -1,0 +1,289 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 30 15% 97%;
+    --foreground: 220 20% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 12%;
+
+    --primary: 0 100% 42%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 30 10% 93%;
+    --secondary-foreground: 220 20% 12%;
+
+    --muted: 30 8% 94%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 35 60% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 30 12% 89%;
+    --input: 30 12% 89%;
+    --ring: 0 100% 42%;
+
+    --radius: 0.625rem;
+
+    --sidebar-background: 220 20% 10%;
+    --sidebar-foreground: 30 10% 90%;
+    --sidebar-primary: 0 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 18% 16%;
+    --sidebar-accent-foreground: 30 10% 90%;
+    --sidebar-border: 220 16% 18%;
+    --sidebar-ring: 0 100% 50%;
+    --sidebar-muted: 220 12% 30%;
+
+    --success: 152 60% 40%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 210 80% 52%;
+    --info-foreground: 0 0% 100%;
+
+    --chart-up: 152 60% 40%;
+    --chart-down: 0 84% 60%;
+    --chart-neutral: 210 10% 58%;
+  }
+
+  .dark {
+    --background: 220 20% 8%;
+    --foreground: 30 10% 93%;
+    --card: 220 18% 12%;
+    --card-foreground: 30 10% 93%;
+    --popover: 220 18% 12%;
+    --popover-foreground: 30 10% 93%;
+    --primary: 0 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 16% 18%;
+    --secondary-foreground: 30 10% 90%;
+    --muted: 220 14% 20%;
+    --muted-foreground: 220 10% 55%;
+    --accent: 35 60% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 30%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 14% 20%;
+    --input: 220 14% 20%;
+    --ring: 0 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: "Manrope", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  h1, h2, h3, h4 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-card/80 backdrop-blur-md border border-border/60 shadow-sm;
+  }
+  .logo-surface {
+    @apply inline-flex items-center justify-center overflow-hidden rounded-md border border-border/60 bg-gradient-to-b from-background/90 to-muted/70 shadow-[0_1px_2px_rgba(15,23,42,0.08)];
+  }
+  .logo-image {
+    @apply transition-opacity duration-200 mix-blend-multiply opacity-95;
+    filter: saturate(0.95) contrast(1.05);
+  }
+  .brand-identity-inline {
+    @apply inline-flex items-center gap-2.5;
+  }
+  .brand-identity-logo-wrap {
+    @apply inline-flex shrink-0 items-center justify-center;
+  }
+  .brand-identity-logo-wrap-samsung {
+    @apply h-5 w-14;
+  }
+  .brand-identity-logo-wrap-samsung-compact {
+    @apply h-4 w-14;
+  }
+  .brand-identity-logo-wrap-samsung-logo-only {
+    @apply h-6 w-20;
+  }
+  .brand-identity-logo-wrap-apple {
+    @apply h-5 w-5;
+  }
+  .brand-identity-logo-wrap-apple-compact {
+    @apply h-4 w-5;
+  }
+  .brand-identity-logo-wrap-apple-logo-only {
+    @apply h-6 w-6;
+  }
+  .brand-identity-logo {
+    @apply block h-full w-full object-contain;
+    filter: saturate(1.03) contrast(1.02);
+  }
+  .brand-identity-label {
+    @apply text-sm font-medium text-foreground;
+  }
+  .dark .brand-identity-logo-apple {
+    filter: invert(1) brightness(1.18) saturate(0);
+  }
+  .kpi-card {
+    @apply bg-card rounded-xl border border-border/60 p-5 shadow-sm transition-shadow hover:shadow-md;
+  }
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors;
+  }
+  .sidebar-link-active {
+    @apply bg-sidebar-accent text-sidebar-primary;
+  }
+  .sidebar-link-inactive {
+    @apply text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent/60;
+  }
+  .table-header {
+    @apply text-xs font-semibold uppercase tracking-wider text-muted-foreground;
+  }
+  .badge-up {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-[hsl(var(--success)/0.12)] text-[hsl(var(--success))];
+  }
+  .badge-down {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-[hsl(var(--chart-down)/0.12)] text-[hsl(var(--chart-down))];
+  }
+  .badge-neutral {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium bg-muted text-muted-foreground;
+  }
+  .home-landing {
+    @apply relative;
+  }
+  .home-hero {
+    @apply relative overflow-hidden rounded-[1.75rem] border border-border/70 p-6 shadow-sm sm:p-8;
+    background:
+      radial-gradient(120% 130% at 0% 10%, rgba(255, 255, 255, 0.92) 0%, rgba(255, 255, 255, 0.82) 40%, rgba(255, 247, 244, 0.7) 100%),
+      linear-gradient(160deg, rgba(229, 57, 53, 0.08) 0%, rgba(15, 23, 42, 0.08) 65%, rgba(15, 23, 42, 0.14) 100%);
+  }
+  .home-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(120deg, rgba(15, 23, 42, 0.025) 12.5%, transparent 12.5%, transparent 50%, rgba(15, 23, 42, 0.025) 50%, rgba(15, 23, 42, 0.025) 62.5%, transparent 62.5%, transparent);
+    background-size: 9px 9px;
+    opacity: 0.5;
+  }
+  .home-hero-glow {
+    position: absolute;
+    right: -7rem;
+    top: -8rem;
+    height: 22rem;
+    width: 22rem;
+    border-radius: 9999px;
+    background: radial-gradient(circle, rgba(229, 57, 53, 0.2) 0%, rgba(229, 57, 53, 0) 70%);
+    pointer-events: none;
+  }
+  .home-brand-lockup {
+    @apply inline-flex flex-wrap items-center gap-3 sm:gap-4;
+  }
+  .home-brand-logo {
+    @apply block h-6 w-auto sm:h-7;
+    object-fit: contain;
+    filter: saturate(1.03) contrast(1.02);
+  }
+  .home-brand-logo-santander {
+    @apply p-0;
+  }
+  .home-brand-logo-accenture {
+    transform: none;
+  }
+  .home-brand-divider {
+    @apply h-6 sm:h-7 w-px bg-foreground/20;
+  }
+  .home-brand-caption {
+    @apply ml-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground;
+  }
+  .home-eyebrow {
+    @apply text-[10px] font-semibold uppercase tracking-[0.22em] text-muted-foreground;
+  }
+  .home-title {
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .home-lead {
+    @apply text-muted-foreground;
+    max-width: 58ch;
+    text-wrap: pretty;
+  }
+  .home-cta-primary {
+    @apply rounded-full px-6 shadow-[0_10px_24px_rgba(220,38,38,0.2)];
+  }
+  .home-cta-secondary {
+    @apply rounded-full border-border/80 bg-background/80 px-6 backdrop-blur-sm;
+  }
+  .home-signal-card {
+    @apply rounded-2xl border border-border/60 bg-background/80 p-4 shadow-sm backdrop-blur-sm transition-transform duration-300;
+  }
+  .home-signal-card:hover {
+    transform: translateY(-2px);
+  }
+  .home-signal-value {
+    @apply text-3xl font-semibold text-foreground;
+  }
+  .home-signal-label {
+    @apply mt-0.5 text-[11px] uppercase tracking-[0.14em] text-muted-foreground;
+  }
+  .home-mission-card {
+    @apply rounded-2xl border border-border/70 bg-background/90 p-5 shadow-sm backdrop-blur-md;
+  }
+  .home-mission-step {
+    @apply flex items-start gap-3 rounded-xl border border-border/60 bg-muted/25 px-3 py-2.5;
+  }
+  .home-mission-index {
+    @apply mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-[11px] font-semibold text-primary;
+  }
+  .home-output-card {
+    @apply mt-4 rounded-xl border border-border/60 bg-card/95 px-3 py-3;
+  }
+  .home-output-item {
+    @apply flex items-start gap-2.5 rounded-lg border border-border/60 bg-muted/30 px-3 py-2;
+  }
+  .home-value-card {
+    @apply rounded-2xl border border-border/60 bg-card/95 p-5 shadow-sm;
+  }
+  .home-value-icon {
+    @apply inline-flex h-8 w-8 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary;
+  }
+  .home-process-shell {
+    @apply rounded-2xl border border-border/70 bg-gradient-to-br from-card via-card to-muted/40 p-6 shadow-sm sm:p-7;
+  }
+  .home-process-card {
+    @apply rounded-xl border border-border/70 bg-background/80 p-5;
+  }
+  .home-process-step {
+    @apply rounded-md border border-primary/25 bg-primary/10 px-2 py-0.5 text-[11px] font-semibold tracking-wide text-primary;
+  }
+  .home-module-card {
+    @apply rounded-2xl border border-border/70 bg-card/95 p-5 shadow-sm;
+  }
+  .home-module-icon {
+    @apply mt-0.5 flex h-10 w-10 items-center justify-center rounded-lg border border-primary/20 bg-primary/10 text-primary;
+  }
+  .home-module-status-on {
+    @apply inline-flex items-center rounded-full border border-primary/25 bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary;
+  }
+  .home-module-status-soon {
+    @apply inline-flex items-center rounded-full border border-border/80 bg-muted px-2.5 py-1 text-[11px] font-medium text-muted-foreground;
+  }
+  .home-module-cta {
+    @apply rounded-xl border-border/70 bg-background/75;
+  }
+}
