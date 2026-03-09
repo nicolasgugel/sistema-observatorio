@@ -515,10 +515,10 @@ def seed_canonical_table_from_snapshot(snapshot_path: Path | None = None) -> Pat
 
 
 def ensure_current_dataset() -> None:
-    init_storage()
     if CURRENT_TABLE_PATH.exists():
         return
 
+    init_storage()
     current_snapshot = get_snapshot("current")
     if current_snapshot:
         csv_path = Path(current_snapshot["csv_path"])

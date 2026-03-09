@@ -1,21 +1,31 @@
 from __future__ import annotations
 
+import errno
 import os
 from pathlib import Path
 
 
+def _ensure_dir(path: Path) -> Path:
+    try:
+        path.mkdir(parents=True, exist_ok=True)
+    except OSError as exc:
+        if exc.errno not in {errno.EROFS, errno.EACCES, errno.EPERM}:
+            raise
+    return path
+
+
 ROOT_DIR = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT_DIR / "output"
-OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+_ensure_dir(OUTPUT_DIR)
 
 DATA_DIR = Path(os.getenv("OBSERVATORIO_DATA_DIR", ROOT_DIR / "data"))
-DATA_DIR.mkdir(parents=True, exist_ok=True)
+_ensure_dir(DATA_DIR)
 CURRENT_DATA_DIR = DATA_DIR / "current"
-CURRENT_DATA_DIR.mkdir(parents=True, exist_ok=True)
+_ensure_dir(CURRENT_DATA_DIR)
 HISTORY_DATA_DIR = DATA_DIR / "history"
-HISTORY_DATA_DIR.mkdir(parents=True, exist_ok=True)
+_ensure_dir(HISTORY_DATA_DIR)
 LOGS_DATA_DIR = DATA_DIR / "logs"
-LOGS_DATA_DIR.mkdir(parents=True, exist_ok=True)
+_ensure_dir(LOGS_DATA_DIR)
 STATE_DB_PATH = DATA_DIR / "observatorio.sqlite3"
 
 TEMPLATE_PATH = ROOT_DIR / "assets" / "templates" / "price_comparison_v10_dual_brand.html"
