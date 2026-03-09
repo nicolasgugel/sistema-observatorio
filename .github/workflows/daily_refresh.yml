@@ -6,8 +6,16 @@ on:
     - cron: "0 8 * * *"
   workflow_dispatch:
 
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: false
+
 permissions:
   contents: write
+
+env:
+  VERCEL_ORG_ID: team_lVNCt29dONZSV1ueq9hrkbWT
+  VERCEL_PROJECT_ID: prj_MG0KFrk0CIBiN9rr9rRti1J8kcvT
 
 jobs:
   refresh:
@@ -66,11 +74,13 @@ jobs:
           python scripts/run_daily_refresh.py
 
       - name: Commit published data
+        id: publish_data
         if: steps.madrid_slot.outputs.should_run == 'true'
         shell: bash
         run: |
           if [[ -z "$(git status --porcelain -- data/current data/history output master_prices.csv)" ]]; then
             echo "No hay cambios que publicar."
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
@@ -79,3 +89,25 @@ jobs:
           git add data/current data/history output master_prices.csv
           git commit -m "chore: daily price refresh"
           git push
+          echo "has_changes=true" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Node
+        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
+        uses: actions/setup-node@v5
+        with:
+          node-version: "24"
+
+      - name: Pull Vercel environment
+        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
+        run: |
+          npx vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Build Vercel deployment
+        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
+        run: |
+          npx vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Deploy refreshed data to Vercel
+        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
+        run: |
+          npx vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"

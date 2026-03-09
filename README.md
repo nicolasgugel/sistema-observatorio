@@ -110,10 +110,13 @@ El repo incluye [`.github/workflows/daily_refresh.yml`](c:\Users\juan.gugel.gonz
 - ejecuta `scraper_clean`
 - publica `data/current/` y `data/history/`
 - regenera `output/latest_*` y `master_prices.csv`
-- hace commit de los datos nuevos para que Vercel redepliegue en modo read-only
+- hace commit de los datos nuevos en `main`
+- despliega la app de produccion en Vercel desde GitHub Actions usando `VERCEL_TOKEN`
 
 Script de publicacion usado por el workflow:
 - [scripts/run_daily_refresh.py](c:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\scripts\run_daily_refresh.py)
+
+El repo incluye tambien [`.github/workflows/deploy_vercel.yml`](c:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\.github\workflows\deploy_vercel.yml), que despliega Vercel en cada `push` a `main` y permite disparo manual con `workflow_dispatch`.
 
 ### URLs
 
