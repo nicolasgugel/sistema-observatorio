@@ -75,9 +75,14 @@ export default function VisualizadorPage() {
 
   const rows = useMemo(() => normalizeTableRows(rowsQuery.data?.rows ?? []), [rowsQuery.data]);
 
+  const currentSnapshot = useMemo(() => {
+    const snapshots = snapshotsQuery.data?.snapshots ?? [];
+    return snapshots.find((snapshot) => snapshot.is_current) ?? null;
+  }, [snapshotsQuery.data]);
+
   const historicalSnapshots = useMemo(() => {
     const snapshots = snapshotsQuery.data?.snapshots ?? [];
-    return [...snapshots].sort(
+    return snapshots.filter((snapshot) => !snapshot.is_current).sort(
       (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
     );
   }, [snapshotsQuery.data]);
@@ -231,15 +236,19 @@ export default function VisualizadorPage() {
                 <SelectItem value="current">
                   <span className="flex items-center gap-2">
                     <span>Versión actual</span>
-                    <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">HOY</span>
+                    <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                      {getSnapshotRelativeBadge(currentSnapshot?.created_at) ?? "ACTUAL"}
+                    </span>
                   </span>
                 </SelectItem>
-                {historicalSnapshots.map((snapshot, index) => (
+                {historicalSnapshots.map((snapshot) => (
                   <SelectItem key={snapshot.id} value={snapshot.id}>
                     <span className="flex items-center gap-2">
                       <span>{formatSnapshotDate(snapshot.created_at)}</span>
-                      {index === 0 && (
-                        <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">AYER</span>
+                      {getSnapshotRelativeBadge(snapshot.created_at) && (
+                        <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded">
+                          {getSnapshotRelativeBadge(snapshot.created_at)}
+                        </span>
                       )}
                     </span>
                   </SelectItem>
@@ -561,6 +570,30 @@ function formatSnapshotDate(isoDate: string): string {
     month: "short",
     year: "numeric",
   });
+}
+
+function getSnapshotRelativeBadge(isoDate: string | null | undefined): "HOY" | "AYER" | null {
+  if (!isoDate) {
+    return null;
+  }
+
+  const date = new Date(isoDate);
+  if (Number.isNaN(date.getTime())) {
+    return null;
+  }
+
+  const targetDay = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  const today = new Date();
+  const todayDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+  const diffDays = Math.round((todayDay.getTime() - targetDay.getTime()) / 86400000);
+
+  if (diffDays === 0) {
+    return "HOY";
+  }
+  if (diffDays === 1) {
+    return "AYER";
+  }
+  return null;
 }
 
 function formatIso(value: string): string {
