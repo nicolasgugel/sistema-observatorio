@@ -13,6 +13,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(PROJECT_ROOT))
 
 from app_backend.config import DEFAULT_COMPETITORS, OUTPUT_DIR, ROOT_DIR, SCRAPER_CLEAN_RETAILER_LABEL_TO_ID
+from app_backend.config import SCRAPER_RUNTIME_ENTRYPOINT, SCRAPER_RUNTIME_NAME
 from app_backend.data_access import (
     load_rows_from_path,
     prune_history_snapshots,
@@ -52,7 +53,7 @@ def _run_scraper() -> tuple[Path, list[str], str]:
 
     command = [
         sys.executable,
-        "scraper_clean/main.py",
+        str(SCRAPER_RUNTIME_ENTRYPOINT.relative_to(ROOT_DIR)),
         "--scrapers",
         "boutique",
         *scraper_ids,
@@ -70,7 +71,7 @@ def _run_scraper() -> tuple[Path, list[str], str]:
         check=False,
     )
     if process.returncode != 0:
-        raise RuntimeError(f"scraper_clean finalizo con codigo {process.returncode}.")
+        raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} finalizo con codigo {process.returncode}.")
 
     return _find_generated_csv(output_prefix), DEFAULT_COMPETITORS, brand_scope
 
@@ -95,8 +96,8 @@ def main() -> None:
         brand_scope=brand_scope,
         competitors=competitors,
         record_count=outputs["records_total"],
-        cron=os.getenv("OBSERVATORIO_REFRESH_CRON", "0 6 * * *"),
-        timezone_name=os.getenv("OBSERVATORIO_REFRESH_TIMEZONE", "UTC"),
+        cron=os.getenv("OBSERVATORIO_REFRESH_CRON", "08:00 Europe/Madrid"),
+        timezone_name=os.getenv("OBSERVATORIO_REFRESH_TIMEZONE", "Europe/Madrid"),
     )
 
     keep = int(os.getenv("OBSERVATORIO_HISTORY_RETENTION", "90"))

@@ -9,11 +9,14 @@ WORKDIR /app
 
 COPY requirements.txt ./requirements.txt
 COPY requirements.full.txt ./requirements.full.txt
-COPY scraper_clean/requirements.txt ./scraper_clean/requirements.txt
+COPY santander_scraper_for_app_ready/requirements.txt ./santander_scraper_for_app_ready/requirements.txt
 
 RUN python -m pip install --upgrade pip && \
     python -m pip install -r requirements.full.txt && \
-    python -m playwright install chromium
+    python -m playwright install chromium && \
+    python -m playwright install-deps firefox && \
+    scrapling install && \
+    camoufox fetch
 
 COPY . .
 

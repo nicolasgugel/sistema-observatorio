@@ -2,8 +2,8 @@ name: Daily Refresh
 
 on:
   schedule:
+    - cron: "0 6 * * *"
     - cron: "0 7 * * *"
-    - cron: "0 8 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -21,7 +21,7 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve 09:00 Europe/Madrid slot
+      - name: Resolve 08:00 Europe/Madrid slot
         id: madrid_slot
         shell: bash
         run: |
@@ -32,18 +32,18 @@ jobs:
           fi
 
           madrid_hour="$(TZ=Europe/Madrid date +%H)"
-          if [[ "$madrid_hour" == "09" ]]; then
+          if [[ "$madrid_hour" == "08" ]]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=scheduled_9am_madrid" >> "$GITHUB_OUTPUT"
+            echo "reason=scheduled_8am_madrid" >> "$GITHUB_OUTPUT"
           else
             echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "reason=not_9am_madrid" >> "$GITHUB_OUTPUT"
+            echo "reason=not_8am_madrid" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip duplicate DST slot
         if: steps.madrid_slot.outputs.should_run != 'true'
         run: |
-          echo "Skipping scheduled run outside 09:00 Europe/Madrid."
+          echo "Skipping scheduled run outside 08:00 Europe/Madrid."
 
       - name: Checkout repository
         if: steps.madrid_slot.outputs.should_run == 'true'
@@ -64,11 +64,14 @@ jobs:
           python -m pip install uv
           python -m pip install -r requirements.full.txt
           python -m playwright install --with-deps chromium
+          python -m playwright install-deps firefox
+          scrapling install
+          camoufox fetch
 
       - name: Run daily refresh
         if: steps.madrid_slot.outputs.should_run == 'true'
         env:
-          OBSERVATORIO_REFRESH_CRON: "09:00 Europe/Madrid"
+          OBSERVATORIO_REFRESH_CRON: "08:00 Europe/Madrid"
           OBSERVATORIO_REFRESH_TIMEZONE: "Europe/Madrid"
           OBSERVATORIO_HISTORY_RETENTION: "90"
         run: |

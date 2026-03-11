@@ -15,6 +15,8 @@ from app_backend.config import (
     OUTPUT_DIR,
     ROOT_DIR,
     SCRAPER_CLEAN_RETAILER_LABEL_TO_ID,
+    SCRAPER_RUNTIME_ENTRYPOINT,
+    SCRAPER_RUNTIME_NAME,
 )
 from app_backend.data_access import (
     load_rows_from_path,
@@ -180,17 +182,21 @@ class UpdaterManager:
         if request.max_products != 12:
             self._append_log(
                 run_id,
-                "max_products se mantiene por compatibilidad y no limita scraper_clean.",
+                f"max_products se mantiene por compatibilidad y no limita {SCRAPER_RUNTIME_NAME}.",
                 level="warning",
             )
         if normalize_text(request.scope) != normalize_text("full_catalog"):
             self._append_log(
                 run_id,
-                "scope se mantiene por compatibilidad y se ignora en scraper_clean.",
+                f"scope se mantiene por compatibilidad y se ignora en {SCRAPER_RUNTIME_NAME}.",
                 level="warning",
             )
         if request.headed:
-            self._append_log(run_id, "headed no esta soportado por scraper_clean y se ignora.", level="warning")
+            self._append_log(
+                run_id,
+                f"headed no esta soportado por {SCRAPER_RUNTIME_NAME} y se ignora.",
+                level="warning",
+            )
 
         self._append_log(run_id, "Comando lanzado: " + " ".join(command))
 
@@ -218,18 +224,18 @@ class UpdaterManager:
         update_run(run_id, return_code=return_code)
 
         if return_code != 0:
-            error = f"scraper_clean finalizo con codigo {return_code}."
+            error = f"{SCRAPER_RUNTIME_NAME} finalizo con codigo {return_code}."
             update_run(run_id, status="failed", finished_at=now_iso(), error=error)
             self._append_log(run_id, error, level="error")
             return
 
         try:
             generated_csv = _find_generated_csv(output_prefix)
-            self._append_log(run_id, f"CSV generado por scraper_clean: {generated_csv}")
+            self._append_log(run_id, f"CSV generado por {SCRAPER_RUNTIME_NAME}: {generated_csv}")
 
             fresh_rows = load_rows_from_path(generated_csv)
             if not fresh_rows:
-                raise RuntimeError("scraper_clean no devolvio filas para el refresh solicitado.")
+                raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} no devolvio filas para el refresh solicitado.")
             existing_rows, _ = load_table_rows()
 
             selected_keys = {
@@ -283,10 +289,10 @@ class UpdaterManager:
 
     def _build_command(self, request: UpdateRunRequest, selected_labels: list[str]) -> tuple[list[str], Path]:
         scraper_ids = [SCRAPER_CLEAN_RETAILER_LABEL_TO_ID[label] for label in selected_labels]
-        output_prefix = OUTPUT_DIR / f"scraper_clean_updater_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+        output_prefix = OUTPUT_DIR / f"scraper_runtime_updater_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
         command = [
             sys.executable,
-            "scraper_clean/main.py",
+            str(SCRAPER_RUNTIME_ENTRYPOINT.relative_to(ROOT_DIR)),
             "--scrapers",
             "boutique",
             *scraper_ids,
@@ -317,7 +323,7 @@ class UpdaterManager:
 
         if unknown:
             unknown_text = ", ".join(unknown)
-            raise RuntimeError(f"Competidores no soportados por scraper_clean: {unknown_text}")
+            raise RuntimeError(f"Competidores no soportados por {SCRAPER_RUNTIME_NAME}: {unknown_text}")
         if not selected:
             return list(DEFAULT_COMPETITORS)
         return selected
@@ -328,4 +334,4 @@ class UpdaterManager:
             return []
         if brand in {"samsung", "apple"}:
             return [brand]
-        raise RuntimeError(f"Marca no soportada por scraper_clean: {value}")
+        raise RuntimeError(f"Marca no soportada por {SCRAPER_RUNTIME_NAME}: {value}")

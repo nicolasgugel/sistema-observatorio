@@ -29,6 +29,9 @@ _ensure_dir(LOGS_DATA_DIR)
 STATE_DB_PATH = DATA_DIR / "observatorio.sqlite3"
 
 TEMPLATE_PATH = ROOT_DIR / "assets" / "templates" / "price_comparison_v10_dual_brand.html"
+SCRAPER_RUNTIME_DIR = ROOT_DIR / "santander_scraper_for_app_ready"
+SCRAPER_RUNTIME_ENTRYPOINT = SCRAPER_RUNTIME_DIR / "main.py"
+SCRAPER_RUNTIME_NAME = SCRAPER_RUNTIME_DIR.name
 SCRAPER_CLEAN_INITIAL_SNAPSHOT_PATH = ROOT_DIR / "master_prices_v3_20260309_0917.csv"
 CURRENT_JSON_PATH = CURRENT_DATA_DIR / "latest_prices.json"
 CURRENT_CSV_PATH = CURRENT_DATA_DIR / "latest_prices.csv"

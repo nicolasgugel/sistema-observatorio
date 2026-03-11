@@ -17,7 +17,7 @@ Se incluyen 5 modulos funcionales:
 - Frontend: `React + TypeScript + Vite`
 - Estado frontend: `Zustand`
 - Graficas: `Recharts`
-- Scraping: `scraper_clean/` como motor principal local
+- Scraping: `santander_scraper_for_app_ready/` como runtime activo
 
 Justificacion estado (`Zustand`): el estado principal en esta app es UI-centric (filtros globales, paginacion, modulo activo, parametros de auto-refresh). `Zustand` reduce boilerplate y permite un store unico simple sin acoplarlo a un cache server-state complejo.
 
@@ -40,6 +40,9 @@ Justificacion estado (`Zustand`): el estado principal en esta app es UI-centric 
 ```bash
 python -m pip install -r requirements.full.txt
 python -m playwright install chromium
+python -m playwright install-deps firefox
+scrapling install
+camoufox fetch
 ```
 
 ### 2) Frontend deps
@@ -106,8 +109,8 @@ El script:
 ### Refresh diario en GitHub Actions
 
 El repo incluye [`.github/workflows/daily_refresh.yml`](c:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\.github\workflows\daily_refresh.yml), que:
-- corre cada dia a las `09:00` hora peninsular espanola (`Europe/Madrid`), ajustando CET/CEST
-- ejecuta `scraper_clean`
+- corre cada dia a las `08:00` hora peninsular espanola (`Europe/Madrid`), ajustando CET/CEST
+- ejecuta `santander_scraper_for_app_ready`
 - publica `data/current/` y `data/history/`
 - regenera `output/latest_*` y `master_prices.csv`
 - hace commit de los datos nuevos en `main`

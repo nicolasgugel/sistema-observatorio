@@ -18,6 +18,8 @@ from app_backend.config import (
     OUTPUT_DIR,
     ROOT_DIR,
     SCRAPER_CLEAN_RETAILER_LABEL_TO_ID,
+    SCRAPER_RUNTIME_ENTRYPOINT,
+    SCRAPER_RUNTIME_NAME,
 )
 from app_backend.data_access import (
     load_rows_from_path,
@@ -154,7 +156,7 @@ class JobManager:
 
     async def _run_job(self, job_id: str, request: ScrapingJobRequest) -> None:
         update_run(job_id, status="running", started_at=now_iso())
-        self._append_log(job_id, "Inicializando scraping con scraper_clean.")
+        self._append_log(job_id, f"Inicializando scraping con {SCRAPER_RUNTIME_NAME}.")
 
         try:
             result = await self._execute_request(job_id, request)
@@ -210,17 +212,21 @@ class JobManager:
         if req.max_products != 500:
             self._append_log(
                 job_id,
-                "max_products se mantiene por compatibilidad y no aplica a scraper_clean.",
+                f"max_products se mantiene por compatibilidad y no aplica a {SCRAPER_RUNTIME_NAME}.",
                 level="warning",
             )
         if normalize_text(req.scope) != normalize_text("full_catalog"):
             self._append_log(
                 job_id,
-                "scope se mantiene por compatibilidad y se ignora en scraper_clean.",
+                f"scope se mantiene por compatibilidad y se ignora en {SCRAPER_RUNTIME_NAME}.",
                 level="warning",
             )
         if req.headed:
-            self._append_log(job_id, "headed no esta soportado por scraper_clean y se ignora.", level="warning")
+            self._append_log(
+                job_id,
+                f"headed no esta soportado por {SCRAPER_RUNTIME_NAME} y se ignora.",
+                level="warning",
+            )
 
         with tempfile.NamedTemporaryFile(
             mode="w",
@@ -233,10 +239,10 @@ class JobManager:
             json.dump(scoped_targets, temp_file, ensure_ascii=False, indent=2)
             targets_path = Path(temp_file.name)
 
-        output_prefix = OUTPUT_DIR / f"scraper_clean_job_{job_id}"
+        output_prefix = OUTPUT_DIR / f"scraper_runtime_job_{job_id}"
         command = [
             sys.executable,
-            "scraper_clean/main.py",
+            str(SCRAPER_RUNTIME_ENTRYPOINT.relative_to(ROOT_DIR)),
             "--targets-file",
             str(targets_path),
             "--scrapers",
@@ -275,14 +281,14 @@ class JobManager:
             self._append_log(job_id, f"No se pudo borrar el targets-file temporal: {targets_path}", level="warning")
 
         if return_code != 0:
-            raise RuntimeError(f"scraper_clean finalizo con codigo {return_code}.")
+            raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} finalizo con codigo {return_code}.")
 
         generated_csv = _find_generated_csv(output_prefix)
-        self._append_log(job_id, f"CSV generado por scraper_clean: {generated_csv}")
+        self._append_log(job_id, f"CSV generado por {SCRAPER_RUNTIME_NAME}: {generated_csv}")
 
         fresh_rows = load_rows_from_path(generated_csv)
         if not fresh_rows:
-            raise RuntimeError("scraper_clean no devolvio filas para el competidor solicitado.")
+            raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} no devolvio filas para el competidor solicitado.")
         self._append_log(job_id, f"Registros nuevos capturados: {len(fresh_rows)}.")
 
         existing_records, _ = load_table_rows()

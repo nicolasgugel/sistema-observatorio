@@ -15,8 +15,8 @@ import {
   SnapshotSummary,
 } from "@/lib/observatorio-api";
 
-const DAILY_CRON = "0 6 * * *";
-const DAILY_TIMEZONE = "UTC";
+const DAILY_CRON = "08:00 Europe/Madrid";
+const DAILY_TIMEZONE = "Europe/Madrid";
 
 export default function ActualizadorPage() {
   const [selectedSnapshotId, setSelectedSnapshotId] = useState("current");
