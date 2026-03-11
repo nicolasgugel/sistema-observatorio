@@ -1,6 +1,6 @@
 {
-  "current_snapshot_id": "20260310_082933_9ba4de7f",
-  "published_at": "2026-03-10T08:29:33.324917+00:00",
+  "current_snapshot_id": "20260311_081211_d9ae01f2",
+  "published_at": "2026-03-11T08:12:11.004638+00:00",
   "mode": "scheduled",
   "brand_scope": "all",
   "competitors": [
@@ -12,7 +12,7 @@
     "Samsung Oficial",
     "Apple Oficial"
   ],
-  "record_count": 1172,
+  "record_count": 1175,
   "schedule": {
     "kind": "daily",
     "cron": "09:00 Europe/Madrid",
