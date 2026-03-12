@@ -5,7 +5,7 @@ export function PageHeader({ title, subtitle, actions }: { title: string; subtit
   return (
     <div className="flex items-start justify-between mb-8 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+        <h1 className="text-2xl font-semibold text-foreground sm:text-[2rem]">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
       {actions && <div className="flex items-center gap-3">{actions}</div>}
@@ -64,13 +64,18 @@ export function KPICard({
   const animatedInt = useCountUp(intTarget ?? 0);
   const displayValue = intTarget !== null ? `${animatedInt}${intSuffix}` : value;
 
-  return (
-    <div
-      className="kpi-card animate-fade-in"
-      style={accentColor ? { borderLeft: `3px solid ${accentColor}`, paddingLeft: "1.1rem" } : undefined}
-    >
-      <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
-      <p className="mt-2 text-3xl font-extrabold text-foreground tracking-tight leading-none">{displayValue}</p>
+  const content = (
+    <>
+      <div className="flex items-center gap-2">
+        <span
+          className="h-2 w-2 shrink-0 rounded-full"
+          style={{ backgroundColor: accentColor ?? "hsl(var(--chart-neutral))" }}
+        />
+        <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
+      </div>
+      <p className="tabular-premium mt-3 break-words text-[2rem] font-semibold leading-none tracking-[-0.04em] text-foreground">
+        {displayValue}
+      </p>
       {sublabel && <p className="mt-1.5 text-xs text-muted-foreground">{sublabel}</p>}
       {change !== 0 && (
         <span className={`mt-2 inline-flex items-center gap-1 ${badgeClass}`}>
@@ -78,8 +83,10 @@ export function KPICard({
           {sign}{change}%
         </span>
       )}
-    </div>
+    </>
   );
+
+  return <div className="kpi-card animate-fade-in text-left">{content}</div>;
 }
 
 export function SkeletonCard({ className = "" }: { className?: string }) {

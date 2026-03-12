@@ -225,7 +225,7 @@ export default function DashboardPage() {
           {/* BLOQUE 1+3: Top productos en riesgo + Estado del catálogo */}
           <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
             {/* Top 5 productos en riesgo (Block 1) */}
-            <div className="xl:col-span-2 glass-card rounded-xl p-6 animate-fade-in">
+            <div className="xl:col-span-2 glass-card p-6 animate-fade-in">
               <div className="flex items-center gap-2 mb-4">
                 <AlertTriangle className="h-4 w-4 text-destructive" />
                 <div>
@@ -247,12 +247,12 @@ export default function DashboardPage() {
                             <span className="text-xs font-medium text-foreground truncate">
                               {row.model} {row.capacity ? `${row.capacity}GB` : ""} — {row.modality}
                             </span>
-                            <span className="badge-down text-[10px] ml-2 flex-shrink-0">{toPct(row.pct)}</span>
+                            <span className="badge-down tabular-premium ml-2 flex-shrink-0 text-[10px]">{toPct(row.pct)}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
                               <div
-                                className="h-full bg-destructive/70 rounded-full"
+                                className="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400"
                                 style={{ width: `${barWidth}%` }}
                               />
                             </div>
@@ -270,7 +270,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Estado del catálogo (Block 3) */}
-            <div className="glass-card rounded-xl p-6 animate-fade-in flex flex-col gap-4">
+            <div className="glass-card p-6 animate-fade-in flex flex-col gap-4">
               <div className="flex items-center gap-2 mb-0">
                 <ShieldCheck className="h-4 w-4 text-success" />
                 <h3 className="text-sm font-semibold text-foreground">Estado del catálogo</h3>
@@ -280,13 +280,13 @@ export default function DashboardPage() {
               <div>
                 <p className="text-xs text-muted-foreground mb-1">Cobertura media del catálogo</p>
                 <div className="flex items-end gap-2">
-                  <span className="text-2xl font-extrabold text-foreground">
+                  <span className="tabular-premium text-2xl font-semibold text-foreground">
                     {coverageStats ? `${coverageStats.avg.toFixed(1)}%` : "—"}
                   </span>
                 </div>
-                <div className="mt-1.5 h-2 bg-muted rounded-full overflow-hidden">
+                <div className="mt-1.5 h-1.5 rounded-full bg-muted overflow-hidden">
                   <div
-                    className="h-full bg-primary rounded-full transition-all"
+                    className="h-full rounded-full bg-gradient-to-r from-primary to-red-500 transition-all"
                     style={{ width: `${coverageStats?.avg ?? 0}%` }}
                   />
                 </div>
@@ -303,14 +303,14 @@ export default function DashboardPage() {
                         <p className="text-xs font-medium text-foreground">{coverageStats.best.competidor}</p>
                       </div>
                     </div>
-                    <span className="text-xs font-bold text-success">{coverageStats.best.coverage_pct.toFixed(0)}%</span>
+                    <span className="tabular-premium text-xs font-bold text-success">{coverageStats.best.coverage_pct.toFixed(0)}%</span>
                   </div>
                   <div className="flex items-center justify-between rounded-lg bg-muted/30 border border-border/60 px-3 py-2">
                     <div>
                       <p className="text-[10px] text-muted-foreground">Menor cobertura</p>
                       <p className="text-xs font-medium text-foreground">{coverageStats.worst.competidor}</p>
                     </div>
-                    <span className="text-xs font-medium text-muted-foreground">{coverageStats.worst.coverage_pct.toFixed(0)}%</span>
+                    <span className="tabular-premium text-xs font-medium text-muted-foreground">{coverageStats.worst.coverage_pct.toFixed(0)}%</span>
                   </div>
                 </div>
               )}
@@ -329,7 +329,7 @@ export default function DashboardPage() {
           {/* BLOQUE 1+4: Alertas por modalidad + Retailers más agresivos */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
             {/* Alertas por modalidad (Block 1) */}
-            <div className="glass-card rounded-xl p-6 animate-fade-in">
+            <div className="glass-card p-6 animate-fade-in">
               <h3 className="text-sm font-semibold text-foreground mb-1">Alertas por modalidad</h3>
               <p className="text-xs text-muted-foreground mb-4">Distribución de las alertas activas por tipo de oferta</p>
               {alertsByModality.length === 0 ? (
@@ -343,11 +343,11 @@ export default function DashboardPage() {
                       <div key={modality}>
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-xs font-medium text-foreground">{modality}</span>
-                          <span className="badge-down text-[10px]">{count} alerta{count !== 1 ? "s" : ""}</span>
+                          <span className="badge-down tabular-premium text-[10px]">{count} alerta{count !== 1 ? "s" : ""}</span>
                         </div>
-                        <div className="h-2 bg-muted rounded-full overflow-hidden">
+                        <div className="h-1.5 rounded-full bg-muted overflow-hidden">
                           <div
-                            className="h-full bg-destructive/70 rounded-full"
+                            className="h-full rounded-full bg-gradient-to-r from-red-500 to-red-400"
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -359,7 +359,7 @@ export default function DashboardPage() {
             </div>
 
             {/* Retailers más agresivos (Block 4) */}
-            <div className="glass-card rounded-xl p-6 animate-fade-in">
+            <div className="glass-card p-6 animate-fade-in">
               <h3 className="text-sm font-semibold text-foreground mb-1">Retailers más agresivos</h3>
               <p className="text-xs text-muted-foreground mb-4">Competidores con más alertas activas y gap medio vs Santander</p>
               {aggressiveRetailers.length === 0 ? (
@@ -405,7 +405,7 @@ export default function DashboardPage() {
 
           {/* Gap medio por retailer — gráfico de barras (Block 4) */}
           {gapRetailers.length > 0 && (
-            <div className="glass-card rounded-xl p-6 animate-fade-in mb-6">
+            <div className="glass-card p-6 animate-fade-in mb-6">
               <h3 className="text-sm font-semibold text-foreground mb-1">Gap medio vs Santander Boutique por retailer</h3>
               <p className="text-xs text-muted-foreground mb-4">
                 Diferencia media de precio (€) — negativo significa que el competidor es más barato
@@ -432,7 +432,7 @@ export default function DashboardPage() {
 
           {/* Evolución temporal + Cobertura por competidor */}
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mb-6">
-            <div className="glass-card rounded-xl p-6 animate-fade-in">
+            <div className="glass-card p-6 animate-fade-in">
               <h3 className="text-sm font-semibold text-foreground mb-4">Evolución de precio medio por competidor</h3>
               {timeline.rows.length === 0 ? (
                 <p className="text-sm text-muted-foreground">No hay histórico suficiente para mostrar la gráfica.</p>
@@ -469,7 +469,7 @@ export default function DashboardPage() {
               )}
             </div>
 
-            <div className="glass-card rounded-xl p-6 animate-fade-in">
+            <div className="glass-card p-6 animate-fade-in">
               <h3 className="text-sm font-semibold text-foreground mb-4">Cobertura por competidor</h3>
               {dashboardQuery.data.coverage_by_competitor.length === 0 ? (
                 <p className="text-sm text-muted-foreground">Sin cobertura comparable para el filtro actual.</p>
@@ -508,7 +508,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Tabla de alertas detallada */}
-          <div className="glass-card rounded-xl p-6 animate-fade-in">
+          <div className="glass-card p-6 animate-fade-in">
             <div className="flex items-center justify-between mb-4">
               <div>
                 <h3 className="text-sm font-semibold text-foreground">Alertas de precio — detalle</h3>

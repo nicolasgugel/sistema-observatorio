@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, Bell, GitCompareArrows, LayoutDashboard, MessageSquare, Table2, TrendingDown } from "lucide-react";
+import { ArrowRight, BarChart3, Bell, Clock3, GitCompareArrows, LayoutDashboard, MessageSquare, Table2, TrendingDown } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import accentureWordmark from "@/assets/accenture-wordmark.png";
@@ -26,6 +26,13 @@ const features = [
     description:
       "Consulta los precios actuales de Santander Boutique frente a los competidores del mercado, por modelo, capacidad y modalidad de pago.",
     accentColor: "hsl(var(--info))",
+  },
+  {
+    icon: Clock3,
+    title: "Actualización diaria automática",
+    description:
+      "El sistema lanza el scraping cada mañana, publica el snapshot vigente y mantiene el histórico sin depender de una acción manual en la app.",
+    accentColor: "hsl(var(--success))",
   },
   {
     icon: MessageSquare,
@@ -86,13 +93,13 @@ export default function HomePage() {
 
           <div className="max-w-2xl space-y-4">
             <p className="home-eyebrow">Sistema Observatorio</p>
-            <h1 className="text-3xl font-extrabold leading-tight tracking-tight text-foreground sm:text-4xl">
+            <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl">
               Inteligencia de precios de Santander Boutique<br className="hidden sm:block" />
               frente al mercado, en un solo lugar.
             </h1>
             <p className="text-base text-muted-foreground max-w-xl">
               Monitorización continua de los precios de Santander Boutique comparados con los competidores del mercado,
-              con alertas automáticas y análisis por modelo, capacidad y modalidad de pago.
+              con scraping diario automatizado, alertas automáticas y análisis por modelo, capacidad y modalidad de pago.
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <Button asChild size="lg" className="home-cta-primary">
@@ -115,12 +122,12 @@ export default function HomePage() {
       {/* Features */}
       <section>
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Qué hace el observatorio</p>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
           {features.map((f, i) => (
             <article
               key={f.title}
-              className="glass-card rounded-xl p-5 flex flex-col gap-3 animate-fade-in"
-              style={{ animationDelay: `${i * 60}ms`, borderLeft: `3px solid ${f.accentColor}`, paddingLeft: "1.25rem" }}
+              className="glass-card p-5 flex flex-col gap-3 animate-fade-in"
+              style={{ animationDelay: `${i * 60}ms` }}
             >
               <div
                 className="h-9 w-9 rounded-lg flex items-center justify-center flex-shrink-0"

@@ -2,7 +2,6 @@ import { NavLink, useLocation } from "react-router-dom";
 import {
   GitCompareArrows,
   House,
-  RefreshCw,
   Table2,
   LayoutDashboard,
   MessageSquare,
@@ -19,7 +18,6 @@ const navItems = [
   { to: "/", icon: House, label: "Home" },
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/observatorio", icon: GitCompareArrows, label: "Observatorio" },
-  { to: "/actualizador", icon: RefreshCw, label: "Actualizacion diaria" },
   { to: "/visualizador", icon: Table2, label: "Tabla de Precios" },
   { to: "/agente", icon: MessageSquare, label: "Agente IA" },
 ];
@@ -36,13 +34,13 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
 
   return (
     <aside
-      className={`fixed inset-y-0 left-0 z-30 flex flex-col bg-sidebar border-r border-sidebar-border transition-all duration-300 ${
+      className={`fixed inset-y-0 left-0 z-30 flex flex-col border-r border-sidebar-border/95 bg-sidebar shadow-[10px_0_40px_rgba(2,6,23,0.18)] transition-all duration-300 ${
         collapsed ? "w-16" : "w-64"
       }`}
     >
       {/* Header / Logo */}
       <div
-        className={`flex items-center border-b border-sidebar-border py-5 ${
+        className={`flex items-center border-b border-sidebar-border/90 py-5 ${
           collapsed ? "justify-center px-0" : "px-6"
         }`}
       >
@@ -56,7 +54,7 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-2 py-4 space-y-1">
+      <nav className="flex-1 space-y-1.5 px-2.5 py-5">
         {navItems.map((item) => {
           const isActive = location.pathname === item.to;
           const showBadge = item.to === "/dashboard" && alertCount > 0;
@@ -70,16 +68,16 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
               } ${isActive ? "sidebar-link-active" : "sidebar-link-inactive"}`}
             >
               <span className="relative shrink-0">
-                <item.icon className="h-4.5 w-4.5" />
+                <item.icon className="h-[18px] w-[18px]" />
                 {showBadge && (
                   <span className="absolute -top-1 -right-1 h-2 w-2 rounded-full bg-destructive animate-pulse" />
                 )}
               </span>
               {!collapsed && (
                 <span className="flex-1 flex items-center justify-between">
-                  {item.label}
+                  <span>{item.label}</span>
                   {showBadge && (
-                    <span className="text-[10px] font-bold tabular-nums bg-destructive text-destructive-foreground rounded-full px-1.5 py-0.5 leading-none min-w-[18px] text-center">
+                    <span className="tabular-premium rounded-full border border-destructive/20 bg-destructive/12 px-1.5 py-0.5 text-[10px] font-semibold leading-none text-destructive min-w-[20px] text-center">
                       {alertCount}
                     </span>
                   )}
@@ -91,11 +89,11 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
       </nav>
 
       {/* Footer */}
-      <div className={`border-t border-sidebar-border ${collapsed ? "px-0 py-3 flex justify-center" : "px-4 py-4"}`}>
+      <div className={`border-t border-sidebar-border/90 ${collapsed ? "flex justify-center px-0 py-3" : "px-4 py-4"}`}>
         <button
           onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-          className={`flex items-center gap-2 rounded-lg text-sidebar-foreground/60 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors ${
+          className={`flex items-center gap-2 rounded-xl text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors ${
             collapsed ? "h-9 w-9 justify-center" : "w-full px-3 py-2 text-xs"
           }`}
         >
@@ -103,21 +101,17 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
           {!collapsed && <span>{theme === "dark" ? "Modo claro" : "Modo oscuro"}</span>}
         </button>
         {!collapsed && (
-          <p className="text-[11px] text-sidebar-muted mt-2 px-3">Santander Boutique (c) 2026</p>
+          <p className="mt-2 px-3 text-[11px] uppercase tracking-[0.12em] text-sidebar-muted">Santander Boutique 2026</p>
         )}
       </div>
 
       {/* Botón toggle */}
       <button
         onClick={onToggle}
-        className="absolute -right-3 top-1/2 -translate-y-1/2 z-40 flex h-6 w-6 items-center justify-center rounded-full bg-sidebar border border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
+        className="absolute -right-3 top-1/2 z-40 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
         title={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
       >
-        {collapsed ? (
-          <ChevronRight className="h-3 w-3" />
-        ) : (
-          <ChevronLeft className="h-3 w-3" />
-        )}
+        {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
       </button>
     </aside>
   );
