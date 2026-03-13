@@ -1,9 +1,12 @@
-import { ArrowRight, BarChart3, Bell, Clock3, GitCompareArrows, LayoutDashboard, MessageSquare, Table2, TrendingDown } from "lucide-react";
+import { useMemo } from "react";
+import { ArrowRight, BarChart3, Bell, Calculator, Clock3, GitCompareArrows, LayoutDashboard, MessageSquare, Table2, TrendingDown } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 import accentureWordmark from "@/assets/accenture-wordmark.png";
 import santanderLogo from "@/assets/santander-logo.png";
 import { Button } from "@/components/ui/button";
+import { fetchDashboard } from "@/lib/observatorio-api";
 
 const features = [
   {
@@ -35,12 +38,18 @@ const features = [
     accentColor: "hsl(var(--success))",
   },
   {
+    icon: Calculator,
+    title: "Simulador What-If",
+    description:
+      "Simula cambios de precio de Santander Boutique y observa en tiempo real cómo varía la posición competitiva frente al mercado.",
+    accentColor: "hsl(var(--accent))",
+  },
+  {
     icon: MessageSquare,
     title: "Agente IA",
     description:
-      "Próximamente: consultas en lenguaje natural sobre cobertura, gaps de precio y tendencias del observatorio sin necesidad de filtros.",
-    accentColor: "hsl(var(--muted-foreground))",
-    soon: true,
+      "Consultas en lenguaje natural sobre cobertura, gaps de precio y tendencias del observatorio sin necesidad de filtros.",
+    accentColor: "hsl(var(--info))",
   },
 ];
 
@@ -67,16 +76,52 @@ const modules = [
     icon: Table2,
   },
   {
+    title: "Simulador What-If",
+    description: "Simula precios y analiza el impacto en la posición competitiva.",
+    to: "/simulador",
+    cta: "Abrir simulador",
+    icon: Calculator,
+  },
+  {
     title: "Agente IA",
-    description: "Módulo conversacional en desarrollo.",
+    description: "Consultas en lenguaje natural sobre el observatorio.",
     to: "/agente",
-    cta: "Ver módulo",
+    cta: "Abrir agente",
     icon: MessageSquare,
-    soon: true,
   },
 ];
 
 export default function HomePage() {
+  const dashboardQuery = useQuery({
+    queryKey: ["home-dashboard-signal", { brand: "Samsung" }],
+    queryFn: () => fetchDashboard({ brand: "Samsung" }),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const signals = useMemo(() => {
+    const data = dashboardQuery.data;
+    if (!data) return null;
+
+    const coverageItems = data.coverage_by_competitor ?? [];
+    const avgCoverage = coverageItems.length > 0
+      ? coverageItems.reduce((s, r) => s + r.coverage_pct, 0) / coverageItems.length
+      : null;
+
+    const ts = data.kpis.timestamp_ultima_extraccion;
+    let formattedTs = "—";
+    if (ts) {
+      const d = new Date(ts);
+      formattedTs = d.toLocaleDateString("es-ES", { day: "2-digit", month: "2-digit", year: "numeric" });
+    }
+
+    return {
+      modelos: data.kpis.productos_unicos,
+      competidores: data.kpis.competidores_activos,
+      cobertura: avgCoverage !== null ? `${avgCoverage.toFixed(1)}%` : "—",
+      ultimaActualizacion: formattedTs,
+    };
+  }, [dashboardQuery.data]);
+
   return (
     <div className="space-y-10 animate-fade-in">
 
@@ -119,6 +164,40 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Live signals */}
+      <section>
+        <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Datos en vivo</p>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {dashboardQuery.isLoading ? (
+            Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="home-signal-card animate-pulse">
+                <div className="h-8 w-20 rounded bg-muted mb-1" />
+                <div className="h-3 w-28 rounded-full bg-muted" />
+              </div>
+            ))
+          ) : signals ? (
+            <>
+              <div className="home-signal-card animate-fade-in">
+                <p className="home-signal-value">{signals.modelos}</p>
+                <p className="home-signal-label">Modelos monitorizados</p>
+              </div>
+              <div className="home-signal-card animate-fade-in" style={{ animationDelay: "60ms" }}>
+                <p className="home-signal-value">{signals.competidores}</p>
+                <p className="home-signal-label">Competidores activos</p>
+              </div>
+              <div className="home-signal-card animate-fade-in" style={{ animationDelay: "120ms" }}>
+                <p className="home-signal-value">{signals.cobertura}</p>
+                <p className="home-signal-label">Cobertura media</p>
+              </div>
+              <div className="home-signal-card animate-fade-in" style={{ animationDelay: "180ms" }}>
+                <p className="home-signal-value">{signals.ultimaActualizacion}</p>
+                <p className="home-signal-label">Última actualización</p>
+              </div>
+            </>
+          ) : null}
+        </div>
+      </section>
+
       {/* Features */}
       <section>
         <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-4">Qué hace el observatorio</p>
@@ -138,9 +217,6 @@ export default function HomePage() {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <h2 className="text-sm font-semibold text-foreground">{f.title}</h2>
-                  {f.soon && (
-                    <span className="badge-neutral text-[10px]">Próximamente</span>
-                  )}
                 </div>
                 <p className="text-xs text-muted-foreground leading-relaxed">{f.description}</p>
               </div>
@@ -166,8 +242,7 @@ export default function HomePage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-sm font-semibold text-foreground">{m.title}</h3>
-                    {m.soon && <span className="home-module-status-soon">Próximamente</span>}
-                    {!m.soon && <span className="home-module-status-on">Activo</span>}
+                    <span className="home-module-status-on">Activo</span>
                   </div>
                   <p className="mt-0.5 text-xs text-muted-foreground">{m.description}</p>
                 </div>

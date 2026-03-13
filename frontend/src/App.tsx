@@ -9,6 +9,7 @@ import HomePage from "@/pages/HomePage";
 import DashboardPage from "@/pages/DashboardPage";
 import ComparadorPage from "@/pages/ComparadorPage";
 import VisualizadorPage from "@/pages/VisualizadorPage";
+import SimuladorPage from "@/pages/SimuladorPage";
 import AgentePage from "@/pages/AgentePage";
 import NotFound from "./pages/NotFound";
 import { AlertProvider } from "@/context/AlertContext";
@@ -18,13 +19,14 @@ const queryClient = new QueryClient();
 function AnimatedRoutes() {
   const location = useLocation();
   return (
-    <div key={location.pathname} className="animate-fade-in">
+    <div key={location.pathname} className="animate-page-enter">
       <Routes location={location}>
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/observatorio" element={<ComparadorPage />} />
         <Route path="/actualizador" element={<Navigate to="/" replace />} />
         <Route path="/visualizador" element={<VisualizadorPage />} />
+        <Route path="/simulador" element={<SimuladorPage />} />
         <Route path="/agente" element={<AgentePage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

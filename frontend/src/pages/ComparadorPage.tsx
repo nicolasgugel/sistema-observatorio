@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import { X, SlidersHorizontal } from "lucide-react";
 
-import { KPICard, PageHeader } from "@/components/SharedUI";
+import { KPICard, PageHeader, SkeletonCard, SkeletonChart } from "@/components/SharedUI";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -48,6 +48,7 @@ const RETAILER_ORDER = [
   "El Corte InglÃ©s",
   "El Corte Ingles",
   "Grover",
+  "Orange",
   "Qonexa",
 ];
 
@@ -61,6 +62,7 @@ const CHART_COLORS: Record<string, string> = {
   "Media Markt": "#df0000",
   "El Corte Ingles": "#006739",
   Grover: "#ff245b",
+  Orange: "#ff6600",
   Qonexa: "#333333",
 };
 
@@ -290,6 +292,26 @@ export default function ComparadorPage() {
     return computeChartCeiling(maxValue);
   }, [totalCostRows]);
 
+  const comparadorSummary = useMemo(() => {
+    const prices = filteredRows
+      .map((r) => r.precio_valor)
+      .filter((v): v is number => typeof v === "number" && Number.isFinite(v));
+    if (!prices.length) return null;
+    const avg = prices.reduce((s, v) => s + v, 0) / prices.length;
+    const cheapestRow = filteredRows.reduce<ComparatorOffer | null>((best, row) => {
+      if (typeof row.precio_valor !== "number") return best;
+      if (!best || row.precio_valor < (best.precio_valor ?? Infinity)) return row;
+      return best;
+    }, null);
+    return {
+      count: filteredRows.length,
+      avg,
+      min: Math.min(...prices),
+      max: Math.max(...prices),
+      cheapestRetailer: cheapestRow?.competidor ?? null,
+    };
+  }, [filteredRows]);
+
   const selectedModelCount = useMemo(() => {
     return new Set(kpiRows.map((row) => row.modelo)).size;
   }, [kpiRows]);
@@ -505,7 +527,14 @@ export default function ComparadorPage() {
         </div>
       ) : null}
 
-      {recordsQuery.isLoading ? <p className="text-sm text-muted-foreground mb-4">Cargando datos del comparador...</p> : null}
+      {recordsQuery.isLoading ? (
+        <>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+            {[0, 1, 2, 3].map((i) => <SkeletonCard key={i} />)}
+          </div>
+          <SkeletonChart />
+        </>
+      ) : null}
       {recordsQuery.error ? <p className="text-sm text-destructive mb-4">Error cargando datos del comparador.</p> : null}
 
       {generated ? (
@@ -530,7 +559,7 @@ export default function ComparadorPage() {
                         dataKey="precio"
                         position="top"
                         formatter={(value: number) => formatBarPrice(value)}
-                        fill="#1f2937"
+                        fill="hsl(var(--foreground))"
                         fontSize={11}
                         fontWeight={700}
                       />
@@ -580,12 +609,12 @@ export default function ComparadorPage() {
                       {typeof santanderPvp === "number" ? (
                         <ReferenceLine
                           y={santanderPvp}
-                          stroke="#d32f2f"
+                          stroke="hsl(var(--destructive))"
                           strokeDasharray="6 4"
                           label={{
                             value: `PVP ${toCurrency(santanderPvp)}`,
                             position: "insideTopRight",
-                            fill: "#d32f2f",
+                            fill: "hsl(var(--destructive))",
                             fontSize: 11,
                             fontWeight: 700,
                           }}
@@ -596,7 +625,7 @@ export default function ComparadorPage() {
                           dataKey="total_cost"
                           position="top"
                           formatter={(value: number) => formatBarPrice(value)}
-                          fill="#1f2937"
+                          fill="hsl(var(--foreground))"
                           fontSize={11}
                           fontWeight={700}
                         />
@@ -634,10 +663,10 @@ export default function ComparadorPage() {
             {tableRows.length === 0 ? (
               <div className="px-5 pb-5 text-sm text-muted-foreground">No hay ofertas para los filtros seleccionados.</div>
             ) : (
-              <div className="overflow-x-auto">
+              <div className="overflow-auto max-h-[70vh]">
                 <table className="w-full text-sm">
                   <thead>
-                    <tr className="border-b border-border bg-muted/30">
+                    <tr className="border-b border-border bg-card sticky top-0 z-10">
                       <th className="table-header text-left px-4 py-3">Retailer</th>
                       <th className="table-header text-left px-4 py-3">Modelo</th>
                       <th className="table-header text-left px-4 py-3">Capacidad</th>
@@ -683,6 +712,38 @@ export default function ComparadorPage() {
               </div>
             )}
           </div>
+
+          {comparadorSummary && (
+            <div className="sticky bottom-4 mt-4 animate-fade-in">
+              <div className="glass-card rounded-xl border border-border/70 px-5 py-3 flex flex-wrap items-center gap-x-6 gap-y-2 backdrop-blur-md shadow-lg">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Resumen</p>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-muted-foreground">Ofertas</span>
+                  <span className="text-xs font-semibold text-foreground">{comparadorSummary.count.toLocaleString("es-ES")}</span>
+                </div>
+                <div className="h-3 w-px bg-border" />
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-muted-foreground">Más barato</span>
+                  <span className="text-xs font-semibold text-success">
+                    {toCurrency(comparadorSummary.min)}
+                    {comparadorSummary.cheapestRetailer ? ` (${comparadorSummary.cheapestRetailer})` : ""}
+                  </span>
+                </div>
+                <div className="h-3 w-px bg-border" />
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-muted-foreground">Precio medio</span>
+                  <span className="text-xs font-semibold text-foreground">{toCurrency(comparadorSummary.avg)}</span>
+                </div>
+                <div className="h-3 w-px bg-border" />
+                <div className="flex items-center gap-1.5">
+                  <span className="text-xs text-muted-foreground">Rango</span>
+                  <span className="text-xs font-semibold text-foreground">
+                    {toCurrency(comparadorSummary.min)} – {toCurrency(comparadorSummary.max)}
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
         </>
       ) : null}
     </>

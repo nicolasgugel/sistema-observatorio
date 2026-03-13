@@ -1,0 +1,25 @@
+{
+  "id": "20260313_111332_c2e32368",
+  "created_at": "2026-03-13T11:13:32.443188+00:00",
+  "run_id": null,
+  "mode": "scheduled",
+  "brand_scope": "all",
+  "competitors": [
+    "Amazon",
+    "Grover",
+    "Media Markt",
+    "Movistar",
+    "Rentik",
+    "Samsung Oficial",
+    "Apple Oficial",
+    "Orange",
+    "El Corte Ingles"
+  ],
+  "record_count": 1120,
+  "files": {
+    "master_prices_csv": "master_prices.csv",
+    "latest_prices_csv": "latest_prices.csv",
+    "latest_prices_json": "latest_prices.json",
+    "price_comparison_live_html": "price_comparison_live.html"
+  }
+}

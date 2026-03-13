@@ -396,10 +396,10 @@ export default function VisualizadorPage() {
       {rowsQuery.isLoading ? (
         <SkeletonTable rows={8} />
       ) : (
-      <div className="glass-card rounded-xl overflow-hidden animate-fade-in">
+      <div className="glass-card rounded-xl overflow-auto max-h-[70vh] animate-fade-in">
         <table className="w-full">
           <thead>
-            <tr className="border-b border-border bg-muted/30">
+            <tr className="border-b border-border bg-card sticky top-0 z-10">
               <SortableHead label="Competidor" onClick={() => setSort("retailer")} />
               <SortableHead label="Modelo" onClick={() => setSort("model")} />
               <SortableHead label="Modalidad" onClick={() => setSort("offer_type")} />

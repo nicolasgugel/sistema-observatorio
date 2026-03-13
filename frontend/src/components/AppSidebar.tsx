@@ -1,5 +1,7 @@
+import { type ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import {
+  Calculator,
   GitCompareArrows,
   House,
   Table2,
@@ -13,14 +15,26 @@ import {
 import { useTheme } from "@/context/ThemeContext";
 import santanderLogo from "@/assets/santander-logo.png";
 import { useAlertCount } from "@/context/AlertContext";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 
 const navItems = [
   { to: "/", icon: House, label: "Home" },
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
   { to: "/observatorio", icon: GitCompareArrows, label: "Observatorio" },
   { to: "/visualizador", icon: Table2, label: "Tabla de Precios" },
+  { to: "/simulador", icon: Calculator, label: "Simulador" },
   { to: "/agente", icon: MessageSquare, label: "Agente IA" },
 ];
+
+function SidebarTooltip({ label, show, children }: { label: string; show: boolean; children: ReactNode }) {
+  if (!show) return <>{children}</>;
+  return (
+    <Tooltip>
+      <TooltipTrigger asChild>{children}</TooltipTrigger>
+      <TooltipContent side="right">{label}</TooltipContent>
+    </Tooltip>
+  );
+}
 
 interface AppSidebarProps {
   collapsed: boolean;
@@ -58,11 +72,10 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
         {navItems.map((item) => {
           const isActive = location.pathname === item.to;
           const showBadge = item.to === "/dashboard" && alertCount > 0;
-          return (
+
+          const link = (
             <NavLink
-              key={item.to}
               to={item.to}
-              title={collapsed ? item.label : undefined}
               className={`sidebar-link ${
                 collapsed ? "!px-0 justify-center" : ""
               } ${isActive ? "sidebar-link-active" : "sidebar-link-inactive"}`}
@@ -85,34 +98,42 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
               )}
             </NavLink>
           );
+
+          return (
+            <SidebarTooltip key={item.to} label={item.label} show={collapsed}>
+              {link}
+            </SidebarTooltip>
+          );
         })}
       </nav>
 
       {/* Footer */}
       <div className={`border-t border-sidebar-border/90 ${collapsed ? "flex justify-center px-0 py-3" : "px-4 py-4"}`}>
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          title={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
-          className={`flex items-center gap-2 rounded-xl text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors ${
-            collapsed ? "h-9 w-9 justify-center" : "w-full px-3 py-2 text-xs"
-          }`}
-        >
-          {theme === "dark" ? <Sun className="h-4 w-4 shrink-0" /> : <Moon className="h-4 w-4 shrink-0" />}
-          {!collapsed && <span>{theme === "dark" ? "Modo claro" : "Modo oscuro"}</span>}
-        </button>
+        <SidebarTooltip label={theme === "dark" ? "Cambiar a modo claro" : "Cambiar a modo oscuro"} show={collapsed}>
+          <button
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className={`flex items-center gap-2 rounded-xl text-sidebar-foreground/65 hover:bg-sidebar-accent hover:text-sidebar-foreground transition-colors ${
+              collapsed ? "h-9 w-9 justify-center" : "w-full px-3 py-2 text-xs"
+            }`}
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4 shrink-0" /> : <Moon className="h-4 w-4 shrink-0" />}
+            {!collapsed && <span>{theme === "dark" ? "Modo claro" : "Modo oscuro"}</span>}
+          </button>
+        </SidebarTooltip>
         {!collapsed && (
           <p className="mt-2 px-3 text-[11px] uppercase tracking-[0.12em] text-sidebar-muted">Santander Boutique 2026</p>
         )}
       </div>
 
       {/* Botón toggle */}
-      <button
-        onClick={onToggle}
-        className="absolute -right-3 top-1/2 z-40 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
-        title={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"}
-      >
-        {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
-      </button>
+      <SidebarTooltip label={collapsed ? "Expandir barra lateral" : "Contraer barra lateral"} show>
+        <button
+          onClick={onToggle}
+          className="absolute -right-3 top-1/2 z-40 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-full border border-sidebar-border bg-sidebar text-sidebar-foreground transition-colors hover:bg-sidebar-accent"
+        >
+          {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+        </button>
+      </SidebarTooltip>
     </aside>
   );
 }

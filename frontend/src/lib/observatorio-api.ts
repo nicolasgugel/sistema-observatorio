@@ -524,3 +524,33 @@ export async function fetchUpdaterRunLogs(runId: string, after = 0, token?: stri
     headers: withEditorToken(undefined, token),
   });
 }
+
+// ── Agent ──────────────────────────────────────────────────
+
+export interface AgentEvidence {
+  competidor?: string;
+  modelo?: string;
+  capacidad?: number | null;
+  modalidad?: string;
+  precio_valor?: number | null;
+  timestamp_extraccion?: string;
+  url_producto?: string;
+  matched_models?: number;
+  total_base_models?: number;
+  coverage_pct?: number;
+}
+
+export interface AgentQueryResponse {
+  brand: string;
+  question: string;
+  answer: string;
+  evidence: AgentEvidence[];
+  intent: "coverage" | "cheapest" | "summary" | "no_data";
+}
+
+export async function queryAgent(question: string, brand: Brand = "Samsung"): Promise<AgentQueryResponse> {
+  return fetchJson("/intelligence/agent/query", {
+    method: "POST",
+    body: JSON.stringify({ question, brand }),
+  });
+}

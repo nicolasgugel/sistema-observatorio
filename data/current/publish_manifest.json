@@ -1,6 +1,6 @@
 {
-  "current_snapshot_id": "20260313_091540_cd68d92c",
-  "published_at": "2026-03-13T09:15:40.066172+00:00",
+  "current_snapshot_id": "20260313_111332_c2e32368",
+  "published_at": "2026-03-13T11:13:32.443188+00:00",
   "mode": "scheduled",
   "brand_scope": "all",
   "competitors": [
@@ -10,9 +10,11 @@
     "Movistar",
     "Rentik",
     "Samsung Oficial",
-    "Apple Oficial"
+    "Apple Oficial",
+    "Orange",
+    "El Corte Ingles"
   ],
-  "record_count": 966,
+  "record_count": 1120,
   "schedule": {
     "kind": "daily",
     "cron": "08:00 Europe/Madrid",

@@ -1,0 +1,522 @@
+[
+  {
+    "model": "Apple iPhone 17e",
+    "capacity_gb": 256,
+    "product_code": "MHRV4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17e",
+    "capacity_gb": 512,
+    "product_code": "MHRY4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro",
+    "capacity_gb": 256,
+    "product_code": "MG8G4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro",
+    "capacity_gb": 512,
+    "product_code": "MG8K4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro",
+    "capacity_gb": 1024,
+    "product_code": "MG8P4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone Air",
+    "capacity_gb": 256,
+    "product_code": "MG2L4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone Air",
+    "capacity_gb": 512,
+    "product_code": "MG2Q4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone Air",
+    "capacity_gb": 1024,
+    "product_code": "MG2W4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17",
+    "capacity_gb": 256,
+    "product_code": "MG6J4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17",
+    "capacity_gb": 512,
+    "product_code": "MG6P4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 16 Plus",
+    "capacity_gb": 128,
+    "product_code": "MXVU3QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 16 Plus",
+    "capacity_gb": 256,
+    "product_code": "MXWN3QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro Max",
+    "capacity_gb": 256,
+    "product_code": "MFYM4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro Max",
+    "capacity_gb": 512,
+    "product_code": "MFYQ4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro Max",
+    "capacity_gb": 1024,
+    "product_code": "MFYV4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 17 Pro Max",
+    "capacity_gb": 2048,
+    "product_code": "MFYY4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 16e",
+    "capacity_gb": 128,
+    "product_code": "MD1Q4QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple MacBook Air 15 M4",
+    "capacity_gb": 256,
+    "product_code": "MC7A4Y_A",
+    "brand": "Apple",
+    "device_type": "laptop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple MacBook Air 15 M4",
+    "capacity_gb": 512,
+    "product_code": "MC7C4Y_A",
+    "brand": "Apple",
+    "device_type": "laptop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 16",
+    "capacity_gb": 128,
+    "product_code": "MYE73QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad mini Wi Fi",
+    "capacity_gb": 128,
+    "product_code": "MXN63TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad mini Wi Fi",
+    "capacity_gb": 256,
+    "product_code": "MXNA3TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple MacBook Air 13 M4",
+    "capacity_gb": 256,
+    "product_code": "MC6T4Y_A",
+    "brand": "Apple",
+    "device_type": "laptop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple MacBook Air 13 M4",
+    "capacity_gb": 512,
+    "product_code": "MC6U4Y_A",
+    "brand": "Apple",
+    "device_type": "laptop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad 11th WiFi",
+    "capacity_gb": 128,
+    "product_code": "MD3Y4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad 11th WiFi",
+    "capacity_gb": 256,
+    "product_code": "MD4G4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad 11th WiFi",
+    "capacity_gb": 512,
+    "product_code": "MD4Q4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Air M4 Wi-Fi",
+    "capacity_gb": 128,
+    "product_code": "MH304TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Air M4 Wi-Fi",
+    "capacity_gb": 256,
+    "product_code": "MH354TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iMac 24 M4",
+    "capacity_gb": 256,
+    "product_code": "MWUC3Y_A",
+    "brand": "Apple",
+    "device_type": "desktop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iMac 24 M4",
+    "capacity_gb": 512,
+    "product_code": "MWUV3Y_A",
+    "brand": "Apple",
+    "device_type": "desktop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple Mac mini M4",
+    "capacity_gb": 256,
+    "product_code": "MU9D3YP_A",
+    "brand": "Apple",
+    "device_type": "desktop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple Mac mini M4",
+    "capacity_gb": 512,
+    "product_code": "MU9E3YP_A",
+    "brand": "Apple",
+    "device_type": "desktop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 13",
+    "capacity_gb": 256,
+    "product_code": "MDYJ4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 13",
+    "capacity_gb": 512,
+    "product_code": "MDYL4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 13",
+    "capacity_gb": 1024,
+    "product_code": "MDYN4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 13",
+    "capacity_gb": 2048,
+    "product_code": "MDYT4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple MacBook Pro 14 M5",
+    "capacity_gb": 512,
+    "product_code": "MDE04Y_A",
+    "brand": "Apple",
+    "device_type": "laptop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple MacBook Pro 14 M5",
+    "capacity_gb": 1024,
+    "product_code": "MDE14Y_A",
+    "brand": "Apple",
+    "device_type": "laptop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 11",
+    "capacity_gb": 256,
+    "product_code": "MDWK4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 11",
+    "capacity_gb": 512,
+    "product_code": "MDWM4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 11",
+    "capacity_gb": 1024,
+    "product_code": "MDWP4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 11",
+    "capacity_gb": 2048,
+    "product_code": "MDWU4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 11 + Cell",
+    "capacity_gb": 256,
+    "product_code": "ME2N4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPad Pro M5 WiFi 13 + Cell",
+    "capacity_gb": 256,
+    "product_code": "ME7W4TY_A",
+    "brand": "Apple",
+    "device_type": "tablet",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple Mac Studio M4 Max",
+    "capacity_gb": 512,
+    "product_code": "MU963YP_A",
+    "brand": "Apple",
+    "device_type": "desktop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple Mac Studio M3 Ultra",
+    "capacity_gb": 1024,
+    "product_code": "MU973YP_A",
+    "brand": "Apple",
+    "device_type": "desktop",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 15",
+    "capacity_gb": 128,
+    "product_code": "MTP03QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Apple iPhone 15",
+    "capacity_gb": 256,
+    "product_code": "MTP63QL_A",
+    "brand": "Apple",
+    "device_type": "mobile",
+    "product_family": "Apple"
+  },
+  {
+    "model": "Samsung Galaxy S26 5G",
+    "capacity_gb": 256,
+    "product_code": "SM-S942BZKGEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy S26+ 5G",
+    "capacity_gb": 256,
+    "product_code": "SM-S947BZKDEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy S26 Ultra 5G",
+    "capacity_gb": 256,
+    "product_code": "SM-S948BZKDEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Tab S10 FE Wi-Fi",
+    "capacity_gb": 128,
+    "product_code": "SM-X520NZAREUB",
+    "brand": "Samsung",
+    "device_type": "tablet",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy A17 5G",
+    "capacity_gb": 128,
+    "product_code": "SM-A176BZKAEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Tab A11+ Wifi",
+    "capacity_gb": 128,
+    "product_code": "SM-X230NZAREUB",
+    "brand": "Samsung",
+    "device_type": "tablet",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Z Flip 7",
+    "capacity_gb": 256,
+    "product_code": "SM-F766BZKGEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Z Fold 7",
+    "capacity_gb": 256,
+    "product_code": "SM-F966BZKBEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy S25 FE 5G",
+    "capacity_gb": 128,
+    "product_code": "SM-S731BZKDEEB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Tab S11 Ultra wifi",
+    "capacity_gb": 256,
+    "product_code": "SM-X930NZAREUB",
+    "brand": "Samsung",
+    "device_type": "tablet",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Tab S10 Lite WiFi",
+    "capacity_gb": 128,
+    "product_code": "SM-X400NZAREUB",
+    "brand": "Samsung",
+    "device_type": "tablet",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Book5 Pro 14 Ultra5",
+    "capacity_gb": 512,
+    "product_code": "NP944XHA-KG1ES",
+    "brand": "Samsung",
+    "device_type": "laptop",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy A56 5G",
+    "capacity_gb": 128,
+    "product_code": "SM-A566BZKAEEB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy A36 5G",
+    "capacity_gb": 128,
+    "product_code": "SM-A366BZKBEEB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "product_code": "SM-S931BZSGEUB",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "product_family": "Samsung"
+  },
+  {
+    "model": "Samsung Galaxy Book4 15,6 / i5",
+    "capacity_gb": 512,
+    "product_code": "NP754XGJ-KG2ES",
+    "brand": "Samsung",
+    "device_type": "laptop",
+    "product_family": "Samsung"
+  }
+]
