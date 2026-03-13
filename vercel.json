@@ -28,6 +28,10 @@
       "destination": "/index.html"
     },
     {
+      "source": "/simulador",
+      "destination": "/index.html"
+    },
+    {
       "source": "/agente",
       "destination": "/index.html"
     }
