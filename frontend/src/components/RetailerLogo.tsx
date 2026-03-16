@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 import appleMark from "@/assets/apple-mark.svg";
+import eciLogo from "@/assets/eci-logo.svg";
+import orangeLogo from "@/assets/orange-logo.svg";
 import samsungWordmark from "@/assets/samsung-wordmark.svg";
 import santanderLogo from "@/assets/santander-logo.png";
 
@@ -15,9 +17,10 @@ const RETAILER_LOGOS: Record<string, string[]> = {
   "Samsung Store": [samsungWordmark],
   "Media Markt": [],
   MediaMarkt: [],
-  "El Corte Ingles": [],
-  "El Corte Inglés": [],
+  "El Corte Ingles": [eciLogo],
+  "El Corte Inglés": [eciLogo],
   Grover: [],
+  Orange: [orangeLogo],
   Qonexa: ["https://qonexa.com/favicon.ico"],
 };
 
@@ -35,6 +38,7 @@ const RETAILER_DOMAINS: Record<string, string> = {
   "El Corte Ingles": "elcorteingles.es",
   "El Corte Inglés": "elcorteingles.es",
   Grover: "grover.com",
+  Orange: "orange.es",
   Qonexa: "qonexa.com",
 };
 
