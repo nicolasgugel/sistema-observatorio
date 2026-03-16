@@ -446,7 +446,15 @@ export default function SimuladorPage() {
 
           {/* Bar chart */}
           <div className="glass-card rounded-xl p-6 mb-6 animate-fade-in">
-            <h3 className="text-sm font-semibold text-foreground mb-4">Comparativa de precios (simulada)</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold text-foreground">Comparativa de precios (simulada)</h3>
+              {santanderPrice !== simulatedPrice && (
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive">
+                  <span className="h-0.5 w-3 bg-destructive" style={{ borderTop: "2px dashed" }} />
+                  Precio actual: {toCurrency(santanderPrice)}
+                </span>
+              )}
+            </div>
             {chartRows.length === 0 ? (
               <p className="text-sm text-muted-foreground">No hay ofertas.</p>
             ) : (
@@ -461,13 +469,15 @@ export default function SimuladorPage() {
                       <ReferenceLine
                         y={santanderPrice}
                         stroke="hsl(var(--destructive))"
-                        strokeDasharray="6 4"
+                        strokeWidth={2}
+                        strokeDasharray="8 4"
                         label={{
-                          value: `Actual ${toCurrency(santanderPrice)}`,
-                          position: "insideTopRight",
+                          value: `Precio actual: ${toCurrency(santanderPrice)}`,
+                          position: "insideTopLeft",
                           fill: "hsl(var(--destructive))",
-                          fontSize: 11,
+                          fontSize: 12,
                           fontWeight: 700,
+                          offset: 8,
                         }}
                       />
                     )}
