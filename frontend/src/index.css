@@ -127,8 +127,7 @@
     @apply inline-flex items-center justify-center overflow-hidden rounded-md border border-border/60 bg-gradient-to-b from-background/90 to-muted/70 shadow-[0_1px_2px_rgba(15,23,42,0.08)];
   }
   .logo-image {
-    @apply transition-opacity duration-200 mix-blend-multiply opacity-95;
-    filter: saturate(0.95) contrast(1.05);
+    @apply transition-opacity duration-200 opacity-95;
   }
   .brand-identity-inline {
     @apply inline-flex items-center gap-2.5;
