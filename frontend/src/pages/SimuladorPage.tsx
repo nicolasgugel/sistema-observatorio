@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   Cell,
   LabelList,
-  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -91,10 +90,20 @@ function computeChartCeiling(maxValue: number): number {
   return Math.ceil(maxValue * 1.18);
 }
 
+function computeReferenceLineTop(value: number, maxValue: number): number {
+  if (!Number.isFinite(value) || !Number.isFinite(maxValue) || maxValue <= 0) return CHART_MARGIN.top;
+  const drawableHeight = CHART_HEIGHT - CHART_MARGIN.top - CHART_MARGIN.bottom;
+  const clampedRatio = Math.min(Math.max(value / maxValue, 0), 1);
+  return CHART_MARGIN.top + drawableHeight * (1 - clampedRatio);
+}
+
+const CHART_HEIGHT = 340;
 const CHART_MARGIN = { top: 34, right: 12, left: 0, bottom: 12 };
 const CHART_Y_AXIS_WIDTH = 56;
 const CHART_LABEL_PL = CHART_MARGIN.left + CHART_Y_AXIS_WIDTH;
 const CHART_LABEL_PR = CHART_MARGIN.right;
+const CHART_REFERENCE_LEFT = CHART_MARGIN.left + CHART_Y_AXIS_WIDTH;
+const CHART_REFERENCE_RIGHT = CHART_MARGIN.right;
 
 export default function SimuladorPage() {
   const [brand, setBrand] = useState<BrandTab>("Samsung");
@@ -224,6 +233,11 @@ export default function SimuladorPage() {
     const withOriginal = santanderPrice !== null ? Math.max(max, santanderPrice) : max;
     return computeChartCeiling(withOriginal);
   }, [chartRows, santanderPrice]);
+
+  const originalPriceLineTop = useMemo(() => {
+    if (santanderPrice === null || santanderPrice === simulatedPrice) return null;
+    return computeReferenceLineTop(santanderPrice, chartCeiling);
+  }, [chartCeiling, santanderPrice, simulatedPrice]);
 
   // ── Ranking ──
 
@@ -450,7 +464,7 @@ export default function SimuladorPage() {
               <h3 className="text-sm font-semibold text-foreground">Comparativa de precios (simulada)</h3>
               {santanderPrice !== simulatedPrice && (
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-destructive/30 bg-destructive/10 px-3 py-1 text-xs font-semibold text-destructive">
-                  <span className="h-0.5 w-3 bg-destructive" style={{ borderTop: "2px dashed" }} />
+                  <span className="w-4 border-t-2 border-dashed border-destructive/90" />
                   Precio actual: {toCurrency(santanderPrice)}
                 </span>
               )}
@@ -459,43 +473,46 @@ export default function SimuladorPage() {
               <p className="text-sm text-muted-foreground">No hay ofertas.</p>
             ) : (
               <>
-                <ResponsiveContainer width="100%" height={340}>
-                  <BarChart data={chartRows} margin={CHART_MARGIN}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="competidor" tick={false} axisLine={false} tickLine={false} height={8} />
-                    <YAxis tick={{ fontSize: 11 }} width={CHART_Y_AXIS_WIDTH} domain={[0, chartCeiling]} />
-                    <Tooltip formatter={(value) => toCurrency(typeof value === "number" ? value : null)} />
-                    {santanderPrice !== simulatedPrice && (
-                      <ReferenceLine
-                        y={santanderPrice}
-                        stroke="hsl(var(--destructive))"
-                        strokeWidth={2}
-                        strokeDasharray="8 4"
-                        label={{
-                          value: `Precio actual: ${toCurrency(santanderPrice)}`,
-                          position: "insideTopLeft",
-                          fill: "hsl(var(--destructive))",
-                          fontSize: 12,
-                          fontWeight: 700,
-                          offset: 8,
-                        }}
-                      />
-                    )}
-                    <Bar dataKey="precio" radius={[12, 12, 0, 0]}>
-                      {chartRows.map((entry) => (
-                        <Cell key={entry.competidor} fill={entry.fill} />
-                      ))}
-                      <LabelList
-                        dataKey="precio"
-                        position="top"
-                        formatter={(value: number) => formatBarPrice(value)}
-                        fill="hsl(var(--foreground))"
-                        fontSize={11}
-                        fontWeight={700}
-                      />
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+                <div className="relative" style={{ height: `${CHART_HEIGHT}px` }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={chartRows} margin={CHART_MARGIN}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                      <XAxis dataKey="competidor" tick={false} axisLine={false} tickLine={false} height={8} />
+                      <YAxis tick={{ fontSize: 11 }} width={CHART_Y_AXIS_WIDTH} domain={[0, chartCeiling]} />
+                      <Tooltip formatter={(value) => toCurrency(typeof value === "number" ? value : null)} />
+                      <Bar dataKey="precio" radius={[12, 12, 0, 0]}>
+                        {chartRows.map((entry) => (
+                          <Cell key={entry.competidor} fill={entry.fill} />
+                        ))}
+                        <LabelList
+                          dataKey="precio"
+                          position="top"
+                          formatter={(value: number) => formatBarPrice(value)}
+                          fill="hsl(var(--foreground))"
+                          fontSize={11}
+                          fontWeight={700}
+                        />
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                  {originalPriceLineTop !== null && (
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute"
+                      style={{
+                        top: `${originalPriceLineTop}px`,
+                        left: `${CHART_REFERENCE_LEFT}px`,
+                        right: `${CHART_REFERENCE_RIGHT}px`,
+                        transform: "translateY(-50%)",
+                      }}
+                    >
+                      <div className="relative h-0">
+                        <div className="absolute inset-x-0 border-t-2 border-dashed border-destructive/85 shadow-[0_0_12px_rgba(220,38,38,0.2)]" />
+                        <div className="absolute -left-1 top-0 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-destructive ring-4 ring-destructive/15" />
+                      </div>
+                    </div>
+                  )}
+                </div>
                 <div className="mt-4 overflow-x-auto">
                   <div className="min-w-[760px]" style={{ paddingLeft: `${CHART_LABEL_PL}px`, paddingRight: `${CHART_LABEL_PR}px` }}>
                     <div className="grid items-start gap-3" style={{ gridTemplateColumns: `repeat(${Math.max(chartRows.length, 1)}, minmax(0, 1fr))` }}>
