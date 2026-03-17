@@ -1,6 +1,6 @@
 {
-  "current_snapshot_id": "20260316_104847_6c7b73a1",
-  "published_at": "2026-03-16T10:48:47.474115+00:00",
+  "current_snapshot_id": "20260317_084426_25bee3b2",
+  "published_at": "2026-03-17T08:44:26.358908+00:00",
   "mode": "scheduled",
   "brand_scope": "all",
   "competitors": [
@@ -14,7 +14,7 @@
     "Orange",
     "El Corte Ingles"
   ],
-  "record_count": 1065,
+  "record_count": 1058,
   "schedule": {
     "kind": "daily",
     "cron": "08:00 Europe/Madrid",
