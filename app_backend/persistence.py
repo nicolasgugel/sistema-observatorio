@@ -404,11 +404,17 @@ def _load_snapshot_from_metadata(metadata_path: Path) -> dict | None:
         raw_value = str(files.get(key) or "").strip()
         if raw_value:
             candidate = Path(raw_value)
-            if candidate.exists():
-                return str(candidate)
-            relative_candidate = metadata_path.parent / raw_value
-            if relative_candidate.exists():
-                return str(relative_candidate)
+            # Relative paths in metadata.json are snapshot-local and must win
+            # over any same-named file that may exist at repo root.
+            if candidate.is_absolute():
+                if candidate.exists():
+                    return str(candidate)
+            else:
+                relative_candidate = metadata_path.parent / candidate
+                if relative_candidate.exists():
+                    return str(relative_candidate)
+                if candidate.exists():
+                    return str(candidate)
         return str(metadata_path.parent / default_name)
 
     return {
@@ -552,13 +558,23 @@ def get_snapshot(snapshot_id: str = "current") -> dict | None:
     except sqlite3.Error:
         run_payload = None
     payload["products"] = run_payload.get("products", []) if run_payload else payload["metadata"].get("products", [])
-    payload["files"] = payload["metadata"].get(
-        "files",
-        {
-            "master_prices_csv": payload["csv_path"],
-            "latest_prices_csv": payload["csv_path"],
-            "latest_prices_json": payload["json_path"],
-            "price_comparison_live_html": payload["html_path"],
-        },
-    )
+    resolved_files = payload.get("files") or {}
+    payload["files"] = {
+        "master_prices_csv": str(
+            resolved_files.get("master_prices_csv")
+            or payload["csv_path"]
+        ),
+        "latest_prices_csv": str(
+            resolved_files.get("latest_prices_csv")
+            or payload["csv_path"]
+        ),
+        "latest_prices_json": str(
+            resolved_files.get("latest_prices_json")
+            or payload["json_path"]
+        ),
+        "price_comparison_live_html": str(
+            resolved_files.get("price_comparison_live_html")
+            or payload["html_path"]
+        ),
+    }
     return payload
