@@ -7,6 +7,7 @@ import {
   Table2,
   LayoutDashboard,
   MessageSquare,
+  CalendarClock,
   ChevronLeft,
   ChevronRight,
   Moon,
@@ -20,6 +21,7 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 const navItems = [
   { to: "/", icon: House, label: "Home" },
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+  { to: "/actualizador", icon: CalendarClock, label: "Actualizacion" },
   { to: "/observatorio", icon: GitCompareArrows, label: "Observatorio" },
   { to: "/visualizador", icon: Table2, label: "Tabla de Precios" },
   { to: "/simulador", icon: Calculator, label: "Simulador" },

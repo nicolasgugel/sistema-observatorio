@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import HomePage from "@/pages/HomePage";
 import DashboardPage from "@/pages/DashboardPage";
@@ -11,6 +11,7 @@ import ComparadorPage from "@/pages/ComparadorPage";
 import VisualizadorPage from "@/pages/VisualizadorPage";
 import SimuladorPage from "@/pages/SimuladorPage";
 import AgentePage from "@/pages/AgentePage";
+import ActualizadorPage from "@/pages/ActualizadorPage";
 import NotFound from "./pages/NotFound";
 import { AlertProvider } from "@/context/AlertContext";
 
@@ -24,7 +25,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<HomePage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/observatorio" element={<ComparadorPage />} />
-        <Route path="/actualizador" element={<Navigate to="/" replace />} />
+        <Route path="/actualizador" element={<ActualizadorPage />} />
         <Route path="/visualizador" element={<VisualizadorPage />} />
         <Route path="/simulador" element={<SimuladorPage />} />
         <Route path="/agente" element={<AgentePage />} />
