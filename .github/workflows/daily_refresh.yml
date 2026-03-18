@@ -2,8 +2,8 @@ name: Daily Refresh
 
 on:
   schedule:
-    - cron: "0 6 * * *"
-    - cron: "0 7 * * *"
+    - cron: "13 6 * * *"
+    - cron: "13 7 * * *"
   workflow_dispatch:
 
 concurrency:
@@ -21,7 +21,7 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve 08:00 Europe/Madrid slot
+      - name: Resolve 08:13 Europe/Madrid slot
         id: madrid_slot
         shell: bash
         run: |
@@ -32,27 +32,38 @@ jobs:
           fi
 
           schedule="${{ github.event.schedule }}"
-          cron_minute="${schedule%% *}"
-          remainder="${schedule#* }"
-          cron_hour="${remainder%% *}"
-          scheduled_date_utc="$(date -u +%F)"
-          madrid_slot="$(TZ=Europe/Madrid date -d "${scheduled_date_utc} ${cron_hour}:${cron_minute} UTC" +%H:%M)"
+          madrid_offset="$(TZ=Europe/Madrid date +%z)"
 
           echo "Triggered cron: ${schedule}"
-          echo "Scheduled Madrid slot: ${madrid_slot}"
+          echo "Current Europe/Madrid offset: ${madrid_offset}"
 
-          if [[ "$madrid_slot" == "08:00" ]]; then
+          case "$madrid_offset" in
+            +0100)
+              expected_schedule="13 7 * * *"
+              ;;
+            +0200)
+              expected_schedule="13 6 * * *"
+              ;;
+            *)
+              echo "Unexpected Europe/Madrid offset: ${madrid_offset}" >&2
+              exit 1
+              ;;
+          esac
+
+          echo "Expected cron for 08:13 Europe/Madrid: ${expected_schedule}"
+
+          if [[ "$schedule" == "$expected_schedule" ]]; then
             echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=scheduled_8am_madrid" >> "$GITHUB_OUTPUT"
+            echo "reason=scheduled_0813_madrid" >> "$GITHUB_OUTPUT"
           else
             echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "reason=not_8am_madrid_slot" >> "$GITHUB_OUTPUT"
+            echo "reason=duplicate_dst_slot" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Skip duplicate DST slot
         if: steps.madrid_slot.outputs.should_run != 'true'
         run: |
-          echo "Skipping scheduled run outside 08:00 Europe/Madrid."
+          echo "Skipping scheduled run: ${{ steps.madrid_slot.outputs.reason }}."
 
       - name: Checkout repository
         if: steps.madrid_slot.outputs.should_run == 'true'
@@ -80,7 +91,7 @@ jobs:
       - name: Run daily refresh
         if: steps.madrid_slot.outputs.should_run == 'true'
         env:
-          OBSERVATORIO_REFRESH_CRON: "08:00 Europe/Madrid"
+          OBSERVATORIO_REFRESH_CRON: "08:13 Europe/Madrid"
           OBSERVATORIO_REFRESH_TIMEZONE: "Europe/Madrid"
           OBSERVATORIO_HISTORY_RETENTION: "90"
         run: |
