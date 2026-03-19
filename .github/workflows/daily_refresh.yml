@@ -2,7 +2,6 @@ name: Daily Refresh
 
 on:
   schedule:
-    - cron: "13 6 * * *"
     - cron: "13 7 * * *"
   workflow_dispatch:
 
@@ -21,64 +20,17 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
-      - name: Resolve 08:13 Europe/Madrid slot
-        id: madrid_slot
-        shell: bash
-        run: |
-          if [[ "${{ github.event_name }}" != "schedule" ]]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=manual" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          schedule="${{ github.event.schedule }}"
-          madrid_offset="$(TZ=Europe/Madrid date +%z)"
-
-          echo "Triggered cron: ${schedule}"
-          echo "Current Europe/Madrid offset: ${madrid_offset}"
-
-          case "$madrid_offset" in
-            +0100)
-              expected_schedule="13 7 * * *"
-              ;;
-            +0200)
-              expected_schedule="13 6 * * *"
-              ;;
-            *)
-              echo "Unexpected Europe/Madrid offset: ${madrid_offset}" >&2
-              exit 1
-              ;;
-          esac
-
-          echo "Expected cron for 08:13 Europe/Madrid: ${expected_schedule}"
-
-          if [[ "$schedule" == "$expected_schedule" ]]; then
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            echo "reason=scheduled_0813_madrid" >> "$GITHUB_OUTPUT"
-          else
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-            echo "reason=duplicate_dst_slot" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Skip duplicate DST slot
-        if: steps.madrid_slot.outputs.should_run != 'true'
-        run: |
-          echo "Skipping scheduled run: ${{ steps.madrid_slot.outputs.reason }}."
-
       - name: Checkout repository
-        if: steps.madrid_slot.outputs.should_run == 'true'
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        if: steps.madrid_slot.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install dependencies
-        if: steps.madrid_slot.outputs.should_run == 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install uv
@@ -89,9 +41,7 @@ jobs:
           camoufox fetch
 
       - name: Run daily refresh
-        if: steps.madrid_slot.outputs.should_run == 'true'
         env:
-          OBSERVATORIO_REFRESH_CRON: "08:13 Europe/Madrid"
           OBSERVATORIO_REFRESH_TIMEZONE: "Europe/Madrid"
           OBSERVATORIO_HISTORY_RETENTION: "90"
         run: |
@@ -99,7 +49,6 @@ jobs:
 
       - name: Commit published data
         id: publish_data
-        if: steps.madrid_slot.outputs.should_run == 'true'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
@@ -111,22 +60,18 @@ jobs:
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Set up Node
-        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
         uses: actions/setup-node@v5
         with:
           node-version: "24"
 
       - name: Pull Vercel environment
-        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
         run: |
           npx vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Build Vercel deployment
-        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
         run: |
           npx vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Deploy refreshed data to Vercel
-        if: steps.madrid_slot.outputs.should_run == 'true' && steps.publish_data.outputs.has_changes == 'true'
         run: |
           npx vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"
