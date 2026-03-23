@@ -16,6 +16,7 @@ permissions:
 env:
   VERCEL_ORG_ID: team_lVNCt29dONZSV1ueq9hrkbWT
   VERCEL_PROJECT_ID: prj_MG0KFrk0CIBiN9rr9rRti1J8kcvT
+  VERCEL_SCOPE: nicolasgugelg-6760s-projects
 
 jobs:
   deploy:
@@ -40,12 +41,25 @@ jobs:
 
       - name: Pull Vercel environment
         run: |
-          npx vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+          npx vercel pull --yes --environment=production --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Build Vercel deployment
         run: |
-          npx vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+          npx vercel build --prod --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Deploy production build
+        id: vercel_deploy
+        shell: bash
         run: |
-          npx vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"
+          DEPLOY_LOG="$(mktemp)"
+          npx vercel deploy --prebuilt --prod --skip-domain --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}" 2>&1 | tee "$DEPLOY_LOG"
+          DEPLOYMENT_URL="$(grep -Eo 'https://sistema-observatorio[^[:space:]]+\.vercel\.app' "$DEPLOY_LOG" | tail -n 1)"
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "No se pudo resolver la URL del deployment de Vercel." >&2
+            exit 1
+          fi
+          echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Promote production deployment
+        run: |
+          npx vercel promote "${{ steps.vercel_deploy.outputs.deployment_url }}" --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"

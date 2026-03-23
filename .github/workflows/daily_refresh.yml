@@ -2,35 +2,136 @@ name: Daily Refresh
 
 on:
   schedule:
-    - cron: "13 7 * * *"
+    - cron: "17 8 * * *"
+      timezone: "Europe/Madrid"
+    - cron: "47 9 * * *"
+      timezone: "Europe/Madrid"
   workflow_dispatch:
+    inputs:
+      force_run:
+        description: "Ejecutar aunque ya exista un refresh de hoy"
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: daily-refresh
   cancel-in-progress: false
 
 permissions:
+  actions: read
   contents: write
 
 env:
   VERCEL_ORG_ID: team_lVNCt29dONZSV1ueq9hrkbWT
   VERCEL_PROJECT_ID: prj_MG0KFrk0CIBiN9rr9rRti1J8kcvT
+  VERCEL_SCOPE: nicolasgugelg-6760s-projects
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
     steps:
+      - name: Decide whether refresh should run
+        id: guard
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FORCE_RUN: ${{ inputs.force_run || 'false' }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          import urllib.request
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+
+          token = os.environ["GH_TOKEN"]
+          repo = os.environ["GITHUB_REPOSITORY"]
+          run_id = int(os.environ["GITHUB_RUN_ID"])
+          force_run = os.environ.get("FORCE_RUN", "false").lower() == "true"
+          tz = ZoneInfo("Europe/Madrid")
+          today = datetime.now(tz).date()
+          output_path = os.environ["GITHUB_OUTPUT"]
+
+          if force_run:
+            with open(output_path, "a", encoding="utf-8") as fh:
+              fh.write("should_run=true\n")
+              fh.write("reason=force_run\n")
+            sys.exit(0)
+
+          url = f"https://api.github.com/repos/{repo}/actions/workflows/daily_refresh.yml/runs?per_page=20"
+          request = urllib.request.Request(
+            url,
+            headers={
+              "Authorization": f"Bearer {token}",
+              "Accept": "application/vnd.github+json",
+              "User-Agent": "observatorio-daily-refresh-guard",
+            },
+          )
+          with urllib.request.urlopen(request) as response:
+            payload = json.load(response)
+
+          blocking_statuses = {"queued", "in_progress", "requested", "waiting", "pending"}
+          blocking_conclusions = {"success"}
+
+          matched_run = None
+          for item in payload.get("workflow_runs", []):
+            if int(item.get("id", 0)) == run_id:
+              continue
+
+            created_at = item.get("created_at")
+            if not created_at:
+              continue
+
+            created_dt = datetime.fromisoformat(created_at.replace("Z", "+00:00")).astimezone(tz)
+            if created_dt.date() != today:
+              continue
+
+            status = str(item.get("status") or "").lower()
+            conclusion = str(item.get("conclusion") or "").lower()
+            event = str(item.get("event") or "")
+
+            if status in blocking_statuses or conclusion in blocking_conclusions:
+              matched_run = {
+                "id": item.get("id"),
+                "event": event,
+                "status": status,
+                "conclusion": conclusion,
+                "created_at": created_at,
+                "html_url": item.get("html_url"),
+              }
+              break
+
+          with open(output_path, "a", encoding="utf-8") as fh:
+            if matched_run:
+              fh.write("should_run=false\n")
+              fh.write(f"reason=existing_run_today:{matched_run['id']}\n")
+              fh.write(f"matched_run={json.dumps(matched_run, ensure_ascii=False)}\n")
+            else:
+              fh.write("should_run=true\n")
+              fh.write("reason=no_run_today\n")
+          PY
+
+      - name: Skip duplicate refresh
+        if: steps.guard.outputs.should_run != 'true'
+        run: |
+          echo "Refresh omitido: ${{ steps.guard.outputs.reason }}"
+          echo '${{ steps.guard.outputs.matched_run }}'
+
       - name: Checkout repository
+        if: steps.guard.outputs.should_run == 'true'
         uses: actions/checkout@v5
         with:
           fetch-depth: 0
 
       - name: Set up Python
+        if: steps.guard.outputs.should_run == 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install dependencies
+        if: steps.guard.outputs.should_run == 'true'
         run: |
           python -m pip install --upgrade pip
           python -m pip install uv
@@ -41,6 +142,7 @@ jobs:
           camoufox fetch
 
       - name: Run daily refresh
+        if: steps.guard.outputs.should_run == 'true'
         env:
           OBSERVATORIO_REFRESH_TIMEZONE: "Europe/Madrid"
           OBSERVATORIO_HISTORY_RETENTION: "90"
@@ -48,6 +150,7 @@ jobs:
           python scripts/run_daily_refresh.py
 
       - name: Commit published data
+        if: steps.guard.outputs.should_run == 'true'
         id: publish_data
         shell: bash
         run: |
@@ -60,18 +163,36 @@ jobs:
           echo "has_changes=true" >> "$GITHUB_OUTPUT"
 
       - name: Set up Node
+        if: steps.guard.outputs.should_run == 'true'
         uses: actions/setup-node@v5
         with:
           node-version: "24"
 
       - name: Pull Vercel environment
+        if: steps.guard.outputs.should_run == 'true'
         run: |
-          npx vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+          npx vercel pull --yes --environment=production --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Build Vercel deployment
+        if: steps.guard.outputs.should_run == 'true'
         run: |
-          npx vercel build --prod --token="${{ secrets.VERCEL_TOKEN }}"
+          npx vercel build --prod --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
 
       - name: Deploy refreshed data to Vercel
+        if: steps.guard.outputs.should_run == 'true'
+        id: vercel_deploy
+        shell: bash
         run: |
-          npx vercel deploy --prebuilt --prod --token="${{ secrets.VERCEL_TOKEN }}"
+          DEPLOY_LOG="$(mktemp)"
+          npx vercel deploy --prebuilt --prod --skip-domain --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}" 2>&1 | tee "$DEPLOY_LOG"
+          DEPLOYMENT_URL="$(grep -Eo 'https://sistema-observatorio[^[:space:]]+\.vercel\.app' "$DEPLOY_LOG" | tail -n 1)"
+          if [ -z "$DEPLOYMENT_URL" ]; then
+            echo "No se pudo resolver la URL del deployment de Vercel." >&2
+            exit 1
+          fi
+          echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
+
+      - name: Promote refreshed deployment
+        if: steps.guard.outputs.should_run == 'true'
+        run: |
+          npx vercel promote "${{ steps.vercel_deploy.outputs.deployment_url }}" --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
