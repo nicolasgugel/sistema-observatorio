@@ -12,6 +12,12 @@ frontend/.npm-cache
 scripts
 skills
 elcorteingles_scraper
+santander_scraper_bundle_20260325
+observatorio
+scraping_bundle_20260312_ready
+data/history
+tests
+deploy
 
 output/**
 !output/latest_prices.json
