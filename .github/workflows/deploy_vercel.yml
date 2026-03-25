@@ -25,27 +25,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v5
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install uv for Vercel Python builds
-        uses: astral-sh/setup-uv@v5
-
       - name: Set up Node
         uses: actions/setup-node@v5
         with:
           node-version: "24"
 
-      - name: Pull Vercel environment
+      - name: Deploy to Vercel (remote build)
         run: |
-          npx vercel pull --yes --environment=production --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
-
-      - name: Build Vercel deployment
-        run: |
-          npx vercel build --prod --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
-
-      - name: Deploy production build
-        run: |
-          npx vercel deploy --prebuilt --prod --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
+          npx vercel deploy --prod --scope="${{ env.VERCEL_SCOPE }}" --token="${{ secrets.VERCEL_TOKEN }}"
