@@ -319,16 +319,21 @@ def _model_tokens(model: str) -> list[str]:
 
 def _has_variant_conflict(row: dict) -> bool:
     model_text = normalize_text(str(row.get("model") or ""))
-    source_text = _combined_source_text(row)
+    # Only check title+url, not snapshots (which may contain cross-sell product references)
+    source_text = normalize_text(
+        " ".join([str(row.get("source_title") or ""), str(row.get("source_url") or "")])
+    )
     if not source_text:
         return False
 
-    model_variants = {token for token in _VARIANT_MARKERS if token in model_text.split()}
+    model_tokens = set(model_text.split())
+    source_tokens = set(source_text.split())
+    model_variants = {token for token in _VARIANT_MARKERS if token in model_tokens}
     if not model_variants:
         return False
 
     for variant in _VARIANT_MARKERS:
-        if variant in source_text and variant not in model_variants:
+        if variant in source_tokens and variant not in model_variants:
             return True
     return False
 
