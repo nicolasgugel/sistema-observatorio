@@ -6,7 +6,11 @@
 # Core scraping
 scrapling[fetchers]>=0.4
 
-# Anti-bot stealth browser
+# HTTP client used by Fetcher (Boutique, Grover, Apple Store, etc.)
+curl_cffi>=0.7
+
+# Anti-bot stealth browser (StealthyFetcher — Samsung Store, Amazon)
+patchright>=0.4
 camoufox[geoip]>=0.4
 
 # Excel export

@@ -141,6 +141,7 @@ jobs:
           python -m playwright install-deps firefox
           scrapling install
           camoufox fetch
+          python -m patchright install chromium
 
       - name: Run daily refresh
         if: steps.guard.outputs.should_run == 'true'
