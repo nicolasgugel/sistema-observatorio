@@ -239,16 +239,19 @@ def _infer_legacy_price_capture_kind(row: dict) -> str:
     if retailer in _RETAILER_EMBEDDED_JSON_EXACT:
         return "embedded_json_exact"
     if retailer == "el corte ingles":
-        return "api_exact" if offer_type == "cash" else ""
+        return "api_exact"  # Firefly API covers all offer types
     if retailer == "media markt":
-        return "visible_dom" if offer_type == "cash" else ""
+        return "visible_dom"  # DOM scraping covers cash and financing
     if retailer == "samsung oficial":
-        return "visible_dom" if offer_type == "cash" else ""
+        return "visible_dom"  # DOM scraping covers cash and financing
     if retailer in _RETAILER_CASH_VISIBLE_DOM and offer_type == "cash":
         return "visible_dom"
-    if retailer == "orange" and any(token in source_text for token in ("mes", "cuota", "financi")):
-        return "visible_dom"
+    if retailer == "orange":
+        return "visible_dom"  # Covers cash and financing_max_term
     if retailer == "apple oficial":
+        return "visible_dom"
+    if "adapter_live" in quality:
+        # New bundle scrapers: all produce live data from verified sources
         return "visible_dom"
     return ""
 
