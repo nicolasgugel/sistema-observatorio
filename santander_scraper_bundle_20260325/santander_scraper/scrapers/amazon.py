@@ -15,16 +15,17 @@ from typing import Optional
 from urllib.parse import quote_plus
 
 from loguru import logger
-from scrapling.fetchers import Fetcher
+from scrapling.fetchers import AsyncFetcher
 
 from models.price_row import PriceRow
 from scrapers.competitor_base import CompetitorBase
 
 BASE_URL = "https://www.amazon.es"
 ELECTRONICS_NODE = "3944681031"
-DELAY = 2.0
-RETRY_DELAY = 1.0
-CONCURRENCY = 5
+DELAY = 0.25
+RETRY_DELAY = 0.75
+BLOCKED_RETRY_DELAY = 2.0
+CONCURRENCY = 4
 MAX_RESULTS = 3
 MAX_TARGET_ATTEMPTS = 2
 
@@ -35,11 +36,18 @@ _NON_NEW_KEYWORDS = (
     "usado",
 )
 
-_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
-    "Accept-Encoding": "gzip, deflate, br",
+_STRICT_VARIANT_TOKENS = frozenset({
+    "pro", "max", "plus", "ultra", "air", "mini", "lite", "fe", "fold", "flip", "e",
+})
+
+_REQUEST_KWARGS = {
+    "impersonate": "chrome",
+    "http3": False,
+    "stealthy_headers": True,
+    "follow_redirects": True,
+    "timeout": 20,
+    "retries": 2,
+    "retry_delay": 1,
 }
 
 
@@ -50,7 +58,6 @@ class AmazonScraper(CompetitorBase):
 
     async def scrape(self) -> list[PriceRow]:
         rows: list[PriceRow] = []
-        fetcher = Fetcher
 
         seen = set()
         unique_targets = []
@@ -71,7 +78,7 @@ class AmazonScraper(CompetitorBase):
                 logger.debug(f"[Amazon] Buscando: {queries!r}")
                 result = None
                 for attempt in range(1, MAX_TARGET_ATTEMPTS + 1):
-                    result = await self._search_product(fetcher, queries, target)
+                    result = await self._search_product(queries, target)
                     if result:
                         break
                     if attempt < MAX_TARGET_ATTEMPTS:
@@ -94,6 +101,9 @@ class AmazonScraper(CompetitorBase):
         model = target["model"]
         cap = target.get("capacity_gb")
         if cap:
+            if cap >= 1000:
+                tb = cap // 1024
+                return f"{model} {tb}TB"
             return f"{model} {cap}GB"
         return model
 
@@ -140,11 +150,17 @@ class AmazonScraper(CompetitorBase):
                 if code_query and code_query not in seen:
                     seen.add(code_query)
                     queries.append(code_query)
-        return queries
+
+        if len(queries) <= 1:
+            return queries
+
+        primary_query = queries[0]
+        code_queries = [q for q in queries[1:] if cls._is_code_query(q)]
+        variant_queries = [q for q in queries[1:] if not cls._is_code_query(q)]
+        return [primary_query, *code_queries, *variant_queries]
 
     async def _search_product(
         self,
-        fetcher: Fetcher,
         queries: list[str],
         target: dict,
     ) -> Optional[PriceRow]:
@@ -156,9 +172,14 @@ class AmazonScraper(CompetitorBase):
                 search_url = f"{BASE_URL}/s?k={quote_plus(query)}&rh=n:{ELECTRONICS_NODE}"
 
             try:
-                response = await asyncio.to_thread(fetcher.get, search_url, headers=_HEADERS)
+                response = await AsyncFetcher.get(search_url, **_REQUEST_KWARGS)
             except Exception as e:
                 logger.warning(f"[Amazon] Error buscando {query!r}: {e}")
+                continue
+
+            if self._is_blocked_response(response):
+                logger.debug(f"[Amazon] Respuesta bloqueada para {query!r}")
+                await asyncio.sleep(BLOCKED_RETRY_DELAY)
                 continue
 
             row = self._try_json_data(response, target, search_url)
@@ -170,7 +191,7 @@ class AmazonScraper(CompetitorBase):
                 target=target,
                 query=query,
                 source_url=search_url,
-                threshold=50 if is_code_query else 72,
+                threshold=72,
                 code_query=is_code_query,
             )
             if row:
@@ -276,6 +297,14 @@ class AmazonScraper(CompetitorBase):
                 return None
 
             capacity = self._parse_capacity(name)
+            target_capacity = target.get("capacity_gb")
+            if capacity and target_capacity and int(capacity) != int(target_capacity):
+                return None
+            if not self._has_matching_family(name, target):
+                return None
+            if self._has_variant_mismatch(name, target):
+                return None
+
             score = self._score_name_against_target(name, target, capacity)
             if code_query and self._title_contains_code(name, query):
                 score = max(score, 100)
@@ -339,6 +368,77 @@ class AmazonScraper(CompetitorBase):
     def _is_non_new(name: str) -> bool:
         lowered = name.lower()
         return any(keyword in lowered for keyword in _NON_NEW_KEYWORDS)
+
+    @staticmethod
+    def _response_status(response) -> Optional[int]:
+        return getattr(response, "status", None) or getattr(response, "status_code", None)
+
+    @classmethod
+    def _is_blocked_response(cls, response) -> bool:
+        status = cls._response_status(response)
+        if status in {429, 503}:
+            return True
+
+        body = getattr(response, "body", b"") or b""
+        if isinstance(body, bytes):
+            text = body.decode("utf-8", "ignore").lower()
+        else:
+            text = str(body).lower()
+        return any(
+            marker in text
+            for marker in (
+                "api-services-support@amazon.com",
+                "enter the characters you see below",
+                "captcha",
+                "robot check",
+                "temporarily unavailable",
+            )
+        )
+
+    def _has_matching_family(self, name: str, target: dict) -> bool:
+        name_norm = self._normalize(name)
+        target_norm = self._normalize(target.get("model", ""))
+
+        required_families = (
+            "iphone",
+            "ipad",
+            "macbook",
+            "mac mini",
+            "mac studio",
+            "imac",
+            "galaxy tab",
+            "galaxy book",
+        )
+        for family in required_families:
+            if family in target_norm and family not in name_norm:
+                if family == "galaxy tab" and "tab" in name_norm:
+                    return True
+                if family == "galaxy book" and any(token in name_norm for token in ("book", "laptop", "notebook")):
+                    return True
+                return False
+        return True
+
+    def _has_variant_mismatch(self, name: str, target: dict) -> bool:
+        name_norm = self._normalize(name)
+        target_norm = self._normalize(target.get("model", ""))
+
+        target_variants = {
+            token for token in target_norm.split() if token in _STRICT_VARIANT_TOKENS
+        }
+        title_variants = {
+            token for token in name_norm.split() if token in _STRICT_VARIANT_TOKENS
+        }
+        if target_variants != title_variants:
+            return True
+
+        target_is_cellular = "cellular" in target_norm
+        title_is_cellular = "cellular" in name_norm
+        if target_is_cellular != title_is_cellular and (
+            "ipad" in target_norm or "tab" in target_norm
+        ):
+            return True
+
+        return False
 
     @staticmethod
     def _title_contains_code(title: str, query: str) -> bool:

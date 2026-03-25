@@ -2,7 +2,14 @@ from __future__ import annotations
 
 import errno
 import os
+import shlex
 from pathlib import Path
+
+from app_backend.env_loader import load_env_file
+
+
+ROOT_DIR = Path(__file__).resolve().parents[1]
+load_env_file(ROOT_DIR / ".env")
 
 
 def _ensure_dir(path: Path) -> Path:
@@ -14,7 +21,6 @@ def _ensure_dir(path: Path) -> Path:
     return path
 
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
 OUTPUT_DIR = ROOT_DIR / "output"
 _ensure_dir(OUTPUT_DIR)
 
@@ -27,11 +33,17 @@ _ensure_dir(HISTORY_DATA_DIR)
 LOGS_DATA_DIR = DATA_DIR / "logs"
 _ensure_dir(LOGS_DATA_DIR)
 STATE_DB_PATH = DATA_DIR / "observatorio.sqlite3"
+OBSERVATORIO_AGENT_SESSION_DB_PATH = Path(
+    os.getenv("OBSERVATORIO_AGENT_SESSION_DB_PATH", DATA_DIR / "agent_sessions.sqlite3")
+)
+_ensure_dir(OBSERVATORIO_AGENT_SESSION_DB_PATH.parent)
 
 TEMPLATE_PATH = ROOT_DIR / "assets" / "templates" / "price_comparison_v10_dual_brand.html"
-SCRAPER_RUNTIME_DIR = ROOT_DIR / "scraping_bundle_20260312_ready"
-SCRAPER_RUNTIME_ENTRYPOINT = SCRAPER_RUNTIME_DIR / "main.py"
-SCRAPER_RUNTIME_NAME = SCRAPER_RUNTIME_DIR.name
+SCRAPER_BUNDLE_DIR = ROOT_DIR / "santander_scraper_bundle_20260325" / "santander_scraper"
+SCRAPER_BUNDLE_ENTRYPOINT = SCRAPER_BUNDLE_DIR / "main.py"
+SCRAPER_BUNDLE_NAME = SCRAPER_BUNDLE_DIR.name
+SCRAPER_RUNTIME_ENTRYPOINT = ROOT_DIR / "scripts" / "run_published_runtime.py"
+SCRAPER_RUNTIME_NAME = "santander_20260325_bundle_runtime"
 SCRAPER_CLEAN_INITIAL_SNAPSHOT_PATH = ROOT_DIR / "master_prices_v3_20260309_0917.csv"
 CURRENT_JSON_PATH = CURRENT_DATA_DIR / "latest_prices.json"
 CURRENT_CSV_PATH = CURRENT_DATA_DIR / "latest_prices.csv"
@@ -74,6 +86,7 @@ SCRAPER_CLEAN_RAW_RETAILER_ALIASES = {
     "MediaMarkt": "Media Markt",
     "Samsung Store": "Samsung Oficial",
     "Apple Store": "Apple Oficial",
+    "El Corte Inglés": "El Corte Ingles",
 }
 
 SCRAPER_CLEAN_RAW_SLUG_ALIASES = {
@@ -94,6 +107,34 @@ DEFAULT_COMPETITORS = [
     "El Corte Ingles",
 ]
 
+SCRAPER_LEGACY_RETAILERS: list[str] = []
+
+SCRAPER_CURRENT_DEDICATED_RETAILERS = [
+    "Santander Boutique",
+    "Amazon",
+    "Media Markt",
+    "Grover",
+    "Movistar",
+    "Rentik",
+    "Samsung Oficial",
+    "Apple Oficial",
+    "Orange",
+    "El Corte Ingles",
+]
+
+SCRAPER_RUNTIME_BY_RETAILER = {
+    "Santander Boutique": "current_dedicated",
+    "Amazon": "current_dedicated",
+    "Media Markt": "current_dedicated",
+    "Grover": "current_dedicated",
+    "Movistar": "current_dedicated",
+    "Rentik": "current_dedicated",
+    "Samsung Oficial": "current_dedicated",
+    "Apple Oficial": "current_dedicated",
+    "Orange": "current_dedicated",
+    "El Corte Ingles": "current_dedicated",
+}
+
 EDITOR_TOKEN = os.getenv("OBSERVATORIO_EDITOR_TOKEN", "").strip()
 ALLOWED_ORIGINS = [
     item.strip()
@@ -101,3 +142,44 @@ ALLOWED_ORIGINS = [
     if item.strip()
 ]
 ALLOWED_ORIGIN_REGEX = os.getenv("OBSERVATORIO_ALLOWED_ORIGIN_REGEX", r"https://.*\.vercel\.app")
+
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "").strip()
+_SUPPORTED_OBSERVATORIO_AGENT_MODELS = {"gpt-5.4-mini", "gpt-5-mini", "gpt-5-nano"}
+
+
+def _normalize_observatorio_agent_model(raw_value: str, *, default: str = "gpt-5-mini") -> str:
+    candidate = (raw_value or "").strip().lower()
+    if candidate in _SUPPORTED_OBSERVATORIO_AGENT_MODELS:
+        return candidate
+    if candidate.startswith("gpt-"):
+        return candidate
+    return default
+
+
+LIVE_AGENT_MODEL = _normalize_observatorio_agent_model(
+    os.getenv("OBSERVATORIO_LIVE_AGENT_MODEL", "gpt-5-mini"),
+    default="gpt-5-mini",
+)
+OBSERVATORIO_AGENT_MODEL = _normalize_observatorio_agent_model(
+    os.getenv("OBSERVATORIO_AGENT_MODEL", LIVE_AGENT_MODEL),
+    default=LIVE_AGENT_MODEL,
+)
+LIVE_AGENT_CACHE_TTL_SECONDS = max(int(os.getenv("OBSERVATORIO_LIVE_AGENT_CACHE_TTL_SECONDS", "1800")), 60)
+LIVE_AGENT_DEFAULT_SYNC_TIMEOUT_SECONDS = max(
+    int(os.getenv("OBSERVATORIO_LIVE_AGENT_DEFAULT_SYNC_TIMEOUT_SECONDS", "20")),
+    5,
+)
+LIVE_AGENT_MAX_PRODUCTS = max(int(os.getenv("OBSERVATORIO_LIVE_AGENT_MAX_PRODUCTS", "3")), 1)
+LIVE_AGENT_SUPPORTED_RETAILERS = [
+    "Santander Boutique",
+    "Amazon",
+    "Media Markt",
+    "El Corte Ingles",
+]
+SCRAPLING_MCP_COMMAND = os.getenv("OBSERVATORIO_SCRAPLING_MCP_COMMAND", "scrapling").strip() or "scrapling"
+SCRAPLING_MCP_ARGS = shlex.split(os.getenv("OBSERVATORIO_SCRAPLING_MCP_ARGS", "mcp").strip() or "mcp")
+SCRAPLING_MCP_CLIENT_SESSION_TIMEOUT_SECONDS = max(
+    float(os.getenv("OBSERVATORIO_SCRAPLING_MCP_CLIENT_SESSION_TIMEOUT_SECONDS", "45")),
+    5.0,
+)
+SCRAPLING_MCP_ENABLED = os.getenv("OBSERVATORIO_SCRAPLING_MCP_ENABLED", "false").strip().lower() == "true"

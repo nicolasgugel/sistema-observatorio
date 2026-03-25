@@ -10,6 +10,7 @@ Estrategia:
 from __future__ import annotations
 
 import asyncio
+import html as html_lib
 import json
 import re
 from typing import Iterable, Optional
@@ -33,6 +34,14 @@ CONCURRENCY = 6
 _PRODUCT_PATH_RE = re.compile(
     r"^https://www\.orange\.es/dispositivos/(moviles|tablets|portatiles)/([^/]+)/.+\.html$",
     re.I,
+)
+_UPFRONT_PAYMENT_LABEL_RE = re.compile(
+    r'(<label\b[^>]*>\s*<input\b[^>]*\bdata-name=["\']UpfrontPayment["\'][^>]*>.*?</label>)',
+    re.I | re.S,
+)
+_UPFRONT_PAYMENT_PRICE_RE = re.compile(
+    r'<span\b[^>]*class=["\'][^"\']*selectable__text[^"\']*["\'][^>]*>\s*<strong>\s*([^<]+?)\s*</strong>',
+    re.I | re.S,
 )
 _HEADERS = {
     "User-Agent": (
@@ -159,7 +168,7 @@ class OrangeScraper(CompetitorBase):
             return []
 
         rows: list[PriceRow] = []
-        price_value = self._coerce_float(offers.get("price"))
+        price_value = self._extract_upfront_payment_price(response)
         availability = str(offers.get("availability") or "")
         in_stock = availability.endswith("InStock")
 
@@ -239,6 +248,47 @@ class OrangeScraper(CompetitorBase):
             for item in data:
                 if isinstance(item, dict):
                     yield item
+
+    @staticmethod
+    def _response_html(response) -> str:
+        body = getattr(response, "body", None)
+        if isinstance(body, (bytes, bytearray)):
+            return body.decode("utf-8", errors="replace")
+        if body:
+            return str(body)
+        return str(getattr(response, "text", "") or "")
+
+    @classmethod
+    def _extract_upfront_payment_price(cls, response) -> Optional[float]:
+        html = cls._response_html(response)
+        if not html:
+            return None
+
+        match = _UPFRONT_PAYMENT_LABEL_RE.search(html)
+        if not match:
+            return None
+
+        block = html_lib.unescape(match.group(1))
+        if re.search(
+            r'<input\b[^>]*\bdata-name=["\']UpfrontPayment["\'][^>]*\bdisabled\b',
+            block,
+            re.I,
+        ):
+            return None
+        if re.search(r">\s*No disponible\s*<", block, re.I):
+            return None
+
+        price_match = _UPFRONT_PAYMENT_PRICE_RE.search(block)
+        if not price_match:
+            return None
+        return cls._parse_upfront_payment_price_text(price_match.group(1))
+
+    @classmethod
+    def _parse_upfront_payment_price_text(cls, text: str) -> Optional[float]:
+        normalized = html_lib.unescape(str(text or "")).replace("\xa0", " ").strip()
+        if re.search(r"\b\d{1,3}(?:\.\d{3})+(?:,\d{1,2})?\b", normalized):
+            normalized = normalized.replace(".", "")
+        return cls._clean_price(normalized)
 
     def _build_financing_row(
         self,

@@ -88,6 +88,9 @@ class MediaMarktScraper(CompetitorBase):
         model = target["model"]
         cap = target.get("capacity_gb")
         if cap:
+            if cap >= 1000:
+                tb = cap // 1024
+                return f"{model} {tb} TB"
             return f"{model} {cap}GB"
         return model
 
@@ -360,9 +363,9 @@ class MediaMarktScraper(CompetitorBase):
             if not name or len(name) < 5:
                 return None
 
-            price_spans = card.css("[data-test='mms-price'] .mms-ui-sr_true")
+            price_spans = card.css("[data-test='mms-price'] .mms-ui-mBgaT")
             if not price_spans:
-                price_spans = card.css("[data-test*='price'] .mms-ui-sr_true")
+                price_spans = card.css("[data-test*='price'] .mms-ui-mBgaT")
             if not price_spans:
                 return None
             price = self._clean_price(price_spans[-1].text)

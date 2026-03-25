@@ -35,6 +35,11 @@ _ACCESSORY_KEYWORDS = (
     "protector",
 )
 
+_ACCESSORY_FOR_DEVICE_RE = re.compile(
+    r"\b(?:for|para)\s+(?:iphone|ipad|mac(?:book| mini)?|imac|galaxy|samsung)\b",
+    flags=re.I,
+)
+
 
 class CompetitorBase:
     SOURCE_NAME = ""
@@ -132,7 +137,7 @@ class CompetitorBase:
     @staticmethod
     def _is_accessory(name: str) -> bool:
         n = name.lower()
-        return any(kw in n for kw in _ACCESSORY_KEYWORDS)
+        return any(kw in n for kw in _ACCESSORY_KEYWORDS) or bool(_ACCESSORY_FOR_DEVICE_RE.search(n))
 
     @staticmethod
     def _strip_noise_numbers(text: str) -> str:
