@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 import shutil
 import uuid
 from datetime import datetime, timezone
@@ -51,12 +52,15 @@ CANONICAL_TABLE_COLUMNS = [
     "term_months",
     "in_stock",
     "data_quality_tier",
+    "price_capture_kind",
     "extracted_at",
     "source_url",
     "source_title",
     "source_snapshot",
     "source_snapshots",
 ]
+
+CURRENT_VALIDATION_REPORT_PATH = CURRENT_DATA_DIR / "validation_report.json"
 
 REQUIRED_TABLE_COLUMNS = {
     "country",
@@ -80,6 +84,86 @@ REQUIRED_TABLE_COLUMNS = {
     "source_snapshot",
     "source_snapshots",
 }
+
+VALID_PRICE_CAPTURE_KINDS = {
+    "visible_dom",
+    "embedded_json_exact",
+    "api_exact",
+}
+_PRICE_CAPTURE_KIND_PRIORITY = {
+    "visible_dom": 0,
+    "embedded_json_exact": 1,
+    "api_exact": 2,
+}
+_CAPTURE_KIND_ALIASES = {
+    "visible": "visible_dom",
+    "dom_visible": "visible_dom",
+    "dom_exact": "visible_dom",
+    "embedded_json": "embedded_json_exact",
+    "json_exact": "embedded_json_exact",
+    "api": "api_exact",
+}
+_DERIVED_PRICE_MARKERS = (
+    "derived",
+    "calculad",
+    "formula",
+    "interestnominal",
+    "default tin",
+    "tin por defecto",
+    "cash /",
+    "price /",
+)
+_CONDITIONAL_PRICE_MARKERS = (
+    "trade in",
+    "trade-in",
+    "recompra",
+    "plan renove",
+    "entrega tu",
+    "entregando tu",
+    "con portabilidad",
+    "con tarifa",
+    "ahorrando",
+)
+_ACCESSORY_MARKERS = (
+    "funda",
+    "case",
+    "protector",
+    "charger",
+    "cargador",
+    "cable",
+    "cover",
+    "strap",
+    "correa",
+    "band",
+    "adapter",
+    "adaptador",
+    "auriculares",
+    "earbuds",
+    "buds",
+)
+_MODEL_STOPWORDS = {
+    "samsung",
+    "apple",
+    "galaxy",
+    "iphone",
+    "ipad",
+    "smartphone",
+    "telefono",
+    "movil",
+}
+_VARIANT_MARKERS = {"ultra", "plus", "mini", "max", "fe", "air", "pro"}
+_WIFI_ONLY_MARKERS = (" wifi", "wi-fi", "wifi ")
+_CELLULAR_MARKERS = ("cellular", "5g", "4g", "lte")
+_RETAILER_API_EXACT = {"santander boutique", "rentik"}
+_RETAILER_EMBEDDED_JSON_EXACT = {"movistar", "grover"}
+_RETAILER_CASH_VISIBLE_DOM = {"amazon", "media markt", "orange", "samsung oficial", "apple oficial"}
+
+
+def _normalize_price_capture_kind(value: object) -> str:
+    raw = normalize_text(str(value or "")).replace("-", "_").replace(" ", "_")
+    if not raw:
+        return ""
+    return _CAPTURE_KIND_ALIASES.get(raw, raw)
 
 
 def _parse_bool(value: object) -> bool | None:
@@ -123,6 +207,218 @@ def _normalize_retailer_slug(value: object) -> str:
     return SCRAPER_CLEAN_RAW_SLUG_ALIASES.get(slug, slug)
 
 
+def _combined_source_text(row: dict) -> str:
+    return normalize_text(
+        " ".join(
+            [
+                str(row.get("source_title") or ""),
+                str(row.get("source_url") or ""),
+                str(row.get("price_text") or ""),
+            ]
+        )
+    )
+
+
+def _infer_legacy_price_capture_kind(row: dict) -> str:
+    explicit = _normalize_price_capture_kind(row.get("price_capture_kind"))
+    if explicit in VALID_PRICE_CAPTURE_KINDS:
+        return explicit
+
+    quality = normalize_text(str(row.get("data_quality_tier") or ""))
+    if "api" in quality:
+        return "api_exact"
+    if "json" in quality or "embedded" in quality:
+        return "embedded_json_exact"
+
+    retailer = normalize_text(str(row.get("retailer") or ""))
+    offer_type = normalize_text(str(row.get("offer_type") or ""))
+    source_text = _combined_source_text(row)
+
+    if retailer in _RETAILER_API_EXACT:
+        return "api_exact"
+    if retailer in _RETAILER_EMBEDDED_JSON_EXACT:
+        return "embedded_json_exact"
+    if retailer == "el corte ingles":
+        return "api_exact" if offer_type == "cash" else ""
+    if retailer == "media markt":
+        return "visible_dom" if offer_type == "cash" else ""
+    if retailer == "samsung oficial":
+        return "visible_dom" if offer_type == "cash" else ""
+    if retailer in _RETAILER_CASH_VISIBLE_DOM and offer_type == "cash":
+        return "visible_dom"
+    if retailer == "orange" and any(token in source_text for token in ("mes", "cuota", "financi")):
+        return "visible_dom"
+    if retailer == "apple oficial":
+        return "visible_dom"
+    return ""
+
+
+def _extract_capacity_mentions(text: str) -> set[int]:
+    matches = re.findall(r"(\d{2,4})\s*(gb|tb)\b", text, flags=re.IGNORECASE)
+    capacities: set[int] = set()
+    for amount, unit in matches:
+        value = int(amount)
+        if unit.lower() == "tb":
+            value *= 1024
+        capacities.add(value)
+    return capacities
+
+
+def _source_contains_product_code(row: dict) -> bool:
+    product_code = normalize_text(str(row.get("product_code") or ""))
+    if not product_code:
+        return False
+    return product_code in _combined_source_text(row)
+
+
+def _has_conditional_price_markers(row: dict) -> bool:
+    text = _combined_source_text(row)
+    return any(marker in text for marker in _CONDITIONAL_PRICE_MARKERS)
+
+
+def _has_accessory_markers(row: dict) -> bool:
+    text = _combined_source_text(row)
+    return any(marker in text for marker in _ACCESSORY_MARKERS)
+
+
+def _has_derived_price_markers(row: dict) -> bool:
+    text = normalize_text(
+        " ".join(
+            [
+                str(row.get("data_quality_tier") or ""),
+                str(row.get("price_capture_kind") or ""),
+                str(row.get("source_title") or ""),
+                str(row.get("price_text") or ""),
+            ]
+        )
+    )
+    return any(marker in text for marker in _DERIVED_PRICE_MARKERS)
+
+
+def _has_explicit_capacity_mismatch(row: dict) -> bool:
+    row_capacity = _parse_optional_int(row.get("capacity_gb"))
+    if row_capacity is None:
+        return False
+    mentioned = _extract_capacity_mentions(_combined_source_text(row))
+    return bool(mentioned) and row_capacity not in mentioned
+
+
+def _model_tokens(model: str) -> list[str]:
+    tokens: list[str] = []
+    for token in normalize_text(model).split():
+        cleaned = re.sub(r"[^a-z0-9]+", "", token)
+        if not cleaned or cleaned in _MODEL_STOPWORDS:
+            continue
+        if any(ch.isdigit() for ch in cleaned) or len(cleaned) >= 4 or cleaned in _VARIANT_MARKERS:
+            tokens.append(cleaned)
+    return tokens
+
+
+def _has_variant_conflict(row: dict) -> bool:
+    model_text = normalize_text(str(row.get("model") or ""))
+    source_text = _combined_source_text(row)
+    if not source_text:
+        return False
+
+    model_variants = {token for token in _VARIANT_MARKERS if token in model_text.split()}
+    if not model_variants:
+        return False
+
+    for variant in _VARIANT_MARKERS:
+        if variant in source_text and variant not in model_variants:
+            return True
+    return False
+
+
+def _connectivity_expectation(text: str) -> str:
+    normalized = f" {normalize_text(text)} "
+    if any(marker in normalized for marker in _CELLULAR_MARKERS):
+        return "cellular"
+    if any(marker in normalized for marker in _WIFI_ONLY_MARKERS):
+        return "wifi"
+    return ""
+
+
+def _has_connectivity_mismatch(row: dict) -> bool:
+    expected = _connectivity_expectation(str(row.get("model") or ""))
+    if not expected:
+        return False
+    observed = _connectivity_expectation(_combined_source_text(row))
+    return bool(observed) and observed != expected
+
+
+def _has_weak_match(row: dict) -> bool:
+    source_text = _combined_source_text(row)
+    if not source_text:
+        return False
+
+    tokens = _model_tokens(str(row.get("model") or ""))
+    digit_tokens = [token for token in tokens if any(ch.isdigit() for ch in token)]
+    if digit_tokens and not any(token in source_text for token in digit_tokens):
+        return True
+    return False
+
+
+def _capture_kind_rank(row: dict) -> int:
+    return _PRICE_CAPTURE_KIND_PRIORITY.get(str(row.get("price_capture_kind") or ""), -1)
+
+
+def is_row_publishable(row: dict) -> bool:
+    capture_kind = str(row.get("price_capture_kind") or "")
+    if capture_kind not in VALID_PRICE_CAPTURE_KINDS:
+        return False
+
+    price_value = _parse_optional_float(row.get("price_value"))
+    if price_value is None or price_value <= 0:
+        return False
+
+    if not str(row.get("retailer") or "").strip():
+        return False
+    if not str(row.get("model") or "").strip():
+        return False
+    if not str(row.get("offer_type") or "").strip():
+        return False
+    if not str(row.get("source_url") or "").strip() and not str(row.get("source_title") or "").strip():
+        return False
+
+    if _has_derived_price_markers(row):
+        return False
+    if _has_conditional_price_markers(row):
+        return False
+    if _has_accessory_markers(row):
+        return False
+    if _has_explicit_capacity_mismatch(row):
+        return False
+    if _has_connectivity_mismatch(row):
+        return False
+    if _has_variant_conflict(row):
+        return False
+    if _has_weak_match(row):
+        return False
+    return True
+
+
+def _row_quality_rank(row: dict) -> tuple:
+    price_value = _parse_optional_float(row.get("price_value"))
+    if price_value is None:
+        price_value = float("inf")
+    in_stock = _parse_bool(row.get("in_stock"))
+    source_text = _combined_source_text(row)
+    capacities = _extract_capacity_mentions(source_text)
+    row_capacity = _parse_optional_int(row.get("capacity_gb"))
+    explicit_capacity_match = row_capacity is not None and row_capacity in capacities
+    return (
+        1 if not _has_conditional_price_markers(row) else 0,
+        _capture_kind_rank(row),
+        1 if explicit_capacity_match else 0,
+        1 if _source_contains_product_code(row) else 0,
+        1 if not _has_variant_conflict(row) else 0,
+        1 if in_stock is True else 0,
+        str(row.get("extracted_at") or ""),
+        -price_value,
+    )
+
+
 def _record_key(row: dict) -> tuple:
     return (
         normalize_text(str(row.get("brand") or "")),
@@ -155,6 +451,7 @@ def _canonicalize_row(raw: dict) -> dict:
     row["price_text"] = str(row.get("price_text") or "")
     row["price_unit"] = str(row.get("price_unit") or "")
     row["data_quality_tier"] = str(row.get("data_quality_tier") or "")
+    row["price_capture_kind"] = _infer_legacy_price_capture_kind(raw)
     row["extracted_at"] = str(row.get("extracted_at") or "")
     row["source_url"] = str(row.get("source_url") or "")
     row["source_title"] = str(row.get("source_title") or "")
@@ -212,6 +509,18 @@ def _write_canonical_csv(rows: list[dict], path: Path) -> Path:
     return path
 
 
+def write_runtime_raw_csv(rows: list[dict], path: Path) -> Path:
+    normalized_rows = [_canonicalize_row(row) for row in rows]
+    fieldnames = _resolved_fieldnames(normalized_rows)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8-sig", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in normalized_rows:
+            writer.writerow({key: _csv_value(row.get(key)) for key in fieldnames})
+    return path
+
+
 def _to_price_record(row: dict) -> PriceRecord:
     price_value = _parse_optional_float(row.get("price_value"))
     if price_value is None:
@@ -232,6 +541,7 @@ def _to_price_record(row: dict) -> PriceRecord:
         term_months=_parse_optional_int(row.get("term_months")),
         in_stock=_parse_bool(row.get("in_stock")),
         data_quality_tier=str(row.get("data_quality_tier") or "frontend_job_refresh"),
+        price_capture_kind=str(row.get("price_capture_kind") or ""),
         extracted_at=str(row.get("extracted_at") or PriceRecord.now_iso()),
         source_url=str(row.get("source_url") or ""),
         source_title=(str(row.get("source_title")) if row.get("source_title") is not None else None),
@@ -260,17 +570,15 @@ def dedupe_records(records: list[dict]) -> list[dict]:
     by_key: dict[tuple, tuple[int, dict]] = {}
     for idx, row in enumerate(records):
         normalized_row = _canonicalize_row(row)
+        if not is_row_publishable(normalized_row):
+            continue
         key = _record_key(normalized_row)
         current = by_key.get(key)
         if current is None:
             by_key[key] = (idx, normalized_row)
             continue
         _, current_row = current
-        current_price = _parse_optional_float(current_row.get("price_value"))
-        incoming_price = _parse_optional_float(normalized_row.get("price_value"))
-        if incoming_price is None:
-            continue
-        if current_price is None or incoming_price < current_price:
+        if _row_quality_rank(normalized_row) > _row_quality_rank(current_row):
             by_key[key] = (idx, normalized_row)
     ordered = sorted(by_key.values(), key=lambda item: item[0])
     return [row for _, row in ordered]
@@ -320,6 +628,7 @@ def _snapshot_file_paths(snapshot_id: str) -> dict[str, Path]:
         "json": snapshot_dir / "latest_prices.json",
         "html": snapshot_dir / "price_comparison_live.html",
         "metadata": snapshot_dir / "metadata.json",
+        "validation": snapshot_dir / "validation_report.json",
     }
 
 
@@ -332,6 +641,14 @@ def _write_snapshot_metadata(
     brand_scope: str,
     competitors: list[str] | None,
     record_count: int,
+    raw_generated_csv: str | None,
+    raw_record_count: int,
+    published_record_count: int,
+    selected_key_count: int,
+    runtime_name: str,
+    validation_report_path: str | None,
+    retailers_blocked: list[str] | None,
+    retailer_runtime_map: dict[str, str] | None,
     file_paths: dict[str, Path],
 ) -> dict:
     snapshot_dir = file_paths["dir"]
@@ -343,6 +660,14 @@ def _write_snapshot_metadata(
         "brand_scope": brand_scope,
         "competitors": competitors or [],
         "record_count": record_count,
+        "raw_generated_csv": raw_generated_csv or "",
+        "raw_record_count": raw_record_count,
+        "published_record_count": published_record_count,
+        "selected_key_count": selected_key_count,
+        "runtime_name": runtime_name,
+        "validation_report_path": validation_report_path or "",
+        "retailers_blocked": retailers_blocked or [],
+        "retailer_runtime_map": retailer_runtime_map or {},
         "files": {
             "master_prices_csv": str(file_paths["table"].relative_to(snapshot_dir)),
             "latest_prices_csv": str(file_paths["csv"].relative_to(snapshot_dir)),
@@ -350,6 +675,8 @@ def _write_snapshot_metadata(
             "price_comparison_live_html": str(file_paths["html"].relative_to(snapshot_dir)),
         },
     }
+    if validation_report_path and file_paths["validation"].exists():
+        payload["files"]["validation_report_json"] = str(file_paths["validation"].relative_to(snapshot_dir))
     file_paths["metadata"].write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
     return payload
 
@@ -369,6 +696,17 @@ def _publish_legacy_compatibility(
     shutil.copyfile(latest_json_path, LATEST_JSON_PATH)
     shutil.copyfile(html_path, LIVE_HTML_PATH)
     shutil.copyfile(unified_csv_path, UNIFIED_CSV_PATH)
+
+
+def _copy_optional_file(source_path: str | None, destination_path: Path) -> str:
+    if not source_path:
+        return ""
+    source = Path(source_path)
+    if not source.exists():
+        return ""
+    destination_path.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(source, destination_path)
+    return str(destination_path)
 
 
 def write_publish_manifest(
@@ -431,14 +769,26 @@ def write_all_outputs(
     brand_scope: str = "all",
     competitors: list[str] | None = None,
     snapshot_id: str | None = None,
+    raw_generated_csv: str | None = None,
+    raw_record_count: int | None = None,
+    selected_key_count: int | None = None,
+    runtime_name: str = "",
+    validation_report_path: str | None = None,
+    retailers_blocked: list[str] | None = None,
+    retailer_runtime_map: dict[str, str] | None = None,
 ) -> dict:
     init_storage()
     canonical_rows = dedupe_records(records)
+    if not canonical_rows:
+        raise RuntimeError("No hay filas publicables tras aplicar las guardias de accuracy.")
     price_records = [_to_price_record(row) for row in canonical_rows]
     created_at = datetime.now(tz=timezone.utc).isoformat()
     snapshot_name = snapshot_id or f"{datetime.now(tz=timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
     snapshot_paths = _snapshot_file_paths(snapshot_name)
     snapshot_paths["dir"].mkdir(parents=True, exist_ok=True)
+    published_record_count = len(price_records)
+    resolved_raw_record_count = raw_record_count if raw_record_count is not None else len(records)
+    resolved_selected_key_count = selected_key_count if selected_key_count is not None else 0
 
     _write_canonical_csv(canonical_rows, CURRENT_TABLE_PATH)
     write_records_csv(price_records, CURRENT_CSV_PATH)
@@ -450,6 +800,8 @@ def write_all_outputs(
     write_records_csv(price_records, snapshot_paths["csv"])
     write_records_json(price_records, snapshot_paths["json"])
     build_html(TEMPLATE_PATH, snapshot_paths["html"], price_records)
+    current_validation_path = _copy_optional_file(validation_report_path, CURRENT_VALIDATION_REPORT_PATH)
+    snapshot_validation_path = _copy_optional_file(validation_report_path, snapshot_paths["validation"])
     metadata = _write_snapshot_metadata(
         snapshot_id=snapshot_name,
         created_at=created_at,
@@ -457,7 +809,15 @@ def write_all_outputs(
         mode=mode,
         brand_scope=brand_scope,
         competitors=competitors,
-        record_count=len(price_records),
+        record_count=published_record_count,
+        raw_generated_csv=raw_generated_csv,
+        raw_record_count=resolved_raw_record_count,
+        published_record_count=published_record_count,
+        selected_key_count=resolved_selected_key_count,
+        runtime_name=runtime_name,
+        validation_report_path=snapshot_validation_path or current_validation_path,
+        retailers_blocked=retailers_blocked,
+        retailer_runtime_map=retailer_runtime_map,
         file_paths=snapshot_paths,
     )
 
@@ -478,9 +838,17 @@ def write_all_outputs(
         json_path=snapshot_paths["json"],
         html_path=snapshot_paths["html"],
         metadata_path=snapshot_paths["metadata"],
-        record_count=len(price_records),
+        record_count=published_record_count,
         brand_scope=brand_scope,
         competitors=competitors,
+        raw_generated_csv=raw_generated_csv,
+        raw_record_count=resolved_raw_record_count,
+        published_record_count=published_record_count,
+        selected_key_count=resolved_selected_key_count,
+        runtime_name=runtime_name,
+        validation_report_path=snapshot_validation_path or current_validation_path,
+        retailers_blocked=retailers_blocked,
+        retailer_runtime_map=retailer_runtime_map,
         is_current=True,
     )
 
@@ -488,11 +856,20 @@ def write_all_outputs(
         "snapshot_id": snapshot_name,
         "created_at": created_at,
         "metadata": metadata,
+        "raw_generated_csv": raw_generated_csv or "",
+        "raw_record_count": resolved_raw_record_count,
+        "published_record_count": published_record_count,
+        "selected_key_count": resolved_selected_key_count,
+        "runtime_name": runtime_name,
+        "validation_report_path": snapshot_validation_path or current_validation_path,
+        "retailers_blocked": retailers_blocked or [],
+        "retailer_runtime_map": retailer_runtime_map or {},
         "current_table_csv": str(CURRENT_TABLE_PATH),
         "current_json": str(CURRENT_JSON_PATH),
         "current_csv": str(CURRENT_CSV_PATH),
         "current_html": str(CURRENT_HTML_PATH),
         "current_unified_csv": str(CURRENT_UNIFIED_CSV_PATH),
+        "current_validation_report": str(CURRENT_VALIDATION_REPORT_PATH),
         "latest_json": str(LATEST_JSON_PATH),
         "latest_csv": str(LATEST_CSV_PATH),
         "latest_html": str(LIVE_HTML_PATH),
@@ -503,7 +880,8 @@ def write_all_outputs(
         "snapshot_json": str(snapshot_paths["json"]),
         "snapshot_html": str(snapshot_paths["html"]),
         "snapshot_metadata": str(snapshot_paths["metadata"]),
-        "records_total": len(price_records),
+        "snapshot_validation_report": str(snapshot_paths["validation"]),
+        "records_total": published_record_count,
     }
 
 

@@ -10,6 +10,8 @@ from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from app_backend.config import ALLOWED_ORIGIN_REGEX, ALLOWED_ORIGINS, DEFAULT_COMPETITORS, EDITOR_TOKEN
+from app_backend.agent_chat import AgentChatRequest, ObservatorioAgentService
+from app_backend.agent_traces import get_agent_trace, list_agent_traces
 from app_backend.data_access import (
     build_table_meta,
     ensure_current_dataset,
@@ -28,6 +30,8 @@ from app_backend.intelligence import (
     paginate_rows,
     sort_rows,
 )
+from app_backend.live_agent import LiveAgentConfigurationError, LiveAgentError
+from app_backend.live_jobs import LiveQueryManager, LiveQueryRequest
 from app_backend.jobs import JobManager, ScrapingJobRequest
 from app_backend.persistence import get_snapshot, init_storage, mark_stale_runs_failed
 from app_backend.updater import UpdateRunRequest, UpdateScheduleRequest, UpdaterManager
@@ -50,6 +54,8 @@ app.add_middleware(
 
 job_manager = JobManager()
 updater_manager = UpdaterManager()
+live_query_manager = LiveQueryManager()
+chat_agent_service = ObservatorioAgentService()
 
 
 class AgentQueryRequest(BaseModel):
@@ -104,6 +110,7 @@ def _require_editor_token(x_observatorio_editor_token: str | None = Header(defau
 @app.on_event("shutdown")
 async def _shutdown_managers() -> None:
     await updater_manager.shutdown()
+    await chat_agent_service.shutdown()
 
 
 @app.on_event("startup")
@@ -111,6 +118,7 @@ async def _bootstrap_storage() -> None:
     init_storage()
     mark_stale_runs_failed()
     ensure_current_dataset()
+    await chat_agent_service.initialize()
 
 
 @app.get("/api/health")
@@ -461,6 +469,56 @@ async def intelligence_agent_query(payload: AgentQueryRequest) -> dict:
         "question": payload.question,
         **answer,
     }
+
+
+@app.post("/api/intelligence/agent/chat")
+async def intelligence_agent_chat(payload: AgentChatRequest) -> dict:
+    response = await chat_agent_service.chat(message=payload.message, thread_id=payload.thread_id)
+    return response.model_dump()
+
+
+@app.get("/api/intelligence/agent/traces")
+def intelligence_agent_traces(limit: int = Query(default=20, ge=1, le=100)) -> dict:
+    traces = list_agent_traces(limit=limit)
+    return {"count": len(traces), "traces": [trace.model_dump() for trace in traces]}
+
+
+@app.get("/api/intelligence/agent/traces/{trace_id}")
+def intelligence_agent_trace(trace_id: str) -> dict:
+    trace = get_agent_trace(trace_id)
+    if trace is None:
+        raise HTTPException(status_code=404, detail="Trace no encontrada.")
+    return trace.model_dump()
+
+
+@app.post("/api/intelligence/agent/live-query")
+async def intelligence_agent_live_query(payload: LiveQueryRequest) -> dict:
+    try:
+        response = await live_query_manager.handle_query(payload)
+    except LiveAgentConfigurationError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+    except LiveAgentError as exc:
+        return {
+            "status": "needs_clarification",
+            "answer": str(exc),
+            "offers": [],
+            "products": [],
+            "partial": False,
+            "job_id": None,
+            "error": None,
+            "suggestions": [],
+            "poll_url": None,
+        }
+    return response.model_dump()
+
+
+@app.get("/api/intelligence/agent/live-jobs/{job_id}")
+async def intelligence_agent_live_job(job_id: str) -> dict:
+    try:
+        response = live_query_manager.get_job(job_id)
+    except KeyError as exc:
+        raise HTTPException(status_code=404, detail=f"Live job no encontrado: {job_id}") from exc
+    return response.model_dump()
 
 
 @app.post("/api/intelligence/updater/run")

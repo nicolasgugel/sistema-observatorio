@@ -61,24 +61,29 @@ export default function VisualizadorPage() {
   const snapshotsQuery = useQuery({
     queryKey: ["table-snapshots"],
     queryFn: fetchSnapshots,
+    refetchInterval: 60000,
   });
-
-  const rowsQuery = useQuery({
-    queryKey: ["table-rows", snapshotId],
-    queryFn: () => fetchTableRows(snapshotId),
-  });
-
-  const metaQuery = useQuery({
-    queryKey: ["table-meta", snapshotId],
-    queryFn: () => fetchTableMeta(snapshotId),
-  });
-
-  const rows = useMemo(() => normalizeTableRows(rowsQuery.data?.rows ?? []), [rowsQuery.data]);
 
   const currentSnapshot = useMemo(() => {
     const snapshots = snapshotsQuery.data?.snapshots ?? [];
     return snapshots.find((snapshot) => snapshot.is_current) ?? null;
   }, [snapshotsQuery.data]);
+
+  const resolvedSnapshotKey = snapshotId === "current" ? (currentSnapshot?.id ?? "current") : snapshotId;
+
+  const rowsQuery = useQuery({
+    queryKey: ["table-rows", snapshotId, resolvedSnapshotKey],
+    queryFn: () => fetchTableRows(snapshotId),
+    refetchOnMount: "always",
+  });
+
+  const metaQuery = useQuery({
+    queryKey: ["table-meta", snapshotId, resolvedSnapshotKey],
+    queryFn: () => fetchTableMeta(snapshotId),
+    refetchOnMount: "always",
+  });
+
+  const rows = useMemo(() => normalizeTableRows(rowsQuery.data?.rows ?? []), [rowsQuery.data]);
 
   const historicalSnapshots = useMemo(() => {
     const snapshots = snapshotsQuery.data?.snapshots ?? [];

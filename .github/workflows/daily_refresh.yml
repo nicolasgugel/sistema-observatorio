@@ -48,6 +48,7 @@ jobs:
           token = os.environ["GH_TOKEN"]
           repo = os.environ["GITHUB_REPOSITORY"]
           run_id = int(os.environ["GITHUB_RUN_ID"])
+          event_name = os.environ["GITHUB_EVENT_NAME"]
           force_run = os.environ.get("FORCE_RUN", "false").lower() == "true"
           tz = ZoneInfo("Europe/Madrid")
           today = datetime.now(tz).date()

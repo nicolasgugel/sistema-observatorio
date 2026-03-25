@@ -31,6 +31,7 @@ Do not use this skill for unrelated scraping projects or generic web scraping ou
 ```bash
 python skills/observatorio-competitor-scraping/scripts/run_competitor.py --competitor "Media Markt"
 ```
+- This helper uses the published runtime bundle `scraping_bundle_20260312_ready`. `run_observatorio.py` and `observatorio/scraper.py` stay as legacy/diagnostic references and must not define publication status.
 
 3. Summarize output and verify coverage
 - Use:
@@ -41,7 +42,7 @@ python skills/observatorio-competitor-scraping/scripts/summarize_prices.py --jso
 - Validate modalities expected for that competitor:
   - Santander Boutique: renting + financing + cash (as available on site/API)
   - Amazon: mostly cash
-  - Media Markt: cash + financing periodicities when available
+  - Media Markt: cash and only financing rows that are visible/exact, never derived
 
 4. Decide closure status
 - Mark competitor as closed only when coverage and modality extraction are acceptable for the project criteria.
@@ -58,7 +59,7 @@ python skills/observatorio-competitor-scraping/scripts/summarize_prices.py --jso
 
 Core execution:
 ```bash
-python run_observatorio.py --max-products 8 --competitors "Santander Boutique,Amazon,Media Markt"
+python scraping_bundle_20260312_ready/main.py --scrapers boutique amazon mediamarkt --brands samsung --output output/manual_accuracy_check
 ```
 
 Single competitor helper:
@@ -77,6 +78,7 @@ python skills/observatorio-competitor-scraping/scripts/summarize_prices.py --jso
 - Always run regression checks on already closed competitors before finalizing changes.
 - Keep `docs/project_checkpoint.md` as source of truth for handoff between chats.
 - Prefer deterministic scripts in `scripts/` over ad-hoc manual analysis when possible.
+- Published snapshots are accuracy-first: if a modality does not have visible or exact evidence, it should not be published.
 
 ## References
 

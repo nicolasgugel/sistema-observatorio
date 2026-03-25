@@ -113,6 +113,9 @@ ACCESSORY_HINTS = (
     "case",
     "cover",
     "estuche",
+    "magsafe",
+    "tech21",
+    "evopro",
     "evolite",
     "screen protector",
     "tempered",
@@ -238,6 +241,26 @@ def _extract_apple_connectivity(text: str) -> str | None:
     if has_cell:
         return "Cell"
     return None
+
+
+def _seed_connectivity_conflicts(seed: ProductSeed, text: str) -> bool:
+    if _is_apple_seed(seed):
+        return False
+    if _seed_device_type(seed) != "mobile":
+        return False
+
+    seed_n = normalize_text(seed.model)
+    text_n = normalize_text(text)
+    seed_has_5g = bool(re.search(r"\b5g\b", seed_n))
+    seed_has_lte = bool(re.search(r"\blte\b", seed_n))
+    text_has_5g = bool(re.search(r"\b5g\b", text_n))
+    text_has_lte = bool(re.search(r"\blte\b", text_n))
+
+    if seed_has_5g and text_has_lte and not text_has_5g:
+        return True
+    if seed_has_lte and text_has_5g and not text_has_lte:
+        return True
+    return False
 
 
 def _extract_apple_model(text: str) -> str:
@@ -687,6 +710,17 @@ async def _safe_goto(page: Page, url: str) -> bool:
         return False
 
 
+async def _safe_page_title(page: Page, retries: int = 2) -> str:
+    for attempt in range(retries + 1):
+        try:
+            return await page.title()
+        except Exception:
+            if attempt >= retries:
+                return ""
+            await page.wait_for_timeout(300)
+    return ""
+
+
 async def _new_context(browser: Browser):
     return await browser.new_context(
         locale="es-ES",
@@ -905,13 +939,17 @@ def _amazon_candidate_matches_seed(
     text: str,
     href: str,
     enforce_capacity: bool = True,
+    title_text: str | None = None,
 ) -> bool:
     asin = _amazon_asin_from_url(href)
     if not asin:
         return False
     seed_type = _seed_device_type(seed)
     mix = normalize_text(f"{text} {href}")
+    title_mix = normalize_text(title_text or text)
     if not _brand_presence_in_text(seed, mix):
+        return False
+    if _is_apple_seed(seed) and "apple" not in title_mix:
         return False
     if _amazon_looks_refurbished(mix):
         return False
@@ -1331,7 +1369,9 @@ async def _enrich_seed_capacities_from_api(
                 )
             )
 
-    return _unique_by_key(enriched)
+    # Collapse color/SKU duplicates that map to the same device/model/capacity
+    # so downstream competitor runs spend their budget on broader coverage.
+    return _unique_matching_seeds(enriched)
 
 
 async def _discover_santander_seeds_from_html(browser: Browser, max_products: int, brand: str) -> list[ProductSeed]:
@@ -1545,6 +1585,21 @@ def _record_from_offer(
     offer: dict,
     quality_tier: str,
 ) -> PriceRecord:
+    explicit_capture_kind = str(offer.get("price_capture_kind") or "").strip()
+    quality_tier_n = normalize_text(quality_tier)
+    competitor_n = normalize_text(competitor)
+    offer_type_n = normalize_text(str(offer.get("offer_type") or ""))
+    if explicit_capture_kind:
+        capture_kind = explicit_capture_kind
+    elif competitor_n == "santander boutique" or "api" in quality_tier_n:
+        capture_kind = "api_exact"
+    elif competitor_n == "movistar" or "json" in quality_tier_n:
+        capture_kind = "embedded_json_exact"
+    elif competitor_n == "media markt" and offer_type_n == "financing_max_term":
+        capture_kind = "api_exact"
+    else:
+        capture_kind = "visible_dom"
+
     return PriceRecord(
         country="ES",
         retailer=competitor,
@@ -1561,6 +1616,7 @@ def _record_from_offer(
         term_months=offer["term_months"],
         in_stock=in_stock,
         data_quality_tier=quality_tier,
+        price_capture_kind=capture_kind,
         extracted_at=PriceRecord.now_iso(),
         source_url=source_url,
         source_title=source_title,
@@ -1652,6 +1708,20 @@ async def _extract_search_candidates(page: Page) -> list[dict]:
         return [item for item in result if item.get("href")]
     except Exception:
         return []
+
+
+def _mediamarkt_candidate_text(item: dict) -> str:
+    direct = re.sub(r"\s+", " ", strip_html_tags(str(item.get("text", "") or ""))).strip()
+    card = re.sub(r"\s+", " ", strip_html_tags(str(item.get("card_text", "") or ""))).strip()
+    if len(normalize_text(direct)) >= 12:
+        return direct
+    return card or direct
+
+
+def _mediamarkt_candidate_priority(item: dict) -> tuple[int, int, int]:
+    direct = re.sub(r"\s+", " ", strip_html_tags(str(item.get("text", "") or ""))).strip()
+    card = re.sub(r"\s+", " ", strip_html_tags(str(item.get("card_text", "") or ""))).strip()
+    return (1 if len(normalize_text(direct)) >= 12 else 0, len(direct), len(card))
 
 
 def _pick_best_candidate(seed: ProductSeed, candidates: list[dict], excluded_urls: set[str] | None = None) -> dict | None:
@@ -1995,7 +2065,7 @@ def _extract_mediamarkt_offers_from_text(text: str) -> list[dict]:
     if anchor >= 0:
         cash_segment = plain[anchor : anchor + 900]
     cash = _extract_first_euro_value(cash_segment) or _extract_first_euro_value(plain)
-    if cash:
+    if cash and cash[1] >= 100:
         price_text, price_value = cash
         offers.append(
             {
@@ -2023,6 +2093,205 @@ def _extract_mediamarkt_offers_from_text(text: str) -> list[dict]:
             )
 
     return _dedupe_offers(offers)
+
+
+def _normalize_mediamarkt_price_fragment(raw: str) -> str:
+    cleaned = str(raw or "").strip().replace("\xa0", " ")
+    cleaned = re.sub(r",\s*[–-]+", ",00", cleaned)
+    cleaned = cleaned.replace("–", "00")
+    return cleaned
+
+
+def _extract_mediamarkt_teaser_offer_from_text(text: str) -> dict | None:
+    plain = re.sub(r"\s+", " ", (text or "").replace("\xa0", " ")).strip()
+    if not plain:
+        return None
+
+    segment_match = re.search(
+        r"Financiaci[oó]n(.*?)(?:Simula tu financiaci[oó]n|Puntos miMediaMarkt|Color \(por fabricante\)|Seleccione una oferta)",
+        plain,
+        flags=re.IGNORECASE,
+    )
+    segment = segment_match.group(1) if segment_match else plain
+    term_match = re.search(r"En\s+(\d{1,2})\s+cuotas", segment, flags=re.IGNORECASE)
+    price_match = re.search(
+        r"(\d{1,5}(?:[.,][\d–-]{1,2})?)\s*(?:€|eur)\s*Mensual",
+        segment,
+        flags=re.IGNORECASE,
+    )
+    if not term_match or not price_match:
+        return None
+
+    value = parse_euro_to_float(_normalize_mediamarkt_price_fragment(price_match.group(1)))
+    if value is None:
+        return None
+    return {
+        "offer_type": "financing_max_term",
+        "price_text": f"{price_match.group(1)} €",
+        "price_value": value,
+        "price_unit": "EUR/month",
+        "term_months": int(term_match.group(1)),
+        "price_capture_kind": "visible_dom",
+    }
+
+
+async def _extract_mediamarkt_cash_offer(page: Page) -> dict | None:
+    main_price_script = """
+    () => {
+      const selectors = [
+        "[data-test='mms-product-price']",
+        "[data-test='cofr-price mms-branded-price']",
+        "[data-test='mms-product-price'] [data-test='mms-price']",
+      ];
+      for (const selector of selectors) {
+        const node = document.querySelector(selector);
+        const text = String(node?.textContent || '').replace(/\\s+/g, ' ').trim();
+        if (text) return text;
+      }
+      return '';
+    }
+    """
+    try:
+        main_price_text = await page.evaluate(main_price_script)
+    except Exception:
+        main_price_text = ""
+
+    main_values: list[float] = []
+    for match in re.finditer(r"(\d{1,5}(?:[.,]\d{2})?)\s*(?:€|eur)", str(main_price_text), flags=re.IGNORECASE):
+        value = parse_euro_to_float(match.group(1))
+        if value is not None and 100 <= value <= 10000:
+            main_values.append(value)
+    if main_values:
+        value = min(main_values)
+        return {
+            "offer_type": "cash",
+            "price_text": f"{value:.2f} €",
+            "price_value": value,
+            "price_unit": "EUR",
+            "term_months": None,
+            "price_capture_kind": "visible_dom",
+        }
+
+    script = """
+    () => {
+      const out = [];
+      const push = (raw, source) => {
+        if (!raw) return;
+        const text = String(raw).replace(/\\s+/g, ' ').trim();
+        if (text) out.push({ text, source });
+      };
+
+      push(document.querySelector("meta[itemprop='price']")?.getAttribute("content"), "meta");
+
+      const walk = (node) => {
+        if (!node || typeof node !== "object") return;
+        if (Array.isArray(node)) {
+          for (const item of node) walk(item);
+          return;
+        }
+        const type = String(node["@type"] || "").toLowerCase();
+        if (type.includes("product")) {
+          const offers = node.offers;
+          if (Array.isArray(offers)) {
+            for (const offer of offers) {
+              if (offer?.price != null) push(offer.price, "jsonld");
+            }
+          } else if (offers && offers.price != null) {
+            push(offers.price, "jsonld");
+          }
+        }
+        for (const value of Object.values(node)) {
+          if (value && typeof value === "object") walk(value);
+        }
+      };
+
+      for (const el of document.querySelectorAll('script[type="application/ld+json"]')) {
+        try {
+          walk(JSON.parse(el.textContent || "null"));
+        } catch (_) {}
+      }
+
+      const selectors = [
+        "[data-test='mms-price'] .mms-ui-sr_true",
+        "[data-test='mms-price']",
+        "[data-test*='price'] .mms-ui-sr_true",
+        "[data-test*='price']",
+      ];
+      for (const selector of selectors) {
+        const nodes = Array.from(document.querySelectorAll(selector)).slice(0, 12);
+        for (const node of nodes) {
+          push(node.getAttribute?.("content") || node.textContent || "", "dom");
+        }
+      }
+      return out;
+    }
+    """
+    try:
+        raw_candidates = await page.evaluate(script)
+    except Exception:
+        raw_candidates = []
+
+    by_source: dict[str, list[float]] = {"dom": [], "jsonld": [], "meta": []}
+    for item in raw_candidates or []:
+        if not isinstance(item, dict):
+            continue
+        raw = str(item.get("text") or "").strip()
+        value = parse_euro_to_float(raw)
+        if value is None and raw.replace(".", "", 1).isdigit():
+            try:
+                value = float(raw)
+            except ValueError:
+                value = None
+        if value is None or value < 100 or value > 10000:
+            continue
+        source = str(item.get("source") or "dom")
+        if source not in by_source:
+            source = "dom"
+        by_source[source].append(value)
+
+    source = ""
+    value = None
+    for candidate_source in ("dom", "jsonld", "meta"):
+        values = by_source.get(candidate_source) or []
+        if not values:
+            continue
+        source = candidate_source
+        value = min(values)
+        break
+    if value is None:
+        return None
+
+    return {
+        "offer_type": "cash",
+        "price_text": f"{value:.2f} €",
+        "price_value": value,
+        "price_unit": "EUR",
+        "term_months": None,
+        "price_capture_kind": "embedded_json_exact" if source in {"meta", "jsonld"} else "visible_dom",
+    }
+
+
+async def _extract_mediamarkt_financing_offers(page: Page, page_text: str = "") -> list[dict]:
+    teaser_offer = _extract_mediamarkt_teaser_offer_from_text(page_text)
+    if not teaser_offer:
+        try:
+            await page.wait_for_timeout(1200)
+        except Exception:
+            pass
+        refreshed_text = await _extract_visible_text(page)
+        teaser_offer = _extract_mediamarkt_teaser_offer_from_text(refreshed_text)
+    modal_offers = await _extract_mediamarkt_installment_offers(page)
+    if teaser_offer:
+        teaser_matches_modal = any(
+            offer.get("offer_type") == teaser_offer["offer_type"]
+            and offer.get("term_months") == teaser_offer["term_months"]
+            and abs(float(offer.get("price_value") or 0) - float(teaser_offer["price_value"])) <= 1.0
+            for offer in modal_offers
+        )
+        if not teaser_matches_modal:
+            return [teaser_offer]
+        return _dedupe_offers([teaser_offer, *modal_offers])
+    return _dedupe_offers(modal_offers)
 
 
 async def _extract_grover_product_payload(page: Page) -> dict | None:
@@ -2103,7 +2372,11 @@ def _grover_candidate_matches_seed(seed: ProductSeed, text: str, href: str) -> b
             for tok in model_tokens
             if tok not in {"wifi", "cell", "cellular", "wificell", "wi", "fi"} and not re.fullmatch(r"m\d+", tok)
         ]
-    strong_tokens = [tok for tok in model_tokens if len(tok) >= 4 or any(ch.isdigit() for ch in tok)]
+    strong_tokens = [
+        tok
+        for tok in model_tokens
+        if len(tok) >= 4 or (any(ch.isdigit() for ch in tok) and not tok.isdigit())
+    ]
     if strong_tokens and not all(tok in mix for tok in strong_tokens):
         return False
 
@@ -2203,6 +2476,7 @@ def _mediamarkt_candidate_matches_seed(seed: ProductSeed, text: str, href: str) 
         return False
 
     mix = normalize_text(f"{text} {href}")
+    seed_type = _seed_device_type(seed)
     if _is_apple_seed(seed):
         if not any(token in mix for token in ("apple", "iphone", "ipad", "macbook", "imac", "mac mini", "mac studio")):
             return False
@@ -2210,7 +2484,10 @@ def _mediamarkt_candidate_matches_seed(seed: ProductSeed, text: str, href: str) 
         return False
     if any(token in mix for token in ("reacondicionado", "reacondic", "seminuevo", "renovado", "usado", "segunda mano")):
         return False
-    if any(token in mix for token in ACCESSORY_HINTS):
+    accessory_hits = {token for token in ACCESSORY_HINTS if token in mix}
+    if seed_type == "laptop":
+        accessory_hits.difference_update({"teclado", "keyboard"})
+    if accessory_hits:
         return False
     if not _seed_device_matches_candidate(seed=seed, text=text, href=href):
         return False
@@ -2222,6 +2499,8 @@ def _mediamarkt_candidate_matches_seed(seed: ProductSeed, text: str, href: str) 
         model_n = re.sub(r"\bsamsung\b|\bgalaxy\b", " ", model_n)
     model_n = re.sub(r"\s+", " ", model_n).strip()
     model_tokens = [tok for tok in _alnum_tokens(model_n) if tok and tok not in {"5g", "gb"}]
+    if not _is_apple_seed(seed):
+        model_tokens = [tok for tok in model_tokens if tok not in {"wifi", "wi", "fi", "lte", "cell", "cellular"}]
 
     strong_tokens = [tok for tok in model_tokens if len(tok) >= 4 or any(ch.isdigit() for ch in tok)]
     if strong_tokens and not all(tok in mix for tok in strong_tokens):
@@ -2240,6 +2519,24 @@ def _mediamarkt_candidate_matches_seed(seed: ProductSeed, text: str, href: str) 
         if not seed_markers and cand_markers.intersection({"pro", "max", "plus", "mini", "air"}):
             return False
     else:
+        if seed_type == "laptop":
+            size_match = re.search(r"\b(1[4-7])\b", model_n)
+            if size_match and not re.search(rf"(?<!\d){re.escape(size_match.group(1))}(?!\d)", mix):
+                return False
+
+        if seed_type == "tablet":
+            seed_norm = normalize_text(seed.model)
+            seed_has_wifi = bool(re.search(r"\bwi[\s\-]?fi\b", seed_norm))
+            seed_has_cell = any(token in seed_norm for token in ("5g", "lte", "cell", "cellular"))
+            cand_has_wifi = bool(re.search(r"\bwi[\s\-]?fi\b", mix))
+            cand_has_cell = any(token in mix for token in ("5g", "lte", "cell", "cellular"))
+            if seed_has_wifi and cand_has_cell:
+                return False
+            if seed_has_cell and cand_has_wifi and not cand_has_cell:
+                return False
+        if _seed_connectivity_conflicts(seed, mix):
+            return False
+
         # Enforce exact model family (avoid S25 <-> S24/S26 cross-matches).
         family_match = re.search(r"\b([sa])\s*(\d{1,3})\b", model_n)
         if family_match:
@@ -2257,6 +2554,8 @@ def _mediamarkt_candidate_matches_seed(seed: ProductSeed, text: str, href: str) 
 
         seed_markers = _collect_model_markers(" ".join(model_tokens), seed.model)
         cand_markers = _collect_model_markers(mix, f"{text} {href}")
+        if seed_type == "laptop" and "core ultra" in mix:
+            cand_markers.discard("ultra")
         if seed_markers and not seed_markers.issubset(cand_markers):
             return False
         if not seed_markers and cand_markers:
@@ -3245,22 +3544,38 @@ async def _extract_grover_collection_candidates(page: Page, brand: str) -> list[
 
 
 async def _dismiss_mediamarkt_consent(page: Page) -> None:
+    for selector in ('[data-test="pwa-consent-layer-accept-all"]', '[data-test="pwa-consent-layer-reject-all"]'):
+        loc = page.locator(selector)
+        if await loc.count() <= 0:
+            continue
+        try:
+            await loc.first.click(timeout=3_000)
+            await page.wait_for_timeout(700)
+            return
+        except Exception:
+            continue
+
     names = [
         re.compile("aceptar", flags=re.IGNORECASE),
         re.compile("allow", flags=re.IGNORECASE),
         re.compile("permitir", flags=re.IGNORECASE),
         re.compile("guardar", flags=re.IGNORECASE),
+        re.compile("rechazar", flags=re.IGNORECASE),
+        re.compile("denegar", flags=re.IGNORECASE),
     ]
     for name in names:
-        loc = page.locator("#mms-consent-portal-container").get_by_role("button", name=name)
-        if await loc.count() <= 0:
-            continue
-        try:
-            await loc.first.click(timeout=3000)
-            await page.wait_for_timeout(700)
-            return
-        except Exception:
-            continue
+        for loc in (
+            page.locator("#mms-consent-portal-container").get_by_role("button", name=name),
+            page.get_by_role("button", name=name),
+        ):
+            if await loc.count() <= 0:
+                continue
+            try:
+                await loc.first.click(timeout=3_000)
+                await page.wait_for_timeout(700)
+                return
+            except Exception:
+                continue
 
     # Fallback non-destructive: hide overlay if still present.
     try:
@@ -3299,6 +3614,7 @@ def _offers_from_mediamarkt_installment_payload(payload: dict) -> list[dict]:
                 "price_value": value,
                 "price_unit": "EUR/month",
                 "term_months": duration,
+                "price_capture_kind": "api_exact",
             }
         )
     return _dedupe_offers(offers)
@@ -3311,17 +3627,84 @@ async def _extract_mediamarkt_installment_offers(page: Page) -> list[dict]:
         return []
 
     try:
-        async with page.expect_response(
-            lambda r: "GetInstallmentCalculations" in r.url and r.status == 200,
-            timeout=20_000,
-        ) as info:
-            await button.first.click(force=True, timeout=8_000)
-        resp = await info.value
-        raw = await resp.text()
-        payload = json.loads(raw)
-        return _offers_from_mediamarkt_installment_payload(payload)
+        await button.first.click(force=True, timeout=8_000)
+        await page.wait_for_timeout(500)
     except Exception:
         return []
+
+    dialog = page.locator('[data-test="mms-financing-calculator"]')
+    if await dialog.count() <= 0:
+        dialog = page.get_by_role("dialog", name=re.compile("simula tu financi", flags=re.IGNORECASE))
+    if await dialog.count() <= 0:
+        return []
+
+    async def _current_offer() -> dict | None:
+        try:
+            dialog_text = (await dialog.first.inner_text()).replace("\xa0", " ")
+        except Exception:
+            return None
+        try:
+            combo_text = (await dialog.get_by_role("combobox").first.inner_text()).replace("\xa0", " ")
+        except Exception:
+            combo_text = dialog_text
+        term_match = re.search(r"\b(\d{1,2})\b", combo_text)
+        monthly_match = re.search(
+            r"cuotas?\s+de\s+(\d{1,5}(?:[.\s]\d{3})*(?:,\d{1,2})?)\s*(?:€|eur)",
+            dialog_text,
+            flags=re.IGNORECASE,
+        )
+        monthly = _extract_first_euro_value(monthly_match.group(0)) if monthly_match else None
+        if not term_match or not monthly:
+            return None
+        price_text, price_value = monthly
+        return {
+            "offer_type": "financing_max_term",
+            "price_text": price_text,
+            "price_value": price_value,
+            "price_unit": "EUR/month",
+            "term_months": int(term_match.group(1)),
+            "price_capture_kind": "visible_dom",
+        }
+
+    offers: list[dict] = []
+    current = await _current_offer()
+    if current:
+        offers.append(current)
+
+    combobox = dialog.get_by_role("combobox")
+    if await combobox.count() > 0:
+        try:
+            await combobox.first.click(timeout=3_000)
+            await page.wait_for_timeout(250)
+            options = dialog.get_by_role("option")
+            option_labels: list[str] = []
+            for idx in range(await options.count()):
+                label = re.sub(r"\s+", " ", (await options.nth(idx).inner_text()) or "").strip()
+                if label and label not in option_labels:
+                    option_labels.append(label)
+            for idx, label in enumerate(option_labels):
+                opt = dialog.get_by_role("option", name=re.compile(rf"^{re.escape(label)}$", flags=re.IGNORECASE))
+                if await opt.count() <= 0:
+                    continue
+                await opt.first.click(timeout=3_000)
+                await page.wait_for_timeout(250)
+                current = await _current_offer()
+                if current:
+                    offers.append(current)
+                if idx < len(option_labels) - 1 and await combobox.count() > 0:
+                    await combobox.first.click(timeout=3_000)
+                    await page.wait_for_timeout(150)
+        except Exception:
+            pass
+
+    close_button = dialog.get_by_role("button", name=re.compile("cerrar", flags=re.IGNORECASE))
+    if await close_button.count() > 0:
+        try:
+            await close_button.first.click(timeout=2_000)
+            await page.wait_for_timeout(150)
+        except Exception:
+            pass
+    return _dedupe_offers(offers)
 
 
 async def _extract_amazon_offers(page: Page, page_text: str) -> list[dict]:
@@ -3426,6 +3809,7 @@ async def _scrape_amazon_prices(browser: Browser, seeds: list[ProductSeed]) -> l
                     seed,
                     text=" ".join([str(item.get("text", "")), str(item.get("card_text", ""))]),
                     href=href,
+                    title_text=" ".join([str(item.get("text", "")), str(item.get("card_text", ""))]),
                 )
                 if strict_match:
                     if score <= 0:
@@ -3465,12 +3849,18 @@ async def _scrape_amazon_prices(browser: Browser, seeds: list[ProductSeed]) -> l
             if product_url in used_urls:
                 continue
             snippet = " ".join([str(item.get("text", "")), str(item.get("card_text", ""))])
-            snippet_is_strict_match = _amazon_candidate_matches_seed(seed, text=snippet, href=product_url)
+            snippet_is_strict_match = _amazon_candidate_matches_seed(
+                seed,
+                text=snippet,
+                href=product_url,
+                title_text=snippet,
+            )
             snippet_is_loose_match = _amazon_candidate_matches_seed(
                 seed,
                 text=snippet,
                 href=product_url,
                 enforce_capacity=False,
+                title_text=snippet,
             )
 
             title: str | None = None
@@ -3487,6 +3877,7 @@ async def _scrape_amazon_prices(browser: Browser, seeds: list[ProductSeed]) -> l
                         text=" ".join([title, body_text[:2200]]),
                         href=product_url,
                         enforce_capacity=False,
+                        title_text=title,
                     )
                 ):
                     offers = await _extract_amazon_offers(page, body_text)
@@ -3585,7 +3976,7 @@ async def _scrape_mediamarkt_prices(browser: Browser, seeds: list[ProductSeed]) 
             search_url = template.format(query=quote_plus(query))
             if not await _safe_goto(page, search_url):
                 continue
-            title = await page.title()
+            title = await _safe_page_title(page)
             body_text = await _extract_visible_text(page)
             if _page_looks_blocked(title, body_text):
                 continue
@@ -3596,20 +3987,38 @@ async def _scrape_mediamarkt_prices(browser: Browser, seeds: list[ProductSeed]) 
                 for c in candidates
                 if _mediamarkt_candidate_matches_seed(
                     seed,
-                    text=" ".join([str(c.get("text", "")), str(c.get("card_text", ""))]),
+                    text=_mediamarkt_candidate_text(c),
                     href=str(c.get("href", "")),
                 )
             ]
+            if not filtered_candidates:
+                filtered_candidates = []
+                for c in candidates:
+                    href = str(c.get("href", "")).strip()
+                    candidate_text = _mediamarkt_candidate_text(c)
+                    mix = normalize_text(f"{candidate_text} {href}")
+                    if "/product/" not in normalize_text(href) or "mediamarkt" not in normalize_text(href):
+                        continue
+                    if any(token in mix for token in ("reacondicionado", "reacondic", "seminuevo", "renovado", "usado", "segunda mano")):
+                        continue
+                    if not _seed_device_matches_candidate(seed=seed, text=candidate_text, href=href):
+                        continue
+                    if _seed_connectivity_conflicts(seed, mix):
+                        continue
+                    if _seed_match_score(seed, f"{candidate_text} {href}") <= 0:
+                        continue
+                    filtered_candidates.append(c)
             # Deduplicate by URL because Media Markt search DOM often repeats anchors.
             deduped_by_href: dict[str, dict] = {}
             for c in filtered_candidates:
                 href = str(c.get("href", "")).strip()
                 if not href:
                     continue
-                if href not in deduped_by_href:
+                current = deduped_by_href.get(href)
+                if current is None or _mediamarkt_candidate_priority(c) > _mediamarkt_candidate_priority(current):
                     deduped_by_href[href] = c
             for item in deduped_by_href.values():
-                mix = " ".join([str(item.get("text", "")), str(item.get("card_text", "")), str(item.get("href", ""))])
+                mix = " ".join([_mediamarkt_candidate_text(item), str(item.get("href", ""))])
                 score = _seed_match_score(seed, mix)
                 if score > 0:
                     ranked.append((score, item))
@@ -3637,11 +4046,11 @@ async def _scrape_mediamarkt_prices(browser: Browser, seeds: list[ProductSeed]) 
             if not await _safe_goto(page, detail_url):
                 continue
 
-            detail_title = await page.title()
+            detail_title = await _safe_page_title(page)
             detail_text = await _extract_visible_text(page)
             if _page_looks_blocked(detail_title, detail_text):
                 continue
-            if _amazon_looks_refurbished(" ".join([detail_title, detail_text[:2200], detail_url])):
+            if _amazon_looks_refurbished(" ".join([detail_title, detail_url])):
                 continue
             if not _mediamarkt_candidate_matches_seed(
                 seed,
@@ -3651,8 +4060,13 @@ async def _scrape_mediamarkt_prices(browser: Browser, seeds: list[ProductSeed]) 
             ):
                 continue
 
-            offers = _extract_mediamarkt_offers_from_text(detail_text)
-            offers.extend(await _extract_mediamarkt_installment_offers(page))
+            offers = []
+            cash_offer = await _extract_mediamarkt_cash_offer(page)
+            if cash_offer:
+                offers.append(cash_offer)
+            offers.extend(await _extract_mediamarkt_financing_offers(page, detail_text))
+            if not offers:
+                offers = _extract_mediamarkt_offers_from_text(detail_text)
             offers = _dedupe_offers(offers)
             if not offers:
                 continue
@@ -3672,6 +4086,8 @@ async def _scrape_mediamarkt_prices(browser: Browser, seeds: list[ProductSeed]) 
             chosen_url, chosen_title, chosen_text, chosen_offers = fallback_cash_only
         if not chosen_offers or not chosen_url:
             continue
+        if _seed_connectivity_conflicts(seed, " ".join([str(chosen_title or ""), chosen_url])):
+            continue
 
         source_text = chosen_text
         seed_type = _seed_device_type(seed)
@@ -3679,6 +4095,16 @@ async def _scrape_mediamarkt_prices(browser: Browser, seeds: list[ProductSeed]) 
         capacity = detected_capacity or seed.capacity_gb
         if seed.capacity_gb and _is_apple_seed(seed):
             # Use explicit title/URL capacity hints first; body often lists all variants.
+            explicit_caps = _extract_capacity_values(" ".join([str(chosen_title or ""), chosen_url]))
+            if explicit_caps and seed.capacity_gb not in explicit_caps:
+                continue
+            if explicit_caps:
+                capacity = seed.capacity_gb
+            elif detected_capacity and detected_capacity != seed.capacity_gb:
+                continue
+            else:
+                capacity = seed.capacity_gb
+        elif seed.capacity_gb:
             explicit_caps = _extract_capacity_values(" ".join([str(chosen_title or ""), chosen_url]))
             if explicit_caps and seed.capacity_gb not in explicit_caps:
                 continue
@@ -5265,10 +5691,13 @@ def _should_retry_headed(competitor: str, records: list[PriceRecord], seed_count
     model_cov = _coverage_by_model_capacity(records)
     financing_cov = _coverage_by_offer(records, "financing_max_term")
     if competitor == "Media Markt":
-        if model_cov < seed_count:
+        # No penalizar corridas con cobertura ya alta; el retry headed se reserva
+        # para bloqueos/parsing roto, no para perseguir el 100% de seeds.
+        if model_cov == 0:
             return True
-        # Reintentar solo si no se detecto ninguna financiacion, indicio de bloqueo/parsing roto.
-        return financing_cov == 0 and model_cov > 0
+        if financing_cov == 0 and model_cov > 0:
+            return True
+        return model_cov < max(1, seed_count // 2)
     if competitor == "Fnac":
         # Fnac suele bloquear headless (DataDome), intentamos nuevamente en headed.
         return model_cov == 0 or model_cov < max(1, seed_count // 2)

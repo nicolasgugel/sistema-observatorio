@@ -7,7 +7,6 @@ import {
   Table2,
   LayoutDashboard,
   MessageSquare,
-  CalendarClock,
   ChevronLeft,
   ChevronRight,
   Moon,
@@ -21,7 +20,6 @@ import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip
 const navItems = [
   { to: "/", icon: House, label: "Home" },
   { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/actualizador", icon: CalendarClock, label: "Actualizacion" },
   { to: "/observatorio", icon: GitCompareArrows, label: "Observatorio" },
   { to: "/visualizador", icon: Table2, label: "Tabla de Precios" },
   { to: "/simulador", icon: Calculator, label: "Simulador" },
@@ -56,7 +54,7 @@ export default function AppSidebar({ collapsed, onToggle }: AppSidebarProps) {
     >
       {/* Header / Logo */}
       <div
-        className={`flex items-center border-b border-sidebar-border/90 py-5 ${
+        className={`sticky top-0 z-10 flex items-center border-b border-sidebar-border/90 py-5 sidebar-glass-header ${
           collapsed ? "justify-center px-0" : "px-6"
         }`}
       >

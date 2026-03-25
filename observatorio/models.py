@@ -36,6 +36,7 @@ class PriceRecord:
     term_months: int | None
     in_stock: bool | None
     data_quality_tier: str
+    price_capture_kind: str
     extracted_at: str
     source_url: str
     source_title: str | None

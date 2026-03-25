@@ -33,7 +33,11 @@ Comprobar:
 - Modalidades segun competidor:
   - Santander Boutique: `cash`, `financing`, `renting` (con/sin seguro cuando aplique).
   - Amazon: normalmente `cash`.
-  - Media Markt: `cash` + `financing_max_term` (incluyendo `term_months` cuando exista).
+  - Media Markt: `cash` y `financing_max_term` solo cuando cuota y plazo salen visibles/exactos del payload o del DOM.
+- Regla de publicacion accuracy-first:
+  - ninguna fila publicada puede venir de calculos sobre `cash`, division por plazo o TIN por defecto
+  - si hay mismatch de capacidad/conectividad o match debil, la fila se descarta
+  - `output/latest_*` es compatibilidad del snapshot publicado; el rastro de la corrida real vive en el raw CSV y en metadata
 
 ## Paso 3. Decidir cierre del competidor
 Marcar como cerrado cuando:
@@ -57,3 +61,5 @@ Actualizar `docs/project_checkpoint.md` con:
 - `output/latest_prices.csv`
 - `output/price_comparison_live.html`
 - Estado del cierre actualizado en `docs/project_checkpoint.md`.
+- Runtime de publicacion: `scraping_bundle_20260312_ready`.
+- Runtime legacy/diagnostico: `run_observatorio.py` + `observatorio/scraper.py`.

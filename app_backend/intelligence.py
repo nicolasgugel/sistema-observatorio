@@ -29,6 +29,51 @@ MODALITY_ORDER = {
     "cash": 3,
 }
 
+COMPETITOR_ALIASES = {
+    "santander": SANTANDER_NAME,
+    "boutique": SANTANDER_NAME,
+    "santander boutique": SANTANDER_NAME,
+    "amazon": "Amazon",
+    "apple oficial": "Apple Oficial",
+    "apple store": "Apple Oficial",
+    "el corte ingles": "El Corte Ingles",
+    "corte ingles": "El Corte Ingles",
+    "eci": "El Corte Ingles",
+    "grover": "Grover",
+    "media markt": "Media Markt",
+    "mediamarkt": "Media Markt",
+    "movistar": "Movistar",
+    "orange": "Orange",
+    "rentik": "Rentik",
+    "samsung oficial": "Samsung Oficial",
+    "samsung store": "Samsung Oficial",
+}
+
+POSITIONING_HINTS = (
+    "posicionado",
+    "posicionamiento",
+    "estado",
+    "situacion",
+    "status",
+    "pricing",
+    "priceado",
+    "como ve",
+    "como esta",
+    "donde esta",
+)
+
+STRATEGY_HINTS = (
+    "estrategia",
+    "recomendacion",
+    "recomendaciones",
+    "accion",
+    "acciones",
+    "deberia",
+    "seguir",
+    "bundle",
+    "bundles",
+)
+
 
 def _parse_float(value: object) -> float | None:
     if value is None:
@@ -65,6 +110,15 @@ def _parse_bool(value: object) -> bool | None:
     if text in {"false", "0", "no", "n"}:
         return False
     return None
+
+
+def _format_eur(value: float) -> str:
+    return f"{value:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
+def _format_signed_eur(value: float) -> str:
+    prefix = "+" if value > 0 else ""
+    return f"{prefix}{_format_eur(value)}"
 
 
 def _extract_currency(row: dict) -> str:
@@ -721,6 +775,174 @@ def _extract_capacity(question_n: str) -> int | None:
     return None
 
 
+def _extract_competitor(question_n: str, rows: list[dict]) -> str | None:
+    for alias, canonical in sorted(COMPETITOR_ALIASES.items(), key=lambda item: len(item[0]), reverse=True):
+        if alias in question_n:
+            return canonical
+
+    competitors = sorted(
+        {str(row.get("competidor") or "") for row in rows if row.get("competidor")},
+        key=len,
+        reverse=True,
+    )
+    for competitor in competitors:
+        competitor_n = normalize_text(competitor)
+        if competitor_n and competitor_n in question_n:
+            return competitor
+    return None
+
+
+def _is_positioning_question(question_n: str) -> bool:
+    return any(token in question_n for token in POSITIONING_HINTS)
+
+
+def _is_strategy_question(question_n: str) -> bool:
+    return any(token in question_n for token in STRATEGY_HINTS)
+
+
+def _product_key_without_modality(row: dict) -> tuple[str, int | None]:
+    return (
+        str(row.get("modelo") or ""),
+        row.get("capacidad"),
+    )
+
+
+def _best_price_by_sku_and_competitor(rows: list[dict]) -> dict[tuple[str, int | None], dict[str, float]]:
+    best_prices: dict[tuple[str, int | None], dict[str, float]] = defaultdict(dict)
+    for row in rows:
+        competitor = str(row.get("competidor") or "")
+        model = str(row.get("modelo") or "")
+        price = row.get("precio_valor")
+        if not competitor or not model or not isinstance(price, (int, float)):
+            continue
+        key = _product_key_without_modality(row)
+        current = best_prices[key].get(competitor)
+        numeric_price = float(price)
+        if current is None or numeric_price < current:
+            best_prices[key][competitor] = numeric_price
+    return best_prices
+
+
+def _summarize_competitor_positioning(question_n: str, rows: list[dict], competitor: str) -> dict | None:
+    competitor_rows = [
+        row
+        for row in rows
+        if normalize_text(str(row.get("competidor") or "")) == normalize_text(competitor)
+    ]
+    if not competitor_rows:
+        return None
+
+    sku_count = len({_product_key_without_modality(row) for row in competitor_rows if row.get("modelo")})
+    if sku_count == 0:
+        return None
+
+    best_by_sku = _best_price_by_sku_and_competitor(rows)
+    sku_counts_by_competitor: dict[str, int] = defaultdict(int)
+    prices_by_competitor: dict[str, list[float]] = defaultdict(list)
+    for competitors in best_by_sku.values():
+        for name, price in competitors.items():
+            sku_counts_by_competitor[name] += 1
+            prices_by_competitor[name].append(price)
+
+    coverage_sorted = sorted(sku_counts_by_competitor.items(), key=lambda item: (-item[1], normalize_text(item[0])))
+    coverage_rank = next((index + 1 for index, item in enumerate(coverage_sorted) if item[0] == competitor), None)
+
+    relevant_threshold = max(5, round(sku_count * 0.3))
+    relevant_avg_prices = {
+        name: statistics.fmean(values)
+        for name, values in prices_by_competitor.items()
+        if values and (sku_counts_by_competitor.get(name, 0) >= relevant_threshold or name == competitor)
+    }
+    avg_price = relevant_avg_prices.get(competitor)
+    price_sorted = sorted(relevant_avg_prices.items(), key=lambda item: (item[1], normalize_text(item[0])))
+    price_leader = price_sorted[0] if price_sorted else None
+
+    matched_products: list[dict] = []
+    for key, competitors in best_by_sku.items():
+        own_price = competitors.get(competitor)
+        rivals = [(name, price) for name, price in competitors.items() if name != competitor]
+        if own_price is None or not rivals:
+            continue
+        best_rival, best_rival_price = min(rivals, key=lambda item: item[1])
+        matched_products.append(
+            {
+                "modelo": key[0],
+                "capacidad": key[1],
+                "precio_competidor": own_price,
+                "mejor_rival": best_rival,
+                "precio_mejor_rival": best_rival_price,
+                "gap_vs_best": own_price - best_rival_price,
+            }
+        )
+
+    matched_count = len(matched_products)
+    wins = sum(1 for item in matched_products if item["gap_vs_best"] <= 0)
+    losses = sum(1 for item in matched_products if item["gap_vs_best"] > 0)
+    avg_gap = statistics.fmean(item["gap_vs_best"] for item in matched_products) if matched_products else None
+
+    terms = sorted({int(row["term_months"]) for row in competitor_rows if isinstance(row.get("term_months"), int)})
+    modality = str(competitor_rows[0].get("modalidad_label") or competitor_rows[0].get("modalidad") or "").strip()
+
+    if coverage_rank == 1 and avg_gap is not None and avg_gap <= 5:
+        positioning_label = "bien posicionado"
+    elif avg_gap is not None and avg_gap <= 0:
+        positioning_label = "competitivo"
+    elif avg_gap is not None and avg_gap <= 15:
+        positioning_label = "correcto, pero no lider"
+    else:
+        positioning_label = "por encima del mercado"
+
+    evidence_rows = sorted(competitor_rows, key=_price_sort_value)
+
+    if _is_strategy_question(question_n):
+        focus_products = [
+            item["modelo"]
+            for item in sorted(matched_products, key=lambda item: item["gap_vs_best"], reverse=True)
+            if item["gap_vs_best"] > 0
+        ][:3]
+        focus_text = ", ".join(focus_products) if focus_products else "los SKUs donde hoy pierde frente al mejor rival"
+        parts = [
+            (
+                f"Yo iria a ajuste quirurgico, no a rebaja masiva: {competitor} tiene {sku_count} SKUs en {modality.lower()}"
+                + (f" y lidera por cobertura en este corte." if coverage_rank == 1 else ".")
+            )
+        ]
+        if matched_count and avg_gap is not None:
+            parts.append(
+                f"En comparables directos gana {wins}/{matched_count} y su gap medio frente al mejor rival es {_format_signed_eur(avg_gap)} EUR/mes."
+            )
+        if focus_text:
+            parts.append(f"Accion clara: revisar {focus_text} y defender el resto con bundles o valor anadido.")
+        return {
+            "answer": " ".join(parts),
+            "evidence": _build_evidence(evidence_rows),
+            "intent": "competitor_strategy",
+        }
+
+    lines = [
+        f"En {modality.lower()}, {competitor} esta {positioning_label}: {sku_count} SKUs"
+        + (f", la mayor cobertura del current." if coverage_rank == 1 else ".")
+    ]
+    if matched_count and avg_gap is not None:
+        lines.append(
+            f"En comparables directos gana {wins}/{matched_count} y el gap medio frente al mejor rival es {_format_signed_eur(avg_gap)} EUR/mes."
+        )
+    elif avg_price is not None and price_leader is not None:
+        lines.append(
+            f"Referencia de precio: {competitor} marca { _format_eur(avg_price) } EUR de mejor cuota media por SKU frente a {price_leader[0]} ({ _format_eur(price_leader[1]) } EUR)."
+        )
+    if terms:
+        if len(terms) == 1:
+            lines.append(f"Plazo visible: {terms[0]} meses.")
+        else:
+            lines.append(f"Plazos visibles: {terms[0]}-{terms[-1]} meses.")
+    return {
+        "answer": " ".join(lines),
+        "evidence": _build_evidence(evidence_rows),
+        "intent": "competitor_positioning",
+    }
+
+
 def _extract_model(question_n: str, rows: list[dict]) -> str | None:
     models = sorted({str(row.get("modelo") or "") for row in rows if row.get("modelo")}, key=len, reverse=True)
     for model in models:
@@ -773,6 +995,7 @@ def answer_agent_question(question: str, rows: list[dict]) -> dict:
     model = _extract_model(question_n, rows)
     capacity = _extract_capacity(question_n)
     modalities = _extract_modalities(question_n)
+    competitor = _extract_competitor(question_n, rows)
 
     scoped = rows
     if model:
@@ -784,6 +1007,11 @@ def answer_agent_question(question: str, rows: list[dict]) -> dict:
         scoped = [row for row in scoped if normalize_text(str(row.get("modalidad") or "")) in modal_n]
 
     scope_sorted = sorted(scoped, key=_price_sort_value)
+
+    if competitor and (_is_positioning_question(question_n) or _is_strategy_question(question_n)):
+        outcome = _summarize_competitor_positioning(question_n, scope_sorted if scope_sorted else rows, competitor)
+        if outcome is not None:
+            return outcome
 
     if "cobertura" in question_n:
         coverage = _coverage_by_competitor(scoped if scoped else rows)
@@ -850,12 +1078,9 @@ def answer_agent_question(question: str, rows: list[dict]) -> dict:
         avg = round(statistics.fmean(prices), 2)
         min_price = round(min(prices), 2)
         max_price = round(max(prices), 2)
-        answer = (
-            f"Tengo {len(scope_sorted)} registros en el contexto actual. Precio medio {avg} EUR, "
-            f"minimo {min_price} EUR y maximo {max_price} EUR."
-        )
+        answer = f"{len(scope_sorted)} registros en el contexto actual. Media {_format_eur(avg)} EUR; rango {_format_eur(min_price)}-{_format_eur(max_price)} EUR."
     else:
-        answer = f"Tengo {len(scope_sorted)} registros en el contexto actual, pero no hay precio numerico parseado."
+        answer = f"{len(scope_sorted)} registros en el contexto actual, pero sin precio numerico parseado."
 
     return {
         "answer": answer,

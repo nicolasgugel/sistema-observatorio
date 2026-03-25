@@ -2,6 +2,13 @@
 
 Actualizar este archivo solo despues de una corrida validada que cambie estado de cierre, cobertura, matching o limitaciones relevantes.
 
+## Runtime publicado actual
+- Fuente de verdad de publicacion: `scraping_bundle_20260312_ready`.
+- `data/current`, `data/history` y `output/latest_*` se generan desde el runtime publicado y aplican politica accuracy-first.
+- `run_observatorio.py` y `observatorio/scraper.py` quedan en modo legacy/diagnostico y no deben usarse para declarar cobertura publicada ni cierre de competidores.
+- `output/latest_*` es compatibilidad del snapshot publicado; la evidencia de la corrida real y su CSV crudo viven en metadata/runs del backend.
+- Los checkpoints historicos de abajo contienen validaciones previas del pipeline legacy y requieren revalidacion en el runtime publicado antes de tomarse como estado de cierre vigente.
+
 ## Cola actual de trabajo
 1. Amazon: cerrado.
 2. Media Markt: cerrado para `cash` y financiacion visible.
@@ -16,6 +23,27 @@ Actualizar este archivo solo despues de una corrida validada que cambie estado d
 - Resto de competidores: pendientes de cierre con adaptador dedicado o flujo robusto.
 
 ## Ultimas validaciones integradas
+
+### Runtime publicado Samsung + Media Markt
+- Comando: `python -u scripts/run_published_runtime.py --brand Samsung --competitors "Media Markt" --output mediamarkt_run_20260325_fix2`
+- Base Santander: 18 seeds Samsung, 18/18 cubiertos en Boutique.
+- Media Markt: 65 registros, 16/18 en cobertura por `modelo + capacidad`.
+- Modalidades publicadas en la corrida validada:
+  - `cash`: 16
+  - `financing_max_term`: 49
+- Validacion live: `passed` en `output/mediamarkt_run_20260325_fix2_20260325_103655_validation.json`.
+- Fixes relevantes validados:
+  - seed pool Samsung ampliado y deduplicado por `modelo + capacidad`
+  - descarte de match incorrecto `A17 5G -> A17 LTE`
+  - `cash` de Media Markt extraido desde el precio visible principal de la PDP
+  - financiacion visible priorizada cuando el modal no coincide con la cuota mostrada en la PDP
+- Cobertura visible validada en la corrida:
+  - `Samsung Galaxy A36 5G 128GB`: `cash 349 EUR` + `financing 38 EUR/mes x10`
+  - `Samsung Galaxy A56 5G 128GB`: `cash 459 EUR` + financiacion visible y modal consistente
+  - `Samsung Galaxy Z Fold 7 256GB`: `cash` + financiacion
+- Faltantes actuales en Media Markt:
+  - `Samsung Galaxy A17 5G 128GB`
+  - `Samsung Galaxy Book5 Pro 14 512GB`
 
 ### Santander + Amazon
 - Comando: `python run_observatorio.py --max-products 8 --competitors "Santander Boutique,Amazon"`

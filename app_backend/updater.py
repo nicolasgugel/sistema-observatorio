@@ -4,7 +4,7 @@ import asyncio
 import os
 import sys
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Literal
 
@@ -14,15 +14,18 @@ from app_backend.config import (
     DEFAULT_COMPETITORS,
     OUTPUT_DIR,
     ROOT_DIR,
-    SCRAPER_CLEAN_RETAILER_LABEL_TO_ID,
     SCRAPER_RUNTIME_ENTRYPOINT,
     SCRAPER_RUNTIME_NAME,
 )
 from app_backend.data_access import (
-    load_rows_from_path,
     load_table_rows,
-    merge_competitor_slices,
+    load_rows_from_path,
     write_all_outputs,
+)
+from app_backend.published_runtime import (
+    apply_validated_retailer_merge,
+    find_validation_report,
+    load_validation_report,
 )
 from app_backend.persistence import (
     append_run_log,
@@ -150,7 +153,7 @@ class UpdaterManager:
 
     async def _run_scheduler(self) -> None:
         while self._schedule_enabled:
-            next_dt = datetime.utcnow() + timedelta(minutes=self._schedule_interval)
+            next_dt = datetime.now(tz=timezone.utc) + timedelta(minutes=self._schedule_interval)
             self._schedule_next_run_at = next_dt.isoformat() + "Z"
             sleep_seconds = max(self._schedule_interval * 60, 1)
             try:
@@ -177,26 +180,7 @@ class UpdaterManager:
     ) -> None:
         update_run(run_id, status="running", started_at=now_iso())
         command, output_prefix = self._build_command(request, selected_competitors)
-        update_run(run_id, command=command)
-
-        if request.max_products != 12:
-            self._append_log(
-                run_id,
-                f"max_products se mantiene por compatibilidad y no limita {SCRAPER_RUNTIME_NAME}.",
-                level="warning",
-            )
-        if normalize_text(request.scope) != normalize_text("full_catalog"):
-            self._append_log(
-                run_id,
-                f"scope se mantiene por compatibilidad y se ignora en {SCRAPER_RUNTIME_NAME}.",
-                level="warning",
-            )
-        if request.headed:
-            self._append_log(
-                run_id,
-                f"headed no esta soportado por {SCRAPER_RUNTIME_NAME} y se ignora.",
-                level="warning",
-            )
+        update_run(run_id, command=command, runtime_name=SCRAPER_RUNTIME_NAME)
 
         self._append_log(run_id, "Comando lanzado: " + " ".join(command))
 
@@ -231,12 +215,16 @@ class UpdaterManager:
 
         try:
             generated_csv = _find_generated_csv(output_prefix)
+            validation_report_path = find_validation_report(output_prefix)
             self._append_log(run_id, f"CSV generado por {SCRAPER_RUNTIME_NAME}: {generated_csv}")
+            self._append_log(run_id, f"Validation report generado: {validation_report_path}")
 
-            fresh_rows = load_rows_from_path(generated_csv)
-            if not fresh_rows:
+            raw_rows = load_rows_from_path(generated_csv)
+            validation_report = load_validation_report(validation_report_path)
+            raw_record_count = len(raw_rows)
+            if not raw_rows:
                 raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} no devolvio filas para el refresh solicitado.")
-            existing_rows, _ = load_table_rows()
+            self._append_log(run_id, f"Registros crudos del runtime: {raw_record_count}.")
 
             selected_keys = {
                 (
@@ -245,7 +233,7 @@ class UpdaterManager:
                     normalize_text(str(row.get("model") or "")),
                     row.get("capacity_gb"),
                 )
-                for row in fresh_rows
+                for row in raw_rows
                 if normalize_text(str(row.get("retailer") or "")) == normalize_text(SANTANDER_NAME)
             }
             if not selected_keys:
@@ -256,21 +244,35 @@ class UpdaterManager:
                         normalize_text(str(row.get("model") or "")),
                         row.get("capacity_gb"),
                     )
-                    for row in fresh_rows
+                    for row in raw_rows
                 }
-
-            merged = merge_competitor_slices(
-                existing=existing_rows,
-                fresh=fresh_rows,
-                competitors=[SANTANDER_NAME, *selected_competitors],
+            self._append_log(run_id, f"Claves seleccionadas para publicacion: {len(selected_keys)}.")
+            existing_records, _ = load_table_rows()
+            merged_rows = apply_validated_retailer_merge(
+                existing_rows=existing_records,
+                fresh_rows=raw_rows,
+                validation_report=validation_report,
                 selected_keys=selected_keys,
             )
+            blocked = [str(item) for item in validation_report.get("retailers_blocked", [])]
+            if blocked:
+                self._append_log(run_id, f"Retailers bloqueados por validacion: {', '.join(blocked)}.", level="warning")
             paths = write_all_outputs(
-                merged,
+                merged_rows,
                 run_id=run_id,
                 mode="full",
                 brand_scope=request.brand,
                 competitors=selected_competitors,
+                raw_generated_csv=str(generated_csv),
+                raw_record_count=raw_record_count,
+                selected_key_count=len(selected_keys),
+                runtime_name=SCRAPER_RUNTIME_NAME,
+                validation_report_path=str(validation_report_path),
+                retailers_blocked=blocked,
+                retailer_runtime_map={
+                    str(key): str(value)
+                    for key, value in validation_report.get("retailer_runtime_map", {}).items()
+                },
             )
             update_run(
                 run_id,
@@ -279,28 +281,45 @@ class UpdaterManager:
                 error="",
                 snapshot_id=paths["snapshot_id"],
                 record_count=paths["records_total"],
+                raw_generated_csv=str(generated_csv),
+                raw_record_count=raw_record_count,
+                published_record_count=paths["published_record_count"],
+                selected_key_count=len(selected_keys),
+                runtime_name=SCRAPER_RUNTIME_NAME,
+                validation_report_path=str(validation_report_path),
+                retailers_blocked=blocked,
+                retailer_runtime_map={
+                    str(key): str(value)
+                    for key, value in validation_report.get("retailer_runtime_map", {}).items()
+                },
             )
             self._append_log(run_id, "Artefactos actualizados: current/, latest_*, unified CSV y HTML.")
-            self._append_log(run_id, f"Registros totales tras refresh: {paths['records_total']}.")
+            self._append_log(run_id, f"Registros publicados tras validacion por retailer: {paths['records_total']}.")
             self._append_log(run_id, "Actualizacion completada correctamente.")
         except Exception as exc:  # noqa: BLE001
             update_run(run_id, status="failed", finished_at=now_iso(), error=str(exc))
             self._append_log(run_id, f"Error post-proceso: {exc}", level="error")
 
     def _build_command(self, request: UpdateRunRequest, selected_labels: list[str]) -> tuple[list[str], Path]:
-        scraper_ids = [SCRAPER_CLEAN_RETAILER_LABEL_TO_ID[label] for label in selected_labels]
-        output_prefix = OUTPUT_DIR / f"scraper_runtime_updater_{datetime.utcnow().strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+        output_prefix = OUTPUT_DIR / (
+            f"scraper_runtime_updater_{datetime.now(tz=timezone.utc).strftime('%Y%m%d_%H%M%S')}_{uuid.uuid4().hex[:8]}"
+        )
         command = [
             sys.executable,
             str(SCRAPER_RUNTIME_ENTRYPOINT.relative_to(ROOT_DIR)),
-            "--scrapers",
-            "boutique",
-            *scraper_ids,
+            "--brand",
+            request.brand,
+            "--competitors",
+            ",".join(selected_labels),
+            "--output",
+            str(output_prefix),
+            "--scope",
+            request.scope,
+            "--max-products",
+            str(request.max_products),
         ]
-        brands = self._resolve_brands(request.brand)
-        if brands:
-            command.extend(["--brands", *brands])
-        command.extend(["--output", str(output_prefix)])
+        if request.headed:
+            command.append("--headed")
         return command, output_prefix
 
     def _resolve_competitors(self, value: str | None) -> list[str]:

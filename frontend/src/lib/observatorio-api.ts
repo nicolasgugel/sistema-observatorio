@@ -59,8 +59,28 @@ async function fetchJson<T>(path: string, init?: RequestInit): Promise<T> {
   });
 
   if (!response.ok) {
-    const text = await response.text();
-    throw new Error(text || `Request failed (${response.status})`);
+    const raw = await response.text();
+    let message = raw || `Request failed (${response.status})`;
+    try {
+      const parsed = JSON.parse(raw) as { detail?: unknown; answer?: unknown; trace_id?: unknown };
+      if (typeof parsed.detail === "string" && parsed.detail.trim()) {
+        message = parsed.detail;
+      } else if (typeof parsed.answer === "string" && parsed.answer.trim()) {
+        message = parsed.answer;
+      } else if (parsed.detail && typeof parsed.detail === "object") {
+        const nestedMessage = (parsed.detail as { message?: unknown }).message;
+        const traceId = (parsed.detail as { trace_id?: unknown }).trace_id;
+        if (typeof nestedMessage === "string" && nestedMessage.trim()) {
+          message = nestedMessage;
+          if (typeof traceId === "string" && traceId.trim()) {
+            message += ` (trace ${traceId})`;
+          }
+        }
+      }
+    } catch {
+      // Keep raw text when the backend does not return JSON.
+    }
+    throw new Error(message);
   }
 
   return (await response.json()) as T;
@@ -553,4 +573,108 @@ export async function queryAgent(question: string, brand: Brand = "Samsung"): Pr
     method: "POST",
     body: JSON.stringify({ question, brand }),
   });
+}
+
+export type AgentChatStatus = "completed" | "needs_clarification" | "failed";
+
+export type LiveAgentStatus = "completed" | "running" | "needs_clarification" | "failed";
+
+export interface LiveAgentOffer {
+  product_key: string;
+  retailer: string;
+  modality: string;
+  price_value: number | null;
+  currency: string;
+  availability: boolean | null;
+  matched_title: string;
+  capacity_gb: number | null;
+  source_url: string;
+  confidence: number;
+  extracted_at: string;
+  brand: string;
+  model: string;
+}
+
+export interface LiveAgentProduct {
+  query_text: string;
+  brand: string;
+  model: string;
+  capacity_gb: number | null;
+  status: string;
+  suggestions: string[];
+}
+
+export interface LiveAgentResponse {
+  status: LiveAgentStatus;
+  answer: string;
+  offers: LiveAgentOffer[];
+  products: LiveAgentProduct[];
+  partial: boolean;
+  job_id: string | null;
+  error: string | null;
+  suggestions: string[];
+  poll_url: string | null;
+}
+
+export interface AgentChatResponse {
+  trace_id: string;
+  thread_id: string;
+  status: AgentChatStatus;
+  answer: string;
+  evidence: AgentEvidence[];
+  offers: LiveAgentOffer[];
+  suggestions: string[];
+}
+
+export interface AgentChatRequest {
+  message: string;
+  thread_id: string;
+}
+
+export async function chatWithAgent(payload: AgentChatRequest): Promise<AgentChatResponse> {
+  return fetchJson("/intelligence/agent/chat", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export interface AgentTraceEvent {
+  ts: string;
+  kind: string;
+  data: Record<string, unknown>;
+}
+
+export interface AgentTraceRecord {
+  trace_id: string;
+  thread_id: string;
+  message: string;
+  model: string;
+  status: string;
+  started_at: string;
+  finished_at: string | null;
+  answer: string | null;
+  error: string | null;
+  events: AgentTraceEvent[];
+}
+
+export async function fetchAgentTrace(traceId: string): Promise<AgentTraceRecord> {
+  return fetchJson(`/intelligence/agent/traces/${encodeURIComponent(traceId)}`);
+}
+
+export interface LiveAgentQueryRequest {
+  question: string;
+  retailers?: string[];
+  mode?: "auto" | "sync" | "async";
+  max_wait_seconds?: number;
+}
+
+export async function queryLiveAgent(payload: LiveAgentQueryRequest): Promise<LiveAgentResponse> {
+  return fetchJson("/intelligence/agent/live-query", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function fetchLiveAgentJob(jobId: string): Promise<LiveAgentResponse> {
+  return fetchJson(`/intelligence/agent/live-jobs/${encodeURIComponent(jobId)}`);
 }

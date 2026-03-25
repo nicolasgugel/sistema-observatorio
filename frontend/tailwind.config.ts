@@ -12,26 +12,13 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: [
-          "Manrope",
-          "Segoe UI",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "system-ui",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
-        serif: [
-          "Manrope",
-          "Segoe UI",
-          "-apple-system",
-          "BlinkMacSystemFont",
-          "system-ui",
-          "Helvetica Neue",
-          "Arial",
-          "sans-serif",
-        ],
+        sans: ["Work Sans", "Segoe UI", "-apple-system", "BlinkMacSystemFont", "system-ui", "Helvetica Neue", "Arial", "sans-serif"],
+        display: ["Manrope", "Segoe UI", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
+        serif: ["Manrope", "Segoe UI", "-apple-system", "BlinkMacSystemFont", "system-ui", "sans-serif"],
+      },
+      boxShadow: {
+        "whisper": "0 16px 32px rgba(26,28,28,0.06)",
+        "whisper-md": "0 8px 24px rgba(26,28,28,0.05)",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -78,6 +65,17 @@ export default {
           ring: "hsl(var(--sidebar-ring))",
           muted: "hsl(var(--sidebar-muted))",
         },
+        surface: {
+          DEFAULT: "hsl(var(--ds-surface))",
+          low: "hsl(var(--ds-surface-container-low))",
+          lowest: "hsl(var(--ds-surface-container-lowest))",
+          high: "hsl(var(--ds-surface-container-high))",
+          highest: "hsl(var(--ds-surface-container-highest))",
+          dim: "hsl(var(--ds-surface-dim))",
+        },
+        "on-surface": "hsl(var(--ds-on-surface))",
+        "ds-primary": "hsl(var(--ds-primary))",
+        "ds-primary-container": "hsl(var(--ds-primary-container))",
         success: {
           DEFAULT: "hsl(var(--success))",
           foreground: "hsl(var(--success-foreground))",

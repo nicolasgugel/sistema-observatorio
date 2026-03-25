@@ -9,6 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
 
+from app_backend.agent_chat import AgentChatRequest, ObservatorioAgentService
+from app_backend.agent_traces import get_agent_trace, list_agent_traces
 from app_backend.config import DEFAULT_COMPETITORS
 from app_backend.data_access import build_table_meta, ensure_current_dataset, list_available_snapshots, load_table_rows, read_publish_manifest
 from app_backend.intelligence import (
@@ -43,6 +45,9 @@ app.add_middleware(
 class AgentQueryRequest(BaseModel):
     question: str = Field(min_length=3)
     brand: Literal["Samsung", "Apple", "all"] = "Samsung"
+
+
+chat_agent_service = ObservatorioAgentService()
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
@@ -426,6 +431,39 @@ async def intelligence_agent_query(payload: AgentQueryRequest) -> dict:
         "question": payload.question,
         **answer,
     }
+
+
+@app.post("/api/intelligence/agent/chat")
+async def intelligence_agent_chat(payload: AgentChatRequest) -> dict:
+    response = await chat_agent_service.chat(message=payload.message, thread_id=payload.thread_id)
+    return response.model_dump()
+
+
+@app.get("/api/intelligence/agent/traces")
+def intelligence_agent_traces(limit: int = Query(default=20, ge=1, le=100)) -> dict:
+    traces = list_agent_traces(limit=limit)
+    return {"count": len(traces), "traces": [trace.model_dump() for trace in traces]}
+
+
+@app.get("/api/intelligence/agent/traces/{trace_id}")
+def intelligence_agent_trace(trace_id: str) -> dict:
+    trace = get_agent_trace(trace_id)
+    if trace is None:
+        raise HTTPException(status_code=404, detail="Trace no encontrada.")
+    return trace.model_dump()
+
+
+@app.post("/api/intelligence/agent/live-query")
+async def intelligence_agent_live_query() -> dict:
+    raise HTTPException(
+        status_code=501,
+        detail="Agente live con scraping on-demand no disponible en despliegue Vercel. Usa la instancia local.",
+    )
+
+
+@app.get("/api/intelligence/agent/live-jobs/{job_id}")
+async def intelligence_agent_live_job(job_id: str) -> dict:
+    raise HTTPException(status_code=404, detail=f"Live job no encontrado en Vercel: {job_id}")
 
 
 @app.post("/api/intelligence/updater/run")

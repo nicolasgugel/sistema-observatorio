@@ -38,6 +38,14 @@ def init_storage() -> None:
                 competitors_json TEXT,
                 products_json TEXT,
                 record_count INTEGER,
+                raw_generated_csv TEXT,
+                raw_record_count INTEGER,
+                published_record_count INTEGER,
+                selected_key_count INTEGER,
+                runtime_name TEXT,
+                validation_report_path TEXT,
+                retailers_blocked_json TEXT,
+                retailer_runtime_map_json TEXT,
                 error TEXT,
                 snapshot_id TEXT,
                 triggered_by TEXT,
@@ -60,11 +68,35 @@ def init_storage() -> None:
                 html_path TEXT NOT NULL,
                 metadata_path TEXT NOT NULL,
                 record_count INTEGER NOT NULL DEFAULT 0,
+                raw_generated_csv TEXT,
+                raw_record_count INTEGER NOT NULL DEFAULT 0,
+                published_record_count INTEGER NOT NULL DEFAULT 0,
+                selected_key_count INTEGER NOT NULL DEFAULT 0,
+                runtime_name TEXT,
+                validation_report_path TEXT,
+                retailers_blocked_json TEXT,
+                retailer_runtime_map_json TEXT,
                 brand_scope TEXT NOT NULL,
                 competitors_json TEXT
             )
             """
         )
+        _ensure_column(conn, "refresh_runs", "raw_generated_csv TEXT")
+        _ensure_column(conn, "refresh_runs", "raw_record_count INTEGER")
+        _ensure_column(conn, "refresh_runs", "published_record_count INTEGER")
+        _ensure_column(conn, "refresh_runs", "selected_key_count INTEGER")
+        _ensure_column(conn, "refresh_runs", "runtime_name TEXT")
+        _ensure_column(conn, "refresh_runs", "validation_report_path TEXT")
+        _ensure_column(conn, "refresh_runs", "retailers_blocked_json TEXT")
+        _ensure_column(conn, "refresh_runs", "retailer_runtime_map_json TEXT")
+        _ensure_column(conn, "snapshots", "raw_generated_csv TEXT")
+        _ensure_column(conn, "snapshots", "raw_record_count INTEGER NOT NULL DEFAULT 0")
+        _ensure_column(conn, "snapshots", "published_record_count INTEGER NOT NULL DEFAULT 0")
+        _ensure_column(conn, "snapshots", "selected_key_count INTEGER NOT NULL DEFAULT 0")
+        _ensure_column(conn, "snapshots", "runtime_name TEXT")
+        _ensure_column(conn, "snapshots", "validation_report_path TEXT")
+        _ensure_column(conn, "snapshots", "retailers_blocked_json TEXT")
+        _ensure_column(conn, "snapshots", "retailer_runtime_map_json TEXT")
         conn.commit()
 
 
@@ -105,6 +137,15 @@ def _json_loads(value: str | None, default: Any) -> Any:
         return json.loads(value)
     except json.JSONDecodeError:
         return default
+
+
+def _ensure_column(conn: sqlite3.Connection, table: str, definition: str) -> None:
+    column_name = definition.split()[0]
+    rows = conn.execute(f"PRAGMA table_info({table})").fetchall()
+    existing = {str(row["name"]) for row in rows}
+    if column_name in existing:
+        return
+    conn.execute(f"ALTER TABLE {table} ADD COLUMN {definition}")
 
 
 def _run_log_path(run_id: str) -> Path:
@@ -158,6 +199,14 @@ def update_run(
     error: str | None = None,
     snapshot_id: str | None = None,
     record_count: int | None = None,
+    raw_generated_csv: str | None = None,
+    raw_record_count: int | None = None,
+    published_record_count: int | None = None,
+    selected_key_count: int | None = None,
+    runtime_name: str | None = None,
+    validation_report_path: str | None = None,
+    retailers_blocked: list[str] | None = None,
+    retailer_runtime_map: dict[str, str] | None = None,
     command: list[str] | None = None,
 ) -> None:
     assignments: list[str] = []
@@ -183,6 +232,30 @@ def update_run(
     if record_count is not None:
         assignments.append("record_count = ?")
         values.append(record_count)
+    if raw_generated_csv is not None:
+        assignments.append("raw_generated_csv = ?")
+        values.append(raw_generated_csv)
+    if raw_record_count is not None:
+        assignments.append("raw_record_count = ?")
+        values.append(raw_record_count)
+    if published_record_count is not None:
+        assignments.append("published_record_count = ?")
+        values.append(published_record_count)
+    if selected_key_count is not None:
+        assignments.append("selected_key_count = ?")
+        values.append(selected_key_count)
+    if runtime_name is not None:
+        assignments.append("runtime_name = ?")
+        values.append(runtime_name)
+    if validation_report_path is not None:
+        assignments.append("validation_report_path = ?")
+        values.append(validation_report_path)
+    if retailers_blocked is not None:
+        assignments.append("retailers_blocked_json = ?")
+        values.append(_json_dumps(retailers_blocked))
+    if retailer_runtime_map is not None:
+        assignments.append("retailer_runtime_map_json = ?")
+        values.append(_json_dumps(retailer_runtime_map))
     if command is not None:
         assignments.append("command_json = ?")
         values.append(_json_dumps(command))
@@ -252,6 +325,14 @@ def _serialize_run_row(row: sqlite3.Row) -> dict:
         "error": row["error"],
         "snapshot_id": row["snapshot_id"],
         "record_count": row["record_count"],
+        "raw_generated_csv": row["raw_generated_csv"] or "",
+        "raw_record_count": row["raw_record_count"] or 0,
+        "published_record_count": row["published_record_count"] or row["record_count"] or 0,
+        "selected_key_count": row["selected_key_count"] or 0,
+        "runtime_name": row["runtime_name"] or "",
+        "validation_report_path": row["validation_report_path"] or "",
+        "retailers_blocked": _json_loads(row["retailers_blocked_json"], []),
+        "retailer_runtime_map": _json_loads(row["retailer_runtime_map_json"], {}),
         "brand_scope": row["brand_scope"],
         "competitors": _json_loads(row["competitors_json"], []),
         "products": _json_loads(row["products_json"], []),
@@ -318,6 +399,14 @@ def _snapshot_row_payload(
     html_path: str,
     metadata_path: str,
     record_count: int,
+    raw_generated_csv: str,
+    raw_record_count: int,
+    published_record_count: int,
+    selected_key_count: int,
+    runtime_name: str,
+    validation_report_path: str,
+    retailers_blocked: list[str],
+    retailer_runtime_map: dict[str, str],
     brand_scope: str,
     competitors: list[str],
 ) -> dict:
@@ -332,6 +421,14 @@ def _snapshot_row_payload(
         "html_path": html_path,
         "metadata_path": metadata_path,
         "record_count": record_count,
+        "raw_generated_csv": raw_generated_csv,
+        "raw_record_count": raw_record_count,
+        "published_record_count": published_record_count,
+        "selected_key_count": selected_key_count,
+        "runtime_name": runtime_name,
+        "validation_report_path": validation_report_path,
+        "retailers_blocked": retailers_blocked,
+        "retailer_runtime_map": retailer_runtime_map,
         "brand_scope": brand_scope,
         "competitors": competitors,
         "label": _snapshot_label_from_values(created_at, mode, brand_scope, record_count, snapshot_id),
@@ -349,6 +446,14 @@ def create_snapshot(
     html_path: Path,
     metadata_path: Path,
     record_count: int,
+    raw_generated_csv: str | None,
+    raw_record_count: int,
+    published_record_count: int,
+    selected_key_count: int,
+    runtime_name: str,
+    validation_report_path: str | None,
+    retailers_blocked: list[str] | None,
+    retailer_runtime_map: dict[str, str] | None,
     brand_scope: str,
     competitors: list[str] | None,
     is_current: bool = True,
@@ -362,8 +467,10 @@ def create_snapshot(
             INSERT OR REPLACE INTO snapshots (
                 id, created_at, run_id, mode, is_current,
                 csv_path, json_path, html_path, metadata_path,
-                record_count, brand_scope, competitors_json
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                record_count, raw_generated_csv, raw_record_count, published_record_count,
+                selected_key_count, runtime_name, validation_report_path,
+                retailers_blocked_json, retailer_runtime_map_json, brand_scope, competitors_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 snapshot_id,
@@ -376,6 +483,14 @@ def create_snapshot(
                 _relative_or_absolute(html_path),
                 _relative_or_absolute(metadata_path),
                 record_count,
+                raw_generated_csv or "",
+                raw_record_count,
+                published_record_count,
+                selected_key_count,
+                runtime_name,
+                validation_report_path or "",
+                _json_dumps(retailers_blocked or []),
+                _json_dumps(retailer_runtime_map or {}),
                 brand_scope,
                 _json_dumps(competitors or []),
             ),
@@ -398,6 +513,16 @@ def _load_snapshot_from_metadata(metadata_path: Path) -> dict | None:
     brand_scope = str(metadata.get("brand_scope") or "all")
     competitors = metadata.get("competitors") if isinstance(metadata.get("competitors"), list) else []
     record_count = int(metadata.get("record_count") or 0)
+    raw_generated_csv = str(metadata.get("raw_generated_csv") or "")
+    raw_record_count = int(metadata.get("raw_record_count") or 0)
+    published_record_count = int(metadata.get("published_record_count") or record_count)
+    selected_key_count = int(metadata.get("selected_key_count") or 0)
+    runtime_name = str(metadata.get("runtime_name") or "")
+    validation_report_path = str(metadata.get("validation_report_path") or "")
+    retailers_blocked = metadata.get("retailers_blocked") if isinstance(metadata.get("retailers_blocked"), list) else []
+    retailer_runtime_map = (
+        metadata.get("retailer_runtime_map") if isinstance(metadata.get("retailer_runtime_map"), dict) else {}
+    )
     files = metadata.get("files") if isinstance(metadata.get("files"), dict) else {}
 
     def resolve_file(key: str, default_name: str) -> str:
@@ -429,14 +554,23 @@ def _load_snapshot_from_metadata(metadata_path: Path) -> dict | None:
         "json_path": resolve_file("latest_prices_json", "latest_prices.json"),
         "html_path": resolve_file("price_comparison_live_html", "price_comparison_live.html"),
         "metadata_path": str(metadata_path),
+        "raw_generated_csv": raw_generated_csv,
+        "raw_record_count": raw_record_count,
+        "published_record_count": published_record_count,
+        "selected_key_count": selected_key_count,
+        "runtime_name": runtime_name,
+        "validation_report_path": validation_report_path,
+        "retailers_blocked": [str(item) for item in retailers_blocked],
+        "retailer_runtime_map": {str(key): str(value) for key, value in retailer_runtime_map.items()},
         "metadata": metadata,
         "files": {
             "master_prices_csv": resolve_file("master_prices_csv", "master_prices.csv"),
             "latest_prices_csv": resolve_file("latest_prices_csv", "latest_prices.csv"),
             "latest_prices_json": resolve_file("latest_prices_json", "latest_prices.json"),
             "price_comparison_live_html": resolve_file("price_comparison_live_html", "price_comparison_live.html"),
+            "validation_report_json": resolve_file("validation_report_json", "validation_report.json"),
         },
-        "products": metadata.get("products") if isinstance(metadata.get("products"), list) else [],
+        "products": metadata.get("products") if isinstance(metadata.get("products"), list) else [],        
     }
 
 
@@ -464,6 +598,14 @@ def _discover_snapshots_from_filesystem() -> list[dict]:
                 html_path=item["html_path"],
                 metadata_path=item["metadata_path"],
                 record_count=item["record_count"],
+                raw_generated_csv=item.get("raw_generated_csv", ""),
+                raw_record_count=item.get("raw_record_count", 0),
+                published_record_count=item.get("published_record_count", item["record_count"]),
+                selected_key_count=item.get("selected_key_count", 0),
+                runtime_name=item.get("runtime_name", ""),
+                validation_report_path=item.get("validation_report_path", ""),
+                retailers_blocked=item.get("retailers_blocked", []),
+                retailer_runtime_map=item.get("retailer_runtime_map", {}),
                 brand_scope=item["brand_scope"],
                 competitors=item["competitors"],
             )
@@ -489,8 +631,10 @@ def sync_snapshots_with_filesystem() -> None:
                     INSERT INTO snapshots (
                         id, created_at, run_id, mode, is_current,
                         csv_path, json_path, html_path, metadata_path,
-                        record_count, brand_scope, competitors_json
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        record_count, raw_generated_csv, raw_record_count, published_record_count,
+                        selected_key_count, runtime_name, validation_report_path,
+                        retailers_blocked_json, retailer_runtime_map_json, brand_scope, competitors_json
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     """,
                     (
                         item["id"],
@@ -503,6 +647,14 @@ def sync_snapshots_with_filesystem() -> None:
                         item["html_path"],
                         item["metadata_path"],
                         item["record_count"],
+                        item.get("raw_generated_csv", ""),
+                        item.get("raw_record_count", 0),
+                        item.get("published_record_count", item["record_count"]),
+                        item.get("selected_key_count", 0),
+                        item.get("runtime_name", ""),
+                        item.get("validation_report_path", ""),
+                        _json_dumps(item.get("retailers_blocked", [])),
+                        _json_dumps(item.get("retailer_runtime_map", {})),
                         item["brand_scope"],
                         _json_dumps(item["competitors"]),
                     ),
@@ -526,6 +678,14 @@ def _serialize_snapshot_row(row: sqlite3.Row) -> dict:
         html_path=row["html_path"],
         metadata_path=row["metadata_path"],
         record_count=row["record_count"],
+        raw_generated_csv=row["raw_generated_csv"] or "",
+        raw_record_count=row["raw_record_count"] or 0,
+        published_record_count=row["published_record_count"] or row["record_count"] or 0,
+        selected_key_count=row["selected_key_count"] or 0,
+        runtime_name=row["runtime_name"] or "",
+        validation_report_path=row["validation_report_path"] or "",
+        retailers_blocked=_json_loads(row["retailers_blocked_json"], []),
+        retailer_runtime_map=_json_loads(row["retailer_runtime_map_json"], {}),
         brand_scope=row["brand_scope"],
         competitors=_json_loads(row["competitors_json"], []),
     )
@@ -575,6 +735,10 @@ def get_snapshot(snapshot_id: str = "current") -> dict | None:
         "price_comparison_live_html": str(
             resolved_files.get("price_comparison_live_html")
             or payload["html_path"]
+        ),
+        "validation_report_json": str(
+            resolved_files.get("validation_report_json")
+            or payload["metadata"].get("validation_report_path", "")
         ),
     }
     return payload

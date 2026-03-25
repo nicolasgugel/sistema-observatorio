@@ -17,7 +17,7 @@ Se incluyen 5 modulos funcionales:
 - Frontend: `React + TypeScript + Vite`
 - Estado frontend: `Zustand`
 - Graficas: `Recharts`
-- Scraping: `santander_scraper_for_app_ready/` como runtime activo
+- Scraping: `scraping_bundle_20260312_ready/` como runtime publicado activo
 
 Justificacion estado (`Zustand`): el estado principal en esta app es UI-centric (filtros globales, paginacion, modulo activo, parametros de auto-refresh). `Zustand` reduce boilerplate y permite un store unico simple sin acoplarlo a un cache server-state complejo.
 
@@ -110,7 +110,7 @@ El script:
 
 El repo incluye [`.github/workflows/daily_refresh.yml`](c:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\.github\workflows\daily_refresh.yml), que:
 - corre cada dia a las `08:00` hora peninsular espanola (`Europe/Madrid`), ajustando CET/CEST
-- ejecuta `santander_scraper_for_app_ready`
+- ejecuta `scraping_bundle_20260312_ready`
 - publica `data/current/` y `data/history/`
 - regenera `output/latest_*` y `master_prices.csv`
 - hace commit de los datos nuevos en `main`
@@ -154,6 +154,8 @@ Flujo actual:
 - Solo despues de un refresh diario exitoso se actualiza `data/current/master_prices.csv`.
 - Si el refresh diario falla, el dataset vigente anterior se conserva intacto.
 - La pestaña `Actualizacion diaria` muestra ultima publicacion y acceso al historico.
+- El snapshot publicado aplica politica accuracy-first: si no hay evidencia visible o exacta de la modalidad, no se publica la fila.
+- `output/latest_*` replica el snapshot publicado por compatibilidad; el CSV crudo de cada run queda trazado en metadata y runs del backend.
 
 Para compatibilidad con la app y los artefactos existentes, tras cada corrida se regeneran:
 - `output/latest_prices.json`

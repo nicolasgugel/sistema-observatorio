@@ -17,15 +17,18 @@ from app_backend.config import (
     DEFAULT_COMPETITORS,
     OUTPUT_DIR,
     ROOT_DIR,
-    SCRAPER_CLEAN_RETAILER_LABEL_TO_ID,
     SCRAPER_RUNTIME_ENTRYPOINT,
     SCRAPER_RUNTIME_NAME,
 )
 from app_backend.data_access import (
     load_rows_from_path,
     load_table_rows,
-    merge_competitor_slice,
     write_all_outputs,
+)
+from app_backend.published_runtime import (
+    apply_validated_retailer_merge,
+    find_validation_report,
+    load_validation_report,
 )
 from app_backend.persistence import (
     append_run_log,
@@ -89,6 +92,7 @@ def _discover_targets_from_canonical(brand: str) -> list[dict]:
             "brand": str(row.get("brand") or brand),
             "device_type": str(row.get("device_type") or "mobile"),
             "product_family": str(row.get("product_family") or row.get("brand") or brand),
+            "source_url": str(row.get("source_url") or ""),
         }
 
     return sorted(
@@ -155,7 +159,7 @@ class JobManager:
         return events, done
 
     async def _run_job(self, job_id: str, request: ScrapingJobRequest) -> None:
-        update_run(job_id, status="running", started_at=now_iso())
+        update_run(job_id, status="running", started_at=now_iso(), runtime_name=SCRAPER_RUNTIME_NAME)
         self._append_log(job_id, f"Inicializando scraping con {SCRAPER_RUNTIME_NAME}.")
 
         try:
@@ -167,6 +171,14 @@ class JobManager:
                 error="",
                 snapshot_id=result["outputs"]["snapshot_id"],
                 record_count=result["outputs"]["records_total"],
+                raw_generated_csv=result["generated_csv"],
+                raw_record_count=result["fresh_records"],
+                published_record_count=result["outputs"]["published_record_count"],
+                selected_key_count=result["targets_selected"],
+                runtime_name=SCRAPER_RUNTIME_NAME,
+                validation_report_path=result["validation_report_path"],
+                retailers_blocked=result["outputs"]["retailers_blocked"],
+                retailer_runtime_map=result["outputs"]["retailer_runtime_map"],
             )
             self._append_log(job_id, "Job completado correctamente.")
         except Exception as exc:  # noqa: BLE001
@@ -181,10 +193,6 @@ class JobManager:
             self._append_log(job_id, stack, level="error")
 
     async def _execute_request(self, job_id: str, req: ScrapingJobRequest) -> dict:
-        scraper_id = SCRAPER_CLEAN_RETAILER_LABEL_TO_ID.get(req.competitor)
-        if not scraper_id or scraper_id == "boutique":
-            raise RuntimeError(f"Competidor no soportado para scraping dirigido: {req.competitor}")
-
         available_targets = _discover_targets_from_canonical(req.brand)
         self._append_log(job_id, f"Targets Santander disponibles en dataset canonico: {len(available_targets)}.")
 
@@ -209,25 +217,6 @@ class JobManager:
         }
         self._append_log(job_id, f"Targets seleccionados por producto exacto: {len(scoped_targets)}.")
 
-        if req.max_products != 500:
-            self._append_log(
-                job_id,
-                f"max_products se mantiene por compatibilidad y no aplica a {SCRAPER_RUNTIME_NAME}.",
-                level="warning",
-            )
-        if normalize_text(req.scope) != normalize_text("full_catalog"):
-            self._append_log(
-                job_id,
-                f"scope se mantiene por compatibilidad y se ignora en {SCRAPER_RUNTIME_NAME}.",
-                level="warning",
-            )
-        if req.headed:
-            self._append_log(
-                job_id,
-                f"headed no esta soportado por {SCRAPER_RUNTIME_NAME} y se ignora.",
-                level="warning",
-            )
-
         with tempfile.NamedTemporaryFile(
             mode="w",
             suffix=".json",
@@ -243,16 +232,19 @@ class JobManager:
         command = [
             sys.executable,
             str(SCRAPER_RUNTIME_ENTRYPOINT.relative_to(ROOT_DIR)),
+            "--brand",
+            req.brand,
+            "--competitors",
+            req.competitor,
             "--targets-file",
             str(targets_path),
-            "--scrapers",
-            scraper_id,
-            "--brands",
-            req.brand.lower(),
             "--output",
             str(output_prefix),
         ]
+        if req.headed:
+            command.append("--headed")
         update_run(job_id, command=command)
+        update_run(job_id, runtime_name=SCRAPER_RUNTIME_NAME)
 
         self._append_log(job_id, "Comando lanzado: " + " ".join(command))
         process = await asyncio.create_subprocess_exec(
@@ -284,22 +276,26 @@ class JobManager:
             raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} finalizo con codigo {return_code}.")
 
         generated_csv = _find_generated_csv(output_prefix)
+        validation_report_path = find_validation_report(output_prefix)
         self._append_log(job_id, f"CSV generado por {SCRAPER_RUNTIME_NAME}: {generated_csv}")
+        self._append_log(job_id, f"Validation report generado: {validation_report_path}")
 
         fresh_rows = load_rows_from_path(generated_csv)
-        if not fresh_rows:
-            raise RuntimeError(f"{SCRAPER_RUNTIME_NAME} no devolvio filas para el competidor solicitado.")
+        validation_report = load_validation_report(validation_report_path)
         self._append_log(job_id, f"Registros nuevos capturados: {len(fresh_rows)}.")
 
         existing_records, _ = load_table_rows()
         self._append_log(job_id, f"Registros existentes antes de merge: {len(existing_records)}.")
 
-        merged = merge_competitor_slice(
-            existing=existing_records,
-            fresh=fresh_rows,
-            competitor=req.competitor,
+        merged = apply_validated_retailer_merge(
+            existing_rows=existing_records,
+            fresh_rows=fresh_rows,
+            validation_report=validation_report,
             selected_keys=selected_keys,
         )
+        blocked = [str(item) for item in validation_report.get("retailers_blocked", [])]
+        if blocked:
+            self._append_log(job_id, f"Retailers bloqueados por validacion: {', '.join(blocked)}.", level="warning")
         self._append_log(job_id, f"Registros tras merge: {len(merged)}.")
 
         paths = write_all_outputs(
@@ -308,8 +304,19 @@ class JobManager:
             mode="targeted",
             brand_scope=req.brand,
             competitors=[req.competitor],
+            raw_generated_csv=str(generated_csv),
+            raw_record_count=len(fresh_rows),
+            selected_key_count=len(selected_keys),
+            runtime_name=SCRAPER_RUNTIME_NAME,
+            validation_report_path=str(validation_report_path),
+            retailers_blocked=blocked,
+            retailer_runtime_map={
+                str(key): str(value)
+                for key, value in validation_report.get("retailer_runtime_map", {}).items()
+            },
         )
         self._append_log(job_id, "Artefactos actualizados: current/, latest_*, unified CSV y HTML.")
+        self._append_log(job_id, f"Registros publicados tras merge validado: {paths['published_record_count']}.")
 
         return {
             "brand": req.brand,
@@ -320,4 +327,5 @@ class JobManager:
             "records_total": paths["records_total"],
             "outputs": paths,
             "generated_csv": str(generated_csv),
+            "validation_report_path": str(validation_report_path),
         }

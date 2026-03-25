@@ -5,7 +5,7 @@ export function PageHeader({ title, subtitle, actions }: { title: string; subtit
   return (
     <div className="flex items-start justify-between mb-8 animate-fade-in">
       <div>
-        <h1 className="text-2xl font-semibold text-foreground sm:text-[2rem]">{title}</h1>
+        <h1 className="font-display text-2xl font-semibold text-foreground sm:text-[2rem]">{title}</h1>
         {subtitle && <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>}
       </div>
       {actions && <div className="flex items-center gap-3">{actions}</div>}
@@ -73,7 +73,7 @@ export function KPICard({
         />
         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-muted-foreground">{label}</p>
       </div>
-      <p className="tabular-premium mt-3 break-words text-[2rem] font-semibold leading-none tracking-[-0.04em] text-foreground">
+      <p className="tabular-premium font-display mt-3 break-words text-[2rem] font-semibold leading-none tracking-[-0.04em] text-foreground">
         {displayValue}
       </p>
       {sublabel && <p className="mt-1.5 text-xs text-muted-foreground">{sublabel}</p>}
