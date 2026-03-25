@@ -31,9 +31,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install uv for Vercel Python builds
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        uses: astral-sh/setup-uv@v5
 
       - name: Set up Node
         uses: actions/setup-node@v5
