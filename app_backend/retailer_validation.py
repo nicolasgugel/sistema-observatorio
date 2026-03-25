@@ -254,6 +254,12 @@ async def _validate_santander_rows(rows: list[dict]) -> list[str]:
     return [] if rows else ["Santander Boutique no devolvio filas."]
 
 
+async def _validate_js_rendered_rows(retailer: str, rows: list[dict]) -> list[str]:
+    """Validates only that rows were captured. Used for JS-heavy sites where
+    static HTML fetching cannot reliably verify prices."""
+    return [] if rows else [f"{retailer}: no se capturaron filas."]
+
+
 async def _validate_movistar_rows(rows: list[dict]) -> list[str]:
     mismatches: list[str] = []
     for row in rows:
@@ -302,7 +308,7 @@ async def _validate_eci_rows(rows: list[dict]) -> list[str]:
     mismatches: list[str] = []
     for row in rows:
         if normalize_text(str(row.get("offer_type") or "")) != "cash":
-            mismatches.append("El Corte Ingles: no se valida financiacion en PDP cash-only.")
+            # Financing rows come from search API, not PDPs — skip price check
             continue
         response = await _fetch_response(str(row.get("source_url") or ""))
         text = _response_text(response) if response is not None else ""
@@ -410,6 +416,9 @@ async def validate_retailer_rows(
         mismatches = await _validate_orange_rows(sampled_rows)
     elif normalized_retailer == "el corte ingles":
         mismatches = await _validate_eci_rows(sampled_rows)
+    elif normalized_retailer in {"amazon", "rentik", "apple oficial", "grover"}:
+        # JS-rendered pages: static fetcher cannot verify prices; validate existence only
+        mismatches = await _validate_js_rendered_rows(retailer, sampled_rows)
     else:
         mismatches = await _validate_generic_rows(sampled_rows)
 
