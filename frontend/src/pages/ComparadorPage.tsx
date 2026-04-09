@@ -673,7 +673,7 @@ export default function ComparadorPage() {
                       <th className="table-header text-left px-4 py-3">Modalidad</th>
                       <th className="table-header text-left px-4 py-3">Plazo</th>
                       <th className="table-header text-right px-4 py-3">Precio</th>
-                      <th className="table-header text-left px-4 py-3">Unidad</th>
+                      <th className="table-header text-right px-4 py-3">Coste Total</th>
                       <th className="table-header text-left px-4 py-3">Stock</th>
                     </tr>
                   </thead>
@@ -702,7 +702,7 @@ export default function ComparadorPage() {
                             {HAS_TERMS.has(row.modalidad) && typeof row.term_months === "number" ? `${row.term_months} meses` : "-"}
                           </td>
                           <td className="px-4 py-3 text-right font-semibold">{toCurrency(row.precio_valor)}</td>
-                          <td className="px-4 py-3">{unitForRow(row)}</td>
+                          <td className="px-4 py-3 text-right">{toCurrency(totalCostForRow(row))}</td>
                           <td className="px-4 py-3">{stockLabel(row.disponibilidad)}</td>
                         </tr>
                       );
@@ -804,6 +804,15 @@ function unitForRow(row: ComparatorOffer): string {
     return row.moneda || "EUR";
   }
   return `${row.moneda || "EUR"}/mes`;
+}
+
+function totalCostForRow(row: ComparatorOffer): number | null {
+  if (row.precio_valor == null) return null;
+  if (row.modalidad === "cash") return row.precio_valor;
+  if (typeof row.term_months === "number" && row.term_months > 0) {
+    return Math.round(row.precio_valor * row.term_months * 100) / 100;
+  }
+  return null;
 }
 
 function stockLabel(value: boolean | null): string {
