@@ -1,6 +1,9 @@
 .cursor
 .vscode
 .npm-cache
+.pytest_tmp
+.venv
+.venv-vercel-test
 __pycache__
 **/__pycache__
 
@@ -13,6 +16,7 @@ scripts
 skills
 elcorteingles_scraper
 santander_scraper_bundle_20260325
+santander_scraper_bundle_20260409
 data/history
 tests
 deploy

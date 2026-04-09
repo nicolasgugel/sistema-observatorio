@@ -39,11 +39,11 @@ OBSERVATORIO_AGENT_SESSION_DB_PATH = Path(
 _ensure_dir(OBSERVATORIO_AGENT_SESSION_DB_PATH.parent)
 
 TEMPLATE_PATH = ROOT_DIR / "assets" / "templates" / "price_comparison_v10_dual_brand.html"
-SCRAPER_BUNDLE_DIR = ROOT_DIR / "santander_scraper_bundle_20260325" / "santander_scraper"
+SCRAPER_BUNDLE_DIR = ROOT_DIR / "santander_scraper_bundle_20260409" / "santander_scraper"
 SCRAPER_BUNDLE_ENTRYPOINT = SCRAPER_BUNDLE_DIR / "main.py"
 SCRAPER_BUNDLE_NAME = SCRAPER_BUNDLE_DIR.name
 SCRAPER_RUNTIME_ENTRYPOINT = ROOT_DIR / "scripts" / "run_published_runtime.py"
-SCRAPER_RUNTIME_NAME = "santander_20260325_bundle_runtime"
+SCRAPER_RUNTIME_NAME = "santander_20260409_bundle_runtime"
 SCRAPER_CLEAN_INITIAL_SNAPSHOT_PATH = ROOT_DIR / "master_prices_v3_20260309_0917.csv"
 CURRENT_JSON_PATH = CURRENT_DATA_DIR / "latest_prices.json"
 CURRENT_CSV_PATH = CURRENT_DATA_DIR / "latest_prices.csv"
