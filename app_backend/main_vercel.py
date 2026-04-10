@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Literal
 
-from fastapi import FastAPI, HTTPException, Query, Response
+from fastapi import FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
@@ -531,6 +531,43 @@ async def updater_schedule() -> dict:
         status_code=501,
         detail="Programacion de updater no disponible en despliegue Vercel.",
     )
+
+
+@app.get("/api/cron/trigger", include_in_schema=False)
+async def cron_trigger(request: Request) -> dict:
+    """Called by Vercel Cron daily to dispatch the GitHub Actions refresh workflow."""
+    import os
+    import urllib.request as _urllib
+
+    # Verify Vercel cron secret so only Vercel can call this
+    cron_secret = os.getenv("CRON_SECRET", "")
+    if cron_secret:
+        auth = request.headers.get("authorization", "")
+        if auth != f"Bearer {cron_secret}":
+            raise HTTPException(status_code=401, detail="Unauthorized")
+
+    gh_token = os.getenv("GH_DISPATCH_TOKEN", "")
+    if not gh_token:
+        raise HTTPException(status_code=500, detail="GH_DISPATCH_TOKEN not configured")
+
+    import json as _json
+    body = _json.dumps({"ref": "main", "inputs": {"force_run": "false"}}).encode()
+    req = _urllib.Request(
+        "https://api.github.com/repos/nicolasgugel/sistema-observatorio/actions/workflows/daily_refresh.yml/dispatches",
+        data=body,
+        method="POST",
+        headers={
+            "Authorization": f"Bearer {gh_token}",
+            "Accept": "application/vnd.github+json",
+            "Content-Type": "application/json",
+            "User-Agent": "observatorio-vercel-cron",
+        },
+    )
+    try:
+        with _urllib.urlopen(req, timeout=10) as resp:
+            return {"triggered": True, "status": resp.status}
+    except _urllib.error.HTTPError as exc:
+        raise HTTPException(status_code=502, detail=f"GitHub API error: {exc.code}")
 
 
 @app.get("/", include_in_schema=False)
