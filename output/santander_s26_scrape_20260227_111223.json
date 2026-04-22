@@ -1,0 +1,13 @@
+{
+  "timestamp": "20260227_111223",
+  "seed_count_total": 20,
+  "record_count_total": 131,
+  "s26_seed_count": 6,
+  "s26_record_count": 27,
+  "s26_models": [
+    "Samsung Galaxy S26",
+    "Samsung Galaxy S26 Ultra 5G",
+    "Samsung Galaxy S26+ 5G"
+  ],
+  "csv": "output/santander_s26_scrape_20260227_111223.csv"
+}

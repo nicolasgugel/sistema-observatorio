@@ -1,0 +1,15 @@
+[SCRAPE] Samsung | Santander Boutique: seeds=17 records=131 model_cov=14
+[SCRAPE] Samsung | Amazon: seeds=17 records=14 model_cov=14
+[SCRAPE] Samsung | Grover: seeds=17 records=15 model_cov=5
+[SCRAPE] Samsung | Media Markt: seeds=17 records=10 model_cov=10
+[SCRAPE] Samsung | Movistar: seeds=17 records=12 model_cov=8
+[SCRAPE] Samsung | Rentik: seeds=17 records=5 model_cov=5
+[SCRAPE] Samsung | Samsung Oficial: seeds=17 records=18 model_cov=10
+[SCRAPE] Samsung | Apple Oficial: seeds=17 records=0 model_cov=0
+[32m12:55:56[0m | [1mINFO    [0m | ============================================================
+[32m12:55:56[0m | [1mINFO    [0m | SISTEMA COMPARADOR DE PRECIOS — SANTANDER BOUTIQUE
+[32m12:55:56[0m | [1mINFO    [0m | ============================================================
+[32m12:55:56[0m | [1mINFO    [0m | Scrapers: orange, el_corte_ingles
+[32m12:55:56[0m | [1mINFO    [0m | Marcas:   samsung
+[32m12:55:56[0m | [1mINFO    [0m | ============================================================
+[32m12:55:56[0m | [1mINFO    [0m | Targets cargados de C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\output\published_runtime_targets_samsung_xv279vfe.json: 17

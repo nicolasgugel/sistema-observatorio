@@ -1,0 +1,108 @@
+{
+  "timestamp": "20260227_120739",
+  "targets": [
+    "Amazon",
+    "El Corte Ingl?s",
+    "Fnac",
+    "Grover",
+    "Orange",
+    "Qonexa",
+    "Rentik",
+    "Vodafone",
+    "Samsung Oficial"
+  ],
+  "s26_seed_count": 6,
+  "records_total": 5,
+  "coverage_by_retailer": {
+    "Samsung Oficial": 4,
+    "Vodafone": 1
+  },
+  "attempts": [
+    {
+      "competitor": "Amazon",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Amazon",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "El Corte Ingl?s",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "El Corte Ingl?s",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "Fnac",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Fnac",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "Grover",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Grover",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "Orange",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Orange",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "Qonexa",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Qonexa",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "Rentik",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Rentik",
+      "mode": "headed_retry",
+      "records": 0
+    },
+    {
+      "competitor": "Vodafone",
+      "mode": "headless",
+      "records": 0
+    },
+    {
+      "competitor": "Vodafone",
+      "mode": "headed_retry",
+      "records": 1
+    },
+    {
+      "competitor": "Samsung Oficial",
+      "mode": "headless",
+      "records": 4
+    }
+  ],
+  "csv": "output/s26_retry_zero_competitors_20260227_120739.csv"
+}

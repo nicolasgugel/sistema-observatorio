@@ -1,0 +1,6 @@
+usage: run_published_runtime.py [-h] [--brand {all,Samsung,Apple}]
+                                [--competitors COMPETITORS]
+                                [--targets-file TARGETS_FILE] --output OUTPUT
+                                [--scope SCOPE] [--max-products MAX_PRODUCTS]
+                                [--headed]
+run_published_runtime.py: error: unrecognized arguments: Markt,Movistar,Rentik,Samsung Oficial,Apple Oficial,Orange,El Corte Ingles

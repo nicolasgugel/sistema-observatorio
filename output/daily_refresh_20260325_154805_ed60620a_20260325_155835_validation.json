@@ -1,0 +1,448 @@
+{
+  "runtime_name": "santander_20260325_bundle_runtime",
+  "mode": "full",
+  "brand_scope": "all",
+  "requested_competitors": [
+    "Amazon",
+    "Grover",
+    "Media Markt",
+    "Movistar",
+    "Rentik",
+    "Samsung Oficial",
+    "Apple Oficial",
+    "Orange",
+    "El Corte Ingles"
+  ],
+  "retailer_runtime_map": {
+    "Santander Boutique": "current_dedicated",
+    "Amazon": "current_dedicated",
+    "Grover": "current_dedicated",
+    "Media Markt": "current_dedicated",
+    "Movistar": "current_dedicated",
+    "Rentik": "current_dedicated",
+    "Samsung Oficial": "current_dedicated",
+    "Apple Oficial": "current_dedicated",
+    "Orange": "current_dedicated",
+    "El Corte Ingles": "current_dedicated"
+  },
+  "retailers_blocked": [
+    "Samsung Oficial"
+  ],
+  "selected_key_count": 67,
+  "raw_record_count": 1212,
+  "raw_generated_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\output\\daily_refresh_20260325_154805_ed60620a_20260325_155835.csv",
+  "retailers": [
+    {
+      "retailer": "Santander Boutique",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple Mac Studio M4 Max",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 88.06,
+          "term_months": 30,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple Mac Studio M4 Max",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 102.18,
+          "term_months": 24,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple Mac Studio M4 Max",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 132.48,
+          "term_months": 18,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
+      ]
+    },
+    {
+      "retailer": "Amazon",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "cash",
+          "price_value": 1039.0,
+          "term_months": null,
+          "source_url": "https://www.amazon.es/dp/B0DZDBPH4D"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 1024,
+          "offer_type": "cash",
+          "price_value": 1749.0,
+          "term_months": null,
+          "source_url": "https://www.amazon.es/dp/B0GR1KYRS3"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Neo",
+          "capacity_gb": 256,
+          "offer_type": "cash",
+          "price_value": 699.0,
+          "term_months": null,
+          "source_url": "https://www.amazon.es/dp/B0GR6M1GK1"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.amazon.es/dp/B0DZDBPH4D",
+        "https://www.amazon.es/dp/B0GR1KYRS3",
+        "https://www.amazon.es/dp/B0GR6M1GK1"
+      ]
+    },
+    {
+      "retailer": "Grover",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "renting_no_insurance",
+          "price_value": 73.9,
+          "term_months": 18,
+          "source_url": "https://www.getgrover.com/es-es/products/apple-macbook-air-15-m5-10cpu-16gb-512gb-10gpu-spa"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "renting_no_insurance",
+          "price_value": 59.9,
+          "term_months": 18,
+          "source_url": "https://www.getgrover.com/es-es/products/apple-macbook-air-13-m5-8cpu-16gb-512gb-8gpu-spa"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 15",
+          "capacity_gb": 128,
+          "offer_type": "renting_no_insurance",
+          "price_value": 23.49,
+          "term_months": 18,
+          "source_url": "https://www.getgrover.com/es-es/products/apple-smartphone-iphone-se-2022-4gb-128gb"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.getgrover.com/es-es/products/apple-macbook-air-15-m5-10cpu-16gb-512gb-10gpu-spa",
+        "https://www.getgrover.com/es-es/products/apple-macbook-air-13-m5-8cpu-16gb-512gb-8gpu-spa",
+        "https://www.getgrover.com/es-es/products/apple-smartphone-iphone-se-2022-4gb-128gb"
+      ]
+    },
+    {
+      "retailer": "Media Markt",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 357.33,
+          "term_months": 3,
+          "source_url": "https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-blanco-estrella-1596182.html"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 182.86,
+          "term_months": 6,
+          "source_url": "https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-blanco-estrella-1596182.html"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 113.14,
+          "term_months": 10,
+          "source_url": "https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-blanco-estrella-1596182.html"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-blanco-estrella-1596182.html",
+        "https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-blanco-estrella-1596182.html",
+        "https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-blanco-estrella-1596182.html"
+      ]
+    },
+    {
+      "retailer": "Movistar",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 16",
+          "capacity_gb": 128,
+          "offer_type": "renting_no_insurance",
+          "price_value": 13.0,
+          "term_months": 48,
+          "source_url": "https://www.movistar.es/moviles/apple-iphone-16-128gb-negro/"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 16 Plus",
+          "capacity_gb": 128,
+          "offer_type": "renting_no_insurance",
+          "price_value": 15.0,
+          "term_months": 48,
+          "source_url": "https://www.movistar.es/moviles/apple-iphone-16-plus-128gb-negro/"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 16 Plus",
+          "capacity_gb": 256,
+          "offer_type": "renting_no_insurance",
+          "price_value": 18.0,
+          "term_months": 48,
+          "source_url": "https://www.movistar.es/moviles/apple-iphone-16-plus-128gb-negro/"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.movistar.es/moviles/apple-iphone-16-128gb-negro/",
+        "https://www.movistar.es/moviles/apple-iphone-16-plus-128gb-negro/",
+        "https://www.movistar.es/moviles/apple-iphone-16-plus-128gb-negro/"
+      ]
+    },
+    {
+      "retailer": "Rentik",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 16",
+          "capacity_gb": 128,
+          "offer_type": "renting_no_insurance",
+          "price_value": 45.9,
+          "term_months": 24,
+          "source_url": "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16/?color=negro&capacity=128-gb"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 16e",
+          "capacity_gb": 128,
+          "offer_type": "renting_no_insurance",
+          "price_value": 35.9,
+          "term_months": 24,
+          "source_url": "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/?color=negro&capacity=128-gb"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPhone 17",
+          "capacity_gb": 256,
+          "offer_type": "renting_no_insurance",
+          "price_value": 52.9,
+          "term_months": 24,
+          "source_url": "https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17/?color=verde&capacity=256-gb"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16/?color=negro&capacity=128-gb",
+        "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/?color=negro&capacity=128-gb",
+        "https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17/?color=verde&capacity=256-gb"
+      ]
+    },
+    {
+      "retailer": "Samsung Oficial",
+      "runtime_used": "current_dedicated",
+      "status": "failed",
+      "validated_products": [
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 10.53,
+          "term_months": 36,
+          "source_url": "https://www.samsung.com/es/smartphones/galaxy-a/galaxy-a36-5g-awesome-lavender-128gb-sm-a366blvbeub/"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy S25",
+          "capacity_gb": 256,
+          "offer_type": "financing_max_term",
+          "price_value": 24.14,
+          "term_months": 36,
+          "source_url": "https://www.samsung.com/es/smartphones/galaxy-s25/buy/?modelCode=SM-S931BZSGEUB"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy S26 5G",
+          "capacity_gb": 256,
+          "offer_type": "financing_max_term",
+          "price_value": 27.75,
+          "term_months": 36,
+          "source_url": "https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S942BZKGEUB"
+        }
+      ],
+      "mismatches": [
+        "Samsung Oficial: mismatch en Samsung Galaxy A36 5G 128GB"
+      ],
+      "blocked_publication": true,
+      "evidence_urls": [
+        "https://www.samsung.com/es/smartphones/galaxy-a/galaxy-a36-5g-awesome-lavender-128gb-sm-a366blvbeub/",
+        "https://www.samsung.com/es/smartphones/galaxy-s25/buy/?modelCode=SM-S931BZSGEUB",
+        "https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S942BZKGEUB"
+      ]
+    },
+    {
+      "retailer": "Apple Oficial",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple iPad 11th WiFi",
+          "capacity_gb": 512,
+          "offer_type": "cash",
+          "price_value": 759.0,
+          "term_months": null,
+          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPad Air M4 Wi-Fi",
+          "capacity_gb": 128,
+          "offer_type": "cash",
+          "price_value": 649.0,
+          "term_months": null,
+          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad-air"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPad Air M4 Wi-Fi",
+          "capacity_gb": 256,
+          "offer_type": "cash",
+          "price_value": 779.0,
+          "term_months": null,
+          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad-air"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.apple.com/es/shop/buy-ipad/ipad",
+        "https://www.apple.com/es/shop/buy-ipad/ipad-air",
+        "https://www.apple.com/es/shop/buy-ipad/ipad-air"
+      ]
+    },
+    {
+      "retailer": "Orange",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple iPad 11th WiFi",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 7.5,
+          "term_months": 48,
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-wifi-11-2025-128gb-plata/3711018.html"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPad Air M4 Wi-Fi",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 12.0,
+          "term_months": 48,
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-128gb-azul/3711297.html"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple iPad Air M4 Wi-Fi",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 15.75,
+          "term_months": 48,
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-wifi-11-2025-128gb-plata/3711018.html",
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-128gb-azul/3711297.html",
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
+      ]
+    },
+    {
+      "retailer": "El Corte Ingles",
+      "runtime_used": "current_dedicated",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Apple",
+          "model": "Apple Mac mini M4",
+          "capacity_gb": 256,
+          "offer_type": "financing_max_term",
+          "price_value": 59.92,
+          "term_months": 12,
+          "source_url": "https://www.elcorteingles.es/electronica/A53541304-apple-mac-mini-2024-m4-16gb-256gb-ssd-gpu-10-nucleos-macos-plata/"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple Mac mini M4",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 80.75,
+          "term_months": 12,
+          "source_url": "https://www.elcorteingles.es/electronica/A53541306-apple-mac-mini-2024-m4-16gb-512gb-ssd-gpu-10-nucleos-macos-plata/"
+        },
+        {
+          "brand": "Apple",
+          "model": "Apple MacBook Air",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 86.58,
+          "term_months": 12,
+          "source_url": "https://www.elcorteingles.es/electronica/A54883155-apple-macbook-air-13-2025-m4-16gb-512gb-ssd-13-macos/"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.elcorteingles.es/electronica/A53541304-apple-mac-mini-2024-m4-16gb-256gb-ssd-gpu-10-nucleos-macos-plata/",
+        "https://www.elcorteingles.es/electronica/A53541306-apple-mac-mini-2024-m4-16gb-512gb-ssd-gpu-10-nucleos-macos-plata/",
+        "https://www.elcorteingles.es/electronica/A54883155-apple-macbook-air-13-2025-m4-16gb-512gb-ssd-13-macos/"
+      ]
+    }
+  ]
+}

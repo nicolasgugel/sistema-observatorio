@@ -1,0 +1,12 @@
+search	https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+S25+256GB	Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+S25+256GB
+Call log:
+  - navigating to "https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+S25+256GB", waiting until "domcontentloaded"
+
+search	https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+S25+Ultra+256GB	Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+S25+Ultra+256GB
+Call log:
+  - navigating to "https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+S25+Ultra+256GB", waiting until "domcontentloaded"
+
+search	https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+A17+5G+128GB	Error: Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+A17+5G+128GB
+Call log:
+  - navigating to "https://www.elcorteingles.es/electronica/?s=Samsung+Samsung+Galaxy+A17+5G+128GB", waiting until "domcontentloaded"
+

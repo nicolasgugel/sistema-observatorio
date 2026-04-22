@@ -1,0 +1,38 @@
+{
+  "runtime_name": "legacy_hybrid_validated_runtime",
+  "mode": "targeted",
+  "brand_scope": "Samsung",
+  "requested_competitors": [
+    "Media Markt"
+  ],
+  "retailer_runtime_map": {
+    "Media Markt": "legacy"
+  },
+  "retailers_blocked": [],
+  "selected_key_count": 1,
+  "raw_record_count": 1,
+  "raw_generated_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\output\\hybrid_runtime_smoke3_20260324_105416.csv",
+  "retailers": [
+    {
+      "retailer": "Media Markt",
+      "runtime_used": "legacy",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy S26 5G",
+          "capacity_gb": 256,
+          "offer_type": "cash",
+          "price_value": 1199.0,
+          "term_months": null,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-s26-negro-256-gb-12-gb-ram-63-fhd-exynos-2600-4300-mah-android-16-1620261.html"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-s26-negro-256-gb-12-gb-ram-63-fhd-exynos-2600-4300-mah-android-16-1620261.html"
+      ]
+    }
+  ]
+}

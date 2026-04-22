@@ -1,0 +1,12 @@
+[31mfailed to load config from C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\frontend\vite.config.ts[39m
+[31merror when starting preview server:
+Error: spawn EPERM
+    at ChildProcess.spawn (node:internal/child_process:421:11)
+    at Object.spawn (node:child_process:796:9)
+    at ensureServiceIsRunning (C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\frontend\node_modules\esbuild\lib\main.js:1975:29)
+    at build (C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\frontend\node_modules\esbuild\lib\main.js:1873:26)
+    at bundleConfigFile (file:///C:/Users/juan.gugel.gonzalez/OneDrive%20-%20Accenture/ACCENTURE/NewCo/Sistema_Observatorio/frontend/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:66828:24)
+    at loadConfigFromFile (file:///C:/Users/juan.gugel.gonzalez/OneDrive%20-%20Accenture/ACCENTURE/NewCo/Sistema_Observatorio/frontend/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:66798:27)
+    at resolveConfig (file:///C:/Users/juan.gugel.gonzalez/OneDrive%20-%20Accenture/ACCENTURE/NewCo/Sistema_Observatorio/frontend/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:66399:30)
+    at preview (file:///C:/Users/juan.gugel.gonzalez/OneDrive%20-%20Accenture/ACCENTURE/NewCo/Sistema_Observatorio/frontend/node_modules/vite/dist/node/chunks/dep-C6uTJdX2.js:66205:24)
+    at CAC.<anonymous> (file:///C:/Users/juan.gugel.gonzalez/OneDrive%20-%20Accenture/ACCENTURE/NewCo/Sistema_Observatorio/frontend/node_modules/vite/dist/node/cli.js:883:28)[39m

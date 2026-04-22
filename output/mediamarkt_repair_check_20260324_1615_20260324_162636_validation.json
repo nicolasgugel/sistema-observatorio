@@ -1,0 +1,100 @@
+{
+  "runtime_name": "legacy_hybrid_validated_runtime",
+  "mode": "full",
+  "brand_scope": "Samsung",
+  "requested_competitors": [
+    "Media Markt"
+  ],
+  "retailer_runtime_map": {
+    "Santander Boutique": "legacy",
+    "Media Markt": "legacy"
+  },
+  "retailers_blocked": [],
+  "selected_key_count": 14,
+  "raw_record_count": 196,
+  "raw_generated_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\output\\mediamarkt_repair_check_20260324_1615_20260324_162636.csv",
+  "retailers": [
+    {
+      "retailer": "Santander Boutique",
+      "runtime_used": "legacy",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy Book5 Pro 14",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 62.35,
+          "term_months": 30,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/Port%C3%A1tiles/Galaxy-Book5-Pro-14%22-Ultra5-16GB-512GB/p/NP944XHA-KG1ES?previousPriceSelected=renting"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy Book5 Pro 14",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 72.34,
+          "term_months": 24,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/Port%C3%A1tiles/Galaxy-Book5-Pro-14%22-Ultra5-16GB-512GB/p/NP944XHA-KG1ES?previousPriceSelected=renting"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy Book5 Pro 14",
+          "capacity_gb": 512,
+          "offer_type": "financing_max_term",
+          "price_value": 93.8,
+          "term_months": 18,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/Port%C3%A1tiles/Galaxy-Book5-Pro-14%22-Ultra5-16GB-512GB/p/NP944XHA-KG1ES?previousPriceSelected=renting"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/Port%C3%A1tiles/Galaxy-Book5-Pro-14%22-Ultra5-16GB-512GB/p/NP944XHA-KG1ES?previousPriceSelected=renting",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/Port%C3%A1tiles/Galaxy-Book5-Pro-14%22-Ultra5-16GB-512GB/p/NP944XHA-KG1ES?previousPriceSelected=renting",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/Port%C3%A1tiles/Galaxy-Book5-Pro-14%22-Ultra5-16GB-512GB/p/NP944XHA-KG1ES?previousPriceSelected=renting"
+      ]
+    },
+    {
+      "retailer": "Media Markt",
+      "runtime_used": "legacy",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A17 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 31.5,
+          "term_months": 6,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a17-lte-azul-128-gb-4-gb-ram-67-fhd-super-amoled-mediatek-g99-octa-core-5000-mah-android-15-1604159.html"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A17 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 61.56,
+          "term_months": 3,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a17-lte-azul-128-gb-4-gb-ram-67-fhd-super-amoled-mediatek-g99-octa-core-5000-mah-android-15-1604159.html"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A17 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 19.49,
+          "term_months": 10,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a17-lte-azul-128-gb-4-gb-ram-67-fhd-super-amoled-mediatek-g99-octa-core-5000-mah-android-15-1604159.html"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a17-lte-azul-128-gb-4-gb-ram-67-fhd-super-amoled-mediatek-g99-octa-core-5000-mah-android-15-1604159.html",
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a17-lte-azul-128-gb-4-gb-ram-67-fhd-super-amoled-mediatek-g99-octa-core-5000-mah-android-15-1604159.html",
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a17-lte-azul-128-gb-4-gb-ram-67-fhd-super-amoled-mediatek-g99-octa-core-5000-mah-android-15-1604159.html"
+      ]
+    }
+  ]
+}

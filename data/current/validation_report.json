@@ -30,8 +30,8 @@
     "Samsung Oficial"
   ],
   "selected_key_count": 69,
-  "raw_record_count": 1238,
-  "raw_generated_csv": "/home/runner/work/sistema-observatorio/sistema-observatorio/output/daily_refresh_20260422_080956_caeb6645_20260422_082541.csv",
+  "raw_record_count": 1241,
+  "raw_generated_csv": "/home/runner/work/sistema-observatorio/sistema-observatorio/output/daily_refresh_20260421_081202_5324e930_20260421_082705.csv",
   "retailers": [
     {
       "retailer": "Santander Boutique",
@@ -80,39 +80,39 @@
       "status": "passed",
       "validated_products": [
         {
-          "brand": "Apple",
-          "model": "Apple MacBook Pro",
-          "capacity_gb": 1024,
-          "offer_type": "cash",
-          "price_value": 2099.0,
-          "term_months": null,
-          "source_url": "https://www.amazon.es/dp/B07FQZRJ8Y"
-        },
-        {
-          "brand": "Apple",
-          "model": "Apple MacBook Pro",
-          "capacity_gb": 2048,
-          "offer_type": "cash",
-          "price_value": 2099.0,
-          "term_months": null,
-          "source_url": "https://www.amazon.es/dp/B07FQZRJ8Y"
-        },
-        {
-          "brand": "Apple",
-          "model": "Apple iPhone 15",
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A17 5G",
           "capacity_gb": 128,
           "offer_type": "cash",
-          "price_value": 574.18,
+          "price_value": 155.37,
           "term_months": null,
-          "source_url": "https://www.amazon.es/dp/B0CHXFCYCR"
+          "source_url": "https://www.amazon.es/dp/B0FPX8423R"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "cash",
+          "price_value": 313.22,
+          "term_months": null,
+          "source_url": "https://www.amazon.es/dp/B0DWFYMHCC"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A37 5G",
+          "capacity_gb": 256,
+          "offer_type": "cash",
+          "price_value": 390.91,
+          "term_months": null,
+          "source_url": "https://www.amazon.es/dp/B0GNNQK18G"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
-        "https://www.amazon.es/dp/B07FQZRJ8Y",
-        "https://www.amazon.es/dp/B07FQZRJ8Y",
-        "https://www.amazon.es/dp/B0CHXFCYCR"
+        "https://www.amazon.es/dp/B0FPX8423R",
+        "https://www.amazon.es/dp/B0DWFYMHCC",
+        "https://www.amazon.es/dp/B0GNNQK18G"
       ]
     },
     {
@@ -134,7 +134,7 @@
           "model": "Apple MacBook Air",
           "capacity_gb": 512,
           "offer_type": "renting_no_insurance",
-          "price_value": 50.9,
+          "price_value": 59.9,
           "term_months": 18,
           "source_url": "https://www.getgrover.com/es-es/products/apple-macbook-air-13-m5-8cpu-16gb-512gb-8gpu"
         },
@@ -386,26 +386,26 @@
           "model": "Apple iPad Air M4 Wi-Fi",
           "capacity_gb": 128,
           "offer_type": "financing_max_term",
-          "price_value": 16.25,
+          "price_value": 12.5,
           "term_months": 48,
-          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-128gb-azul/3711297.html"
         },
         {
           "brand": "Apple",
           "model": "Apple iPad Air M4 Wi-Fi",
-          "capacity_gb": 256,
+          "capacity_gb": 128,
           "offer_type": "financing_max_term",
-          "price_value": 14.75,
+          "price_value": 16.25,
           "term_months": 48,
-          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-256gb-gris/3711298.html"
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
         "https://www.orange.es/dispositivos/tablets/apple/ipad-wifi-11-2025-128gb-plata/3711018.html",
-        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html",
-        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-256gb-gris/3711298.html"
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-128gb-azul/3711297.html",
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
       ]
     },
     {

@@ -1,0 +1,94 @@
+{
+  "timestamp": "20260227_112722",
+  "competitors_targeted": [
+    "Amazon",
+    "El Corte Ingl?s",
+    "Fnac",
+    "Grover",
+    "Media Markt",
+    "Movistar",
+    "Orange",
+    "PcComponentes",
+    "Qonexa",
+    "Rentik",
+    "Vodafone",
+    "Samsung Oficial"
+  ],
+  "s26_seed_count": 6,
+  "s26_models": [
+    "Samsung Galaxy S26",
+    "Samsung Galaxy S26 Ultra 5G",
+    "Samsung Galaxy S26+ 5G"
+  ],
+  "s26_model_capacity": [
+    {
+      "model": "Samsung Galaxy S26",
+      "capacity_gb": 256
+    },
+    {
+      "model": "Samsung Galaxy S26 Ultra 5G",
+      "capacity_gb": 256
+    },
+    {
+      "model": "Samsung Galaxy S26+ 5G",
+      "capacity_gb": 256
+    }
+  ],
+  "records_with_santander": 62,
+  "records_others_only": 35,
+  "coverage_by_retailer": {
+    "Media Markt": 27,
+    "Movistar": 6,
+    "PcComponentes": 2,
+    "Santander Boutique": 27
+  },
+  "coverage_by_retailer_offer": [
+    {
+      "retailer": "Media Markt",
+      "offer_type": "cash",
+      "count": 3
+    },
+    {
+      "retailer": "Media Markt",
+      "offer_type": "financing_max_term",
+      "count": 24
+    },
+    {
+      "retailer": "Movistar",
+      "offer_type": "cash",
+      "count": 3
+    },
+    {
+      "retailer": "Movistar",
+      "offer_type": "financing_max_term",
+      "count": 3
+    },
+    {
+      "retailer": "PcComponentes",
+      "offer_type": "cash",
+      "count": 2
+    },
+    {
+      "retailer": "Santander Boutique",
+      "offer_type": "cash",
+      "count": 3
+    },
+    {
+      "retailer": "Santander Boutique",
+      "offer_type": "financing_max_term",
+      "count": 18
+    },
+    {
+      "retailer": "Santander Boutique",
+      "offer_type": "renting_no_insurance",
+      "count": 3
+    },
+    {
+      "retailer": "Santander Boutique",
+      "offer_type": "renting_with_insurance",
+      "count": 3
+    }
+  ],
+  "csv_with_santander": "output/s26_multicompetitor_with_santander_20260227_112722.csv",
+  "csv_others_only": "output/s26_multicompetitor_others_20260227_112722.csv"
+}

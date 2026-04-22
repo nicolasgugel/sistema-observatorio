@@ -1,0 +1,2 @@
+INFO:     127.0.0.1:59293 - "GET /api/table/meta HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59293 - "GET /api/intelligence/filters?brand=Samsung HTTP/1.1" 200 OK

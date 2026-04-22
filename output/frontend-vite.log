@@ -1,0 +1,42 @@
+
+> vite_react_shadcn_ts@0.0.0 dev
+> vite --host 127.0.0.1 --port 5173
+
+
+  [32m[1mVITE[22m v5.4.19[39m  [2mready in [0m[1m2408[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://127.0.0.1:[1m5173[22m/[39m
+[2m09:29:10[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/agent/AgentConsole.tsx, /src/index.css[22m
+[2m15:07:22[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ComparadorPage.tsx, /src/index.css[22m
+[2m15:14:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/ComparadorPage.tsx, /src/index.css[22m
+[2m15:15:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/VisualizadorPage.tsx, /src/index.css[22m
+[2m17:02:14[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m17:02:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:02:27[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mindex.html[22m
+[2m17:02:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:02:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:19[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:24[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:40[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:03:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:04:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:04:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:04:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:04:18[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m17:04:32[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.ts[22m
+[2m17:04:41[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2mtailwind.config.ts[22m
+[2m17:05:02[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/button.tsx, /src/index.css[22m
+[2m17:05:14[22m [36m[1m[vite][22m[39m [32mpage reload [39m[2msrc/components/ui/card.tsx[22m
+[2m17:05:20[22m [36m[1m[vite][22m[39m [33mhmr invalidate [39m[2m/src/components/ui/button.tsx[22m Could not Fast Refresh ("buttonVariants" export is incompatible). Learn more at https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react-swc#consistent-components-exports
+[2m17:05:20[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css, /src/pages/HomePage.tsx, /src/pages/VisualizadorPage.tsx, /src/pages/ComparadorPage.tsx, /src/components/agent/AgentConsole.tsx[22m
+[2m17:05:21[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ui/input.tsx, /src/index.css[22m
+[2m17:05:33[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AppLayout.tsx, /src/index.css[22m
+[2m17:05:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/AppSidebar.tsx, /src/index.css[22m
+[2m17:05:44[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/SharedUI.tsx, /src/index.css[22m
+[2m17:05:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/SharedUI.tsx, /src/index.css[22m
+[2m17:27:21[22m [36m[1m[vite][22m[39m [32m.env.local changed, restarting server...[39m
+[2m17:27:21[22m [36m[1m[vite][22m[39m server restarted.

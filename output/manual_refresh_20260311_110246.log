@@ -1,0 +1,658 @@
+[32m11:02:50[0m | [1mINFO    [0m | ============================================================
+[32m11:02:50[0m | [1mINFO    [0m | SISTEMA COMPARADOR DE PRECIOS — SANTANDER BOUTIQUE
+[32m11:02:50[0m | [1mINFO    [0m | ============================================================
+[32m11:02:50[0m | [1mINFO    [0m | Scrapers: boutique, amazon, grover, mediamarkt, movistar, rentik, samsung_store, apple_store
+[32m11:02:50[0m | [1mINFO    [0m | Marcas:   todas
+[32m11:02:50[0m | [1mINFO    [0m | ============================================================
+[32m11:02:50[0m | [1mINFO    [0m | ▶ Santander Boutique (API)
+[2026-03-11 11:02:50] WARNING: This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure()` instead before fetching
+[32m11:02:50[0m | [1mINFO    [0m | [Boutique] Scraping marca: Apple
+[2026-03-11 11:02:50] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/search?query=:relevance:brand:Apple&lang=es&curr=EUR&region=es-pn&channel=Web&fields=FULL&pageSize=100&currentPage=0> (referer: https://www.google.com/search?q=bancosantander)
+[32m11:02:50[0m | [1mINFO    [0m | [Boutique] Apple: 42 productos en 1 páginas
+[2026-03-11 11:02:51] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MHRX4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:52] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MHRV4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:53] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MHRY4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:53] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG8G4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:55] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG8K4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:55] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG8P4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:56] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG2Q4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:57] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG2L4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:58] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG2W4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:02:59] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG6V4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:00] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG6J4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:00] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MG6P4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:01] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MXVU3QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:02] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MXWN3QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:02] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MFYM4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:03] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MFYQ4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:04] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MFYV4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:05] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MFYY4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:06] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MD1Q4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:06] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MYE73QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:07] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MXN83TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:08] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MXN63TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:09] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MXNA3TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:09] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MD4A4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:10] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MD3Y4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:11] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MD4G4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:12] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MD4Q4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:12] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MHFA4Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:13] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MHFC4Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:14] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDHA4Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:14] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDH74Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:16] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDHG4Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:16] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MGDN4Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:19] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDE14Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:20] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MGDQ4Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:20] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MH304TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:21] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MH354TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:22] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/2MFYM4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:22] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/2MG6U4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:23] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/2MG8G4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:24] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDYJ4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:25] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDYL4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:25] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDYN4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:26] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDYT4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:27] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDWK4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:28] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDWM4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:29] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDWP4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:30] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MDWU4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:30] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/ME7W4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:31] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/ME2N4TY_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:32] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/1MG8Q4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:32] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/1MG6U4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:33] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MU9E3YP_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:33] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MU9D3YP_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:34] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MWUC3Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:35] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MWUV3Y_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:36] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/1MFYM4QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:37] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MU973YP_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:37] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MU963YP_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:38] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MTP03QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:39] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/MTP63QL_A?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[32m11:03:39[0m | [1mINFO    [0m | [Boutique] Apple: 356 filas generadas
+[32m11:03:40[0m | [1mINFO    [0m | [Boutique] Scraping marca: Samsung
+[2026-03-11 11:03:40] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/search?query=:relevance:brand:Samsung&lang=es&curr=EUR&region=es-pn&channel=Web&fields=FULL&pageSize=100&currentPage=0> (referer: https://www.google.com/search?q=bancosantander)
+[32m11:03:40[0m | [1mINFO    [0m | [Boutique] Samsung: 38 productos en 1 páginas
+[2026-03-11 11:03:40] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-S942BZKGEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:41] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-S947BZKDEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:42] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-S948BZKDEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:43] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-A176BZKAEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:43] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-F766BZKGEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:44] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-F966BZKBEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:45] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/NP944XHA-KG1ES?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:46] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-S731BZKDEEB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:46] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-X930NZAREUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:47] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-X400NZAREUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:48] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-A566BZKAEEB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:49] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-A366BZKBEEB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:51] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-S931BZSGEUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:52] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/NP754XGJ-KG2ES?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:53] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-X520NZAREUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[2026-03-11 11:03:54] INFO: Fetched (200) <GET https://api-boutique.bancosantander.es/rest/v2/mktBoutique/products/SM-X230NZAREUB?fields=FULL&lang=es&curr=EUR&region=es-pn&channel=Web> (referer: https://www.google.com/search?q=bancosantander)
+[32m11:03:54[0m | [1mINFO    [0m | [Boutique] Samsung: 122 filas generadas
+[32m11:03:54[0m | [32m[1mSUCCESS [0m | ✓ Santander Boutique: 478 filas
+[32m11:03:54[0m | [1mINFO    [0m | Targets derivados del catálogo Boutique: 65
+[32m11:03:54[0m | [1mINFO    [0m | ▶ Amazon (amazon)
+[32m11:03:54[0m | [1mINFO    [0m | [Amazon] 65 productos a buscar
+[2026-03-11 11:03:55] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:55] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17e+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:55] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:55] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:55] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17e+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:56] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MHRY4QL_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:56] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MHRV4QL_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:58] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MHRY4QL%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:59] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+Air+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:59] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+Air+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:59] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+Air+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:03:59] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:01] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:02] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+16+Plus+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:02] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+16+Plus+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:02] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+Max+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:03] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+Max+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:04] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+Max+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:05] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+16+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:05] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+17+Pro+Max+2048GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:05] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+16e+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:06] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+mini+Wi+Fi+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:07] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MFYY4QL_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:07] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+mini+Wi+Fi+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:09] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+11th+WiFi+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:09] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+11th+WiFi+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:09] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+11th+WiFi+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:10] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+MacBook+Neo+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:11] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+MacBook+Neo+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:12] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+MacBook+Air+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:12] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+MacBook+Air+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:12] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+MacBook+Pro+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:13] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+MacBook+Pro+2048GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:14] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Air+M4+Wi-Fi+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:15] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MH304TY_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:15] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Air+M4+Wi-Fi+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:15] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+13+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:16] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+13+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:16] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+13+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:16] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MH354TY_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:18] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+13+2048GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:18] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+11+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:19] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+11+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:19] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+11+2048GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:19] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+11+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:21] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MDWU4TY_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:21] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+13+%2B+Cell+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:21] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPad+Pro+M5+WiFi+11+%2B+Cell+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:24] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iMac+24+M4+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:24] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iMac+24+M4+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:24] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+mini+M4+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:24] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+mini+M4+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:25] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+Studio+M3+Ultra+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:25] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU9E3YP_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:26] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU973YP_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:26] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU9E3YP%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:27] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU973YP%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:27] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+Studio+M4+Max+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:27] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU9E3YP> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:28] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+15+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:28] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+iPhone+15+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:28] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU973YP> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:28] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU963YP_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:29] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+mini+M4+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:29] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU963YP%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:30] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+Studio+M3+Ultra+1024GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:31] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU973YP_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:31] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU963YP> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:31] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU9E3YP_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:31] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+S26%2B+5G+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:31] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+S26+5G+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:32] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU973YP%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:32] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU9E3YP%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:32] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+S26%2B+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:33] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU973YP> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:33] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Apple+Mac+Studio+M4+Max+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:33] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU9E3YP> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:34] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU963YP_A> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:34] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+S26+Ultra+5G+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:35] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU963YP%2FA> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:36] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Z+Flip+7+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:36] INFO: Fetched (200) <GET https://www.amazon.es/s?k=MU963YP> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:36] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+A17+5G+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:36] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Z+Fold+7+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:38] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Book5+Pro+14+Ultra5+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:39] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Book5+Pro+14+Ultra5+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:39] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Tab+S11+Ultra+wifi+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:39] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+S25+FE+5G+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:39] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Tab+S10+Lite+WiFi+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:40] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+A56+5G+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:40] INFO: Fetched (200) <GET https://www.amazon.es/s?k=NP944XHA-KG1ES> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:42] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+S25+256GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:43] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Book4+15%2C6+%2F+i5+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:43] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+A36+5G+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:43] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Tab+S10+FE+Wi-Fi+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:43] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Tab+A11%2B+Wifi+128GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:44] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Book4+15%2C6+%2F+i5+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:45] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Book4+15.6+i5+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:46] INFO: Fetched (200) <GET https://www.amazon.es/s?k=Samsung+Galaxy+Book4+i5+15.6+512GB&rh=n:3944681031> (referer: https://www.google.com/search?q=amazon)
+[2026-03-11 11:04:47] INFO: Fetched (200) <GET https://www.amazon.es/s?k=NP754XGJ-KG2ES> (referer: https://www.google.com/search?q=amazon)
+[32m11:04:49[0m | [1mINFO    [0m | [Amazon] Total: 62 filas
+[32m11:04:49[0m | [32m[1mSUCCESS [0m | ✓ Amazon: 62 filas
+[32m11:04:49[0m | [1mINFO    [0m | ▶ Grover (grover)
+[2026-03-11 11:04:49] WARNING: This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure(auto_match=False)` instead before fetching
+[32m11:04:49[0m | [1mINFO    [0m | [Grover] Fetching: https://www.getgrover.com/es-es/phones-and-tablets/smartphones?brand=apple
+[2026-03-11 11:05:00] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/smartphones?brand=apple> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:05:09] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/smartphones?brand=apple&page=2> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:05:17] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/smartphones?brand=apple&page=3> (referer: https://www.google.com/search?q=getgrover)
+[32m11:05:17[0m | [1mINFO    [0m | [Grover] https://www.getgrover.com/es-es/phones-and-tablets/smartphones?brand=apple: 9 filas
+[32m11:05:18[0m | [1mINFO    [0m | [Grover] Fetching: https://www.getgrover.com/es-es/phones-and-tablets/tablets?brand=apple
+[2026-03-11 11:05:23] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/tablets?brand=apple> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:05:31] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/tablets?brand=apple&page=2> (referer: https://www.google.com/search?q=getgrover)
+[32m11:05:31[0m | [1mINFO    [0m | [Grover] https://www.getgrover.com/es-es/phones-and-tablets/tablets?brand=apple: 17 filas
+[32m11:05:32[0m | [1mINFO    [0m | [Grover] Fetching: https://www.getgrover.com/es-es/computers/laptops?brand=apple
+[2026-03-11 11:05:33] INFO: Fetched (200) <GET https://www.grover.com/es-es/computers/laptops?brand=apple> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:05:39] INFO: Fetched (200) <GET https://www.grover.com/es-es/computers/laptops?brand=apple&page=2> (referer: https://www.google.com/search?q=getgrover)
+[32m11:05:39[0m | [1mINFO    [0m | [Grover] https://www.getgrover.com/es-es/computers/laptops?brand=apple: 2 filas
+[32m11:05:40[0m | [1mINFO    [0m | [Grover] Fetching: https://www.getgrover.com/es-es/phones-and-tablets/smartphones?brand=samsung
+[2026-03-11 11:05:53] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/smartphones?brand=samsung> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:05:55] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/smartphones?brand=samsung&page=2> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:05:58] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/smartphones?brand=samsung&page=3> (referer: https://www.google.com/search?q=getgrover)
+[32m11:05:58[0m | [1mINFO    [0m | [Grover] https://www.getgrover.com/es-es/phones-and-tablets/smartphones?brand=samsung: 9 filas
+[32m11:05:59[0m | [1mINFO    [0m | [Grover] Fetching: https://www.getgrover.com/es-es/phones-and-tablets/tablets?brand=samsung
+[2026-03-11 11:06:04] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/tablets?brand=samsung> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:06:06] INFO: Fetched (200) <GET https://www.grover.com/es-es/phones-and-tablets/tablets?brand=samsung&page=2> (referer: https://www.google.com/search?q=getgrover)
+[32m11:06:06[0m | [1mINFO    [0m | [Grover] https://www.getgrover.com/es-es/phones-and-tablets/tablets?brand=samsung: 17 filas
+[32m11:06:07[0m | [1mINFO    [0m | [Grover] Fetching: https://www.getgrover.com/es-es/computers/laptops?brand=samsung
+[2026-03-11 11:06:09] INFO: Fetched (200) <GET https://www.grover.com/es-es/computers/laptops?brand=samsung> (referer: https://www.google.com/search?q=getgrover)
+[2026-03-11 11:06:11] INFO: Fetched (200) <GET https://www.grover.com/es-es/computers/laptops?brand=samsung&page=2> (referer: https://www.google.com/search?q=getgrover)
+[32m11:06:11[0m | [1mINFO    [0m | [Grover] https://www.getgrover.com/es-es/computers/laptops?brand=samsung: 2 filas
+[32m11:06:12[0m | [1mINFO    [0m | [Grover] Total: 56 filas (28 tras dedupe)
+[32m11:06:12[0m | [32m[1mSUCCESS [0m | ✓ Grover: 28 filas
+[32m11:06:12[0m | [1mINFO    [0m | ▶ MediaMarkt (mediamarkt)
+[2026-03-11 11:06:12] WARNING: This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure(auto_match=False)` instead before fetching
+[32m11:06:12[0m | [1mINFO    [0m | [MediaMarkt] 65 productos a buscar
+[2026-03-11 11:06:15] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:15] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17e+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:15] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:15] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:16] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17e+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:18] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17-pro-plata-512-gb-5g-63-oled-super-retina-xdr-chip-a19-pro-ios-1606138.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:18] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17e-blanco-512-gb-5g-61-oled-super-retina-xdr-chip-a19-ios-1622080.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:18] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17-pro-azul-oscuro-256-gb-5g-63-oled-super-retina-xdr-chip-a19-pro-ios-1606137.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:19] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17e-rosa-256-gb-5g-61-oled-super-retina-xdr-chip-a19-ios-1622078.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:20] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+Air+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:22] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+Air+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:22] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:23] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+Air+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:23] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-air-negro-espacial-256-gb-5g-65-oled-super-retina-xdr-chip-a19-pro-ios-1606156.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:24] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-air-negro-espacial-512-gb-5g-65-oled-super-retina-xdr-chip-a19-pro-ios-1606160.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:25] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:25] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17-negro-256-gb-5g-63-oled-super-retina-xdr-chip-a19-ios-1606125.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:27] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+16+Plus+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:28] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17-negro-512-gb-5g-63-oled-super-retina-xdr-chip-a19-ios-1606130.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:28] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-16-plus-negro-128-gb-5g-67-oled-super-retina-xdr-chip-a18-bionic-ios-1582165.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:29] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+Max+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:29] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+16+Plus+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:29] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+Max+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:32] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-apple-iphone-16-plus-blanco-256-gb-67-super-retina-xdr-ceramic-shield-recubrimiento-oleofobico-anti-huellas-apple-a18-ios-18-148993753.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:32] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17-pro-max-naranja-cosmico-256-gb-5g-69-oled-super-retina-xdr-chip-a19-pro-ios-1606145.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:32] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-17-pro-max-naranja-cosmico-512-gb-5g-69-oled-super-retina-xdr-chip-a19-pro-ios-1606148.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:33] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+Max+2048GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:34] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+17+Pro+Max+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:35] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+16e+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:35] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_reacondicionado-seminuevo-muy-bueno-apple-iphone-17-pro-max-naranja-cosmico-2-tb-5g-69-oled-super-retina-xdr-chip-a19-pro-ios-1608744.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:36] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+mini+Wi+Fi+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:36] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+16+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:39] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-16-negro-128-gb-5g-61-oled-super-retina-xdr-chip-a18-bionic-ios-1582150.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:39] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-16e-negro-128-gb-5g-61-oled-super-retina-xdr-chip-a18-ios-1595132.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:39] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_reacondicionado-seminuevo-muy-bueno-apple-ipad-mini-2024-128-gb-gris-espacial-wifi-83-chip-a17-pro-ipados-1600342.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:40] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+11th+WiFi+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:40] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+mini+Wi+Fi+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:42] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-ipad-mini-2024-7agen-256-gb-gris-espacial-wifi-83chip-a17-pro-ipados-1584684.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:43] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+MacBook+Neo+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:43] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+11th+WiFi+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:44] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+MacBook+Neo+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:44] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+11th+WiFi+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:45] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-macbook-neo-2026-13-liquid-retina-chip-a18-pro-cpu-6-nucleos-gpu-5-nucleos-8gb-ram-256gb-ssd-magic-keyboard-rosa-nube-sin-ac-1622437.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:47] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+MacBook+Air+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:48] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-macbook-neo-2026-13-liquid-retina-chip-a18-pro-cpu-6-nucleos-gpu-5-nucleos-8gb-ram-512gb-ssd-magic-keyboard-touch-id-plata-sin-ac-1622432.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:48] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+MacBook+Pro+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:49] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+MacBook+Air+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:49] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+MacBook+Pro+2048GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:49] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-macbook-air-2025-136-retina-chip-m4-apple-cpu-de-10-nucleos-gpu-de-8-nucleos-16-gb-ram-512gb-de-ssd-azul-cielo-1596180.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:51] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_portatil-apple-macbook-pro-142-retina-apple-mm2-pro-16-gb-ram-1-tb-ssd-m2-pro-macos-108016400.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:53] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Air+M4+Wi-Fi+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:53] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+13+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:54] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Air+M4+Wi-Fi+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:54] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+13+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:55] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+13+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:57] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+13+2048GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:58] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+11+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:58] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+11+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:59] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+11+2048GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:06:59] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+11+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:02] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+13+%2B+Cell+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:02] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPad+Pro+M5+WiFi+11+%2B+Cell+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:03] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+Mac+mini+M4+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:03] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+Mac+mini+M4+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:04] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iMac+24+M4+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:06] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iMac+24+M4+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:08] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+Mac+Studio+M3+Ultra+1024GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:08] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+15+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:08] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+iPhone+15+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:09] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Apple+Mac+Studio+M4+Max+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:12] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_apple-iphone-15-negro-128-gb-5g-61-oled-super-retina-xdr-chip-a16-bionic-ios-1561320.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:12] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+S26%2B+5G+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:12] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+S26+5G+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:13] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_smartphone-iphone-15-negro-256-go-ram-6-gb-apple-negro-256-gb-61-a16-bionic-3349-mahmah-126337763.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:13] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+S26+Ultra+5G+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:16] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-s26-negro-256-gb-12-gb-ram-63-fhd-exynos-2600-4300-mah-android-16-1620261.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:16] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-s26-ultra-negro-256-gb-12-gb-ram-69-qhd-qualcomm-snapdragon-8-elite-gen-5-5000-mah-android-16-1620277.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:16] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+A17+5G+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:16] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-s26-plus-negro-256-gb-12-gb-ram-67-qhd-exynos-2600-4900-mah-android-16-1620269.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:18] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_samsung-galaxy-a17-5g-black-movil-android-128-gb-4-gb-ram-67-super-amoled-90-hz-5000-mah-161626355.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:19] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Z+Flip+7+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:20] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Book5+Pro+14+Ultra5+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:21] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+S25+FE+5G+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:21] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Z+Fold+7+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:22] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-zflip7-negro-256-gb-12-gb-ram-69-fhd-exynos-2500-4300-mah-android-16-1602549.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:23] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Tab+S11+Ultra+wifi+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:24] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-z-fold7-azul-256-gb-12-gb-ram-8-qxga-snapdragon-8-elite-4400-mah-android-16-1602554.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:24] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-s25-fe-jet-black-128-gb-8-gb-ram-67-fhd-exynos-2400-deca-core-4900-mah-android-16-1604818.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:25] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Tab+S10+Lite+WiFi+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:26] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_tablet-samsung-galaxy-tab-s11-ultra-11-wqxga-12-gb-ram-256-gb-gris-sin-adaptador-de-corriente-con-s-pen-1604140.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:26] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+A56+5G+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:27] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_tablet-samsung-galaxy-tab-s10-lite-109-wuxga-6-gb-ram-128-gb-coral-sin-adaptador-de-corriente-con-s-pen-1604108.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:28] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+A36+5G+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:29] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+S25+256GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:29] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a56-5g-negro-128-gb-8-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594696.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:30] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Book4+15%2C6+%2F+i5+512GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:30] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_reacondicionado-seminuevo-muy-bueno-movil-samsung-galaxy-s25-mint-256-gb-12-gb-ram-62-fhd-con-ia-snapdragon-8-4000-mah-android-15-1607291.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:31] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:32] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Tab+S10+FE+Wi-Fi+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:32] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_portatil-samsung-galaxy-book4-156-fhd-intelr-coretm-5-120u-16gb-ram-512gb-ssd-intelr-graphics-w11h-gris-1578835.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:33] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/search.html?query=Samsung+Galaxy+Tab+A11%2B+Wifi+128GB> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:36] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_tablet-samsung-galaxy-tab-s10-fe-109-wuxga-8-gb-ram-128-gb-gris-sin-adaptador-de-corriente-con-s-pen-1596717.html> (referer: https://www.google.com/search?q=mediamarkt)
+[2026-03-11 11:07:37] INFO: Fetched (200) <GET https://www.mediamarkt.es/es/product/_tablet-samsung-galaxy-tab-a11-11-wuxga-6-gb-ram-128-gb-gris-1610710.html> (referer: https://www.google.com/search?q=mediamarkt)
+[32m11:07:39[0m | [1mINFO    [0m | [MediaMarkt] Total: 380 filas
+[32m11:07:39[0m | [32m[1mSUCCESS [0m | ✓ MediaMarkt: 380 filas
+[32m11:07:39[0m | [1mINFO    [0m | ▶ Movistar (movistar)
+[2026-03-11 11:07:39] WARNING: This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure(auto_match=False)` instead before fetching
+[32m11:07:39[0m | [1mINFO    [0m | [Movistar] Fetching listing page...
+[2026-03-11 11:07:40] INFO: Fetched (200) <GET https://www.movistar.es/moviles/> (referer: https://www.google.com/search?q=movistar)
+[32m11:07:40[0m | [1mINFO    [0m | [Movistar] 25 modelos únicos encontrados
+[2026-03-11 11:07:44] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-17e-256gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:07:47] INFO: Fetched (200) <GET https://www.movistar.es/moviles/xiaomi-redmi-note-15-pro-5g-256gb-gris/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:07:49] INFO: Fetched (200) <GET https://www.movistar.es/moviles/google-google-pixel-10-256gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:07:52] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-17-pro-max-256gb-plata/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:07:54] INFO: Fetched (200) <GET https://www.movistar.es/moviles/samsung-galaxy-a36-5g-128gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:07:57] INFO: Fetched (200) <GET https://www.movistar.es/moviles/samsung-galaxy-s26-256gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:07:59] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-17-256gb-azulneblina/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:02] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-16-128gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:04] INFO: Fetched (200) <GET https://www.movistar.es/moviles/google-google-pixel-10-pro-256gb-gris/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:07] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-17-pro-256gb-naranjacosmico/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:09] INFO: Fetched (200) <GET https://www.movistar.es/moviles/samsung-galaxy-s26-ultra-512gb-violeta/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:12] INFO: Fetched (200) <GET https://www.movistar.es/moviles/samsung-galaxy-s25-fe-128gb-negrointenso/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:16] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-16e-128gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:19] INFO: Fetched (200) <GET https://www.movistar.es/moviles/google-google-pixel-10a-256gb-lavanda/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:21] INFO: Fetched (200) <GET https://www.movistar.es/moviles/xiaomi-redmi-note-15-pro-plus-5g-256gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:24] INFO: Fetched (200) <GET https://www.movistar.es/moviles/google-google-pixel-10-pro-xl-512gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:26] INFO: Fetched (200) <GET https://www.movistar.es/moviles/xiaomi-redmi-note-15-5g-256gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:29] INFO: Fetched (200) <GET https://www.movistar.es/moviles/samsung-galaxy-s26-plus-256gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:31] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-15-128gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:34] INFO: Fetched (200) <GET https://www.movistar.es/moviles/samsung-galaxy-s25-ultra-512gb-negrointenso/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:36] INFO: Fetched (200) <GET https://www.movistar.es/moviles/oppo-find-x9-pro-5g-512gb-blanco/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:39] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-air-256gb-doradoclaro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:42] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-16-pro-1024gb-titanionatural/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:44] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-16-plus-128gb-negro/> (referer: https://www.google.com/search?q=movistar)
+[2026-03-11 11:08:49] INFO: Fetched (200) <GET https://www.movistar.es/moviles/apple-iphone-16-pro-max-256gb-titanionegro/> (referer: https://www.google.com/search?q=movistar)
+[32m11:08:49[0m | [1mINFO    [0m | [Movistar] Total: 47 filas
+[32m11:08:49[0m | [32m[1mSUCCESS [0m | ✓ Movistar: 47 filas
+[32m11:08:49[0m | [1mINFO    [0m | ▶ Rentik (rentik)
+[2026-03-11 11:08:49] WARNING: This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure(auto_match=False)` instead before fetching
+[2026-03-11 11:08:49] INFO: Fetched (200) <GET https://www.rentik.com/es/> (referer: https://www.google.com/)
+[32m11:08:49[0m | [1mINFO    [0m | [Rentik] 93 URLs de producto del nav
+[32m11:08:49[0m | [1mINFO    [0m | [Rentik] 14 paginas de producto a scraper
+[32m11:08:49[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17-pro/
+[2026-03-11 11:08:50] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17-pro/> (referer: https://www.google.com/)
+[2026-03-11 11:08:50] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:08:50] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=naranja&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:51] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=naranja&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:51] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=naranja&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:51] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=naranja&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:51] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=naranja&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:52] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=plata&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:52] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=plata&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:52] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=plata&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro&checkparams=true> (referer: https://www.google.com/)
+[32m11:08:52[0m | [1mINFO    [0m | [Rentik] iphone-17-pro: 2 filas
+[32m11:08:54[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-17-Air/
+[2026-03-11 11:08:54] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-17-Air/> (referer: https://www.google.com/)
+[2026-03-11 11:08:55] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:08:55] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:55] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:56] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:56] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:56] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:57] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=blanco&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:57] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=blanco&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:57] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=blanco&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:58] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=1-tb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:58] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=1-tb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:58] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=blanco&capacity=1-tb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:59] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=blanco&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=1-tb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:59] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=1-tb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:08:59] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=negro&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=1-tb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:08:59] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=dorado&capacity=1-tb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:00] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=dorado&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=1-tb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:00] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=1-tb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:00] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-17-Air&capacity=1-tb&minimalStock=1.0> (referer: https://www.google.com/)
+[32m11:09:00[0m | [1mINFO    [0m | [Rentik] iPhone-17-Air: 2 filas
+[32m11:09:02[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17/
+[2026-03-11 11:09:02] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17/> (referer: https://www.google.com/)
+[2026-03-11 11:09:03] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:03] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:03] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=verde&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:04] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=blanco&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:04] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:04] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=verde&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:05] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=blanco&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:05] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=blanco&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:05] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:05] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:06] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=lavanda&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:06] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=lavanda&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:06] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:07] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=negro&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:07] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:07] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[32m11:09:07[0m | [1mINFO    [0m | [Rentik] iphone-17: 1 filas
+[32m11:09:09[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17-pro-max/
+[2026-03-11 11:09:09] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17-pro-max/> (referer: https://www.google.com/)
+[2026-03-11 11:09:10] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:10] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=naranja&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:10] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=naranja&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:11] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=plata&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:11] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=plata&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:12] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=navy&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:12] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=naranja&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:13] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=naranja&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&capacity=512-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:13] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=naranja&capacity=512-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-17-pro-max&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:13[0m | [1mINFO    [0m | [Rentik] iphone-17-pro-max: 2 filas
+[32m11:09:14[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/
+[2026-03-11 11:09:15] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/> (referer: https://www.google.com/)
+[2026-03-11 11:09:15] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16e&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:15] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16e&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:16] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=negro&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16e&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:16] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16e&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:16[0m | [1mINFO    [0m | [Rentik] iPhone-16e: 1 filas
+[32m11:09:17[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16/
+[2026-03-11 11:09:18] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16/> (referer: https://www.google.com/)
+[2026-03-11 11:09:18] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:18] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:21] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=negro&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:21] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2FiPhone-16&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:21[0m | [1mINFO    [0m | [Rentik] iPhone-16: 1 filas
+[32m11:09:22[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/renting-ordenadores/apple-macbooks/MacBook-Air-136-M4/
+[2026-03-11 11:09:23] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/renting-ordenadores/apple-macbooks/MacBook-Air-136-M4/> (referer: https://www.google.com/)
+[2026-03-11 11:09:23] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Frenting-ordenadores%2Fapple-macbooks%2FMacBook-Air-136-M4&checkparams=false> (referer: https://www.google.com/)
+[32m11:09:23[0m | [1mINFO    [0m | [Rentik] MacBook-Air-136-M4: 0 filas
+[32m11:09:25[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/renting-ordenadores/apple-macbooks/MacBook-Pro-14-M4/
+[2026-03-11 11:09:25] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/renting-ordenadores/apple-macbooks/MacBook-Pro-14-M4/> (referer: https://www.google.com/)
+[2026-03-11 11:09:25] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Frenting-ordenadores%2Fapple-macbooks%2FMacBook-Pro-14-M4&checkparams=false> (referer: https://www.google.com/)
+[32m11:09:25[0m | [1mINFO    [0m | [Rentik] MacBook-Pro-14-M4: 0 filas
+[32m11:09:27[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-15/
+[2026-03-11 11:09:27] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-15/> (referer: https://www.google.com/)
+[2026-03-11 11:09:27] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:28] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:28] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=negro&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:28] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=negro&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:29] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=amarillo&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:29] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=amarillo&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:29] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=amarillo&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:29] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:30] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:30] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:30] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:31] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=verde&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:31] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:31] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=rosa&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:31] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=rosa&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:32] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=rosa&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:32] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:32] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:33] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=rosa&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fiphone%2Fiphone-15&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:33[0m | [1mINFO    [0m | [Rentik] iphone-15: 0 filas
+[32m11:09:34[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/samsung/galaxy-s26-5g/
+[2026-03-11 11:09:35] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/samsung/galaxy-s26-5g/> (referer: https://www.google.com/)
+[2026-03-11 11:09:35] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-5g&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:35] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=morado&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-5g&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:35] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=morado&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-5g&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:36] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=morado&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-5g&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:36[0m | [1mINFO    [0m | [Rentik] galaxy-s26-5g: 1 filas
+[32m11:09:37[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/samsung/galaxy-s26-ultra-5g/
+[2026-03-11 11:09:38] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/samsung/galaxy-s26-ultra-5g/> (referer: https://www.google.com/)
+[2026-03-11 11:09:38] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-ultra-5g&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:38] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-ultra-5g&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:39] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-ultra-5g&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:39] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fgalaxy-s26-ultra-5g&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:39[0m | [1mINFO    [0m | [Rentik] galaxy-s26-ultra-5g: 1 filas
+[32m11:09:40[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/samsung/Samsung-Galaxy-A56-5G/
+[2026-03-11 11:09:41] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/samsung/Samsung-Galaxy-A56-5G/> (referer: https://www.google.com/)
+[2026-03-11 11:09:41] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:41] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:42] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=verde&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:42] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=gris&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:43] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=gris&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:43] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=rosa&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:43] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=rosa&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:43] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=rosa&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A56-5G&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:43[0m | [1mINFO    [0m | [Rentik] Samsung-Galaxy-A56-5G: 1 filas
+[32m11:09:45[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/samsung/Samsung-Galaxy-A36-5G/
+[2026-03-11 11:09:45] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/samsung/Samsung-Galaxy-A36-5G/> (referer: https://www.google.com/)
+[2026-03-11 11:09:46] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A36-5G&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:46] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A36-5G&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:46] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=verde&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A36-5G&capacity=128-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:46] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=128-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2FSamsung-Galaxy-A36-5G&checkparams=true> (referer: https://www.google.com/)
+[32m11:09:46[0m | [1mINFO    [0m | [Rentik] Samsung-Galaxy-A36-5G: 1 filas
+[32m11:09:48[0m | [1mINFO    [0m | [Rentik] Fetching: https://www.rentik.com/es/ofertas-alquilar/samsung/samsung-galaxy-s25-5g0/
+[2026-03-11 11:09:48] INFO: Fetched (200) <GET https://www.rentik.com/es/ofertas-alquilar/samsung/samsung-galaxy-s25-5g0/> (referer: https://www.google.com/)
+[2026-03-11 11:09:48] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&checkparams=false> (referer: https://www.google.com/)
+[2026-03-11 11:09:49] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=azul&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:49] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=azul&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:49] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=gris&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:50] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=gris&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:50] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=verde&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:50] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=verde&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:51] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=navy&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:53] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=navy&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[2026-03-11 11:09:53] INFO: Fetched (200) <GET https://www.rentik.com/bin/detailproduct?color=&capacity=256-gb&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&checkparams=true> (referer: https://www.google.com/)
+[2026-03-11 11:09:53] INFO: Fetched (200) <GET https://www.rentik.com/bin/availableTerminal?color=&currentPath=%2Fcontent%2Frentik-project%2Fes%2Fofertas-alquilar%2Fsamsung%2Fsamsung-galaxy-s25-5g0&capacity=256-gb&minimalStock=1.0> (referer: https://www.google.com/)
+[32m11:09:53[0m | [1mINFO    [0m | [Rentik] samsung-galaxy-s25-5g0: 0 filas
+[32m11:09:55[0m | [1mINFO    [0m | [Rentik] Total: 13 filas
+[32m11:09:55[0m | [32m[1mSUCCESS [0m | ✓ Rentik: 13 filas
+[32m11:09:55[0m | [1mINFO    [0m | ▶ Samsung Store (samsung_store)
+[32m11:09:55[0m | [1mINFO    [0m | [Samsung Store] 16 targets Samsung
+[32m11:09:55[0m | [1mINFO    [0m | [Samsung Store] Fetching: https://www.samsung.com/es/smartphones/galaxy-s/
+[32m11:09:55[0m | [1mINFO    [0m | [Samsung Store] Fetching: https://www.samsung.com/es/smartphones/galaxy-a/
+[2026-03-11 11:10:38] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s/> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:10:39] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-a/> (referer: https://www.google.com/search?q=samsung)
+[32m11:10:45[0m | [1mINFO    [0m | [Samsung Store] galaxy-s: 9 filas
+[32m11:10:45[0m | [1mINFO    [0m | [Samsung Store] Fetching: https://www.samsung.com/es/smartphones/galaxy-z/
+[32m11:10:46[0m | [1mINFO    [0m | [Samsung Store] galaxy-a: 4 filas
+[32m11:10:46[0m | [1mINFO    [0m | [Samsung Store] Fetching: https://www.samsung.com/es/tablets/galaxy-tab-s/
+[2026-03-11 11:11:13] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-z/> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:11:22] INFO: Fetched (200) <GET https://www.samsung.com/es/tablets/galaxy-tab-s/> (referer: https://www.google.com/search?q=samsung)
+[32m11:11:28[0m | [1mINFO    [0m | [Samsung Store] galaxy-z: 3 filas
+[32m11:11:28[0m | [1mINFO    [0m | [Samsung Store] Fetching: https://www.samsung.com/es/tablets/galaxy-tab-a/
+[32m11:11:29[0m | [1mINFO    [0m | [Samsung Store] galaxy-tab-s: 5 filas
+[32m11:11:29[0m | [1mINFO    [0m | [Samsung Store] Fetching: https://www.samsung.com/es/computers/galaxy-book/
+[2026-03-11 11:11:45] INFO: Fetched (200) <GET https://www.samsung.com/es/tablets/galaxy-tab-a/> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:11:49] INFO: Fetched (200) <GET https://www.samsung.com/es/computers/galaxy-book/> (referer: https://www.google.com/search?q=samsung)
+[32m11:12:04[0m | [1mINFO    [0m | [Samsung Store] galaxy-book: 0 filas
+[32m11:12:04[0m | [1mINFO    [0m | [Samsung Store] galaxy-tab-a: 2 filas
+[2026-03-11 11:12:36] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s26-ultra/buy/?modelCode=SM-S948BZVGEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:12:37] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S947BZVGEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:13:10] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S942BZVHEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:13:12] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s26-ultra/buy/?modelCode=SM-S948BZDHEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:13:55] WARNING: Attempt 1 failed: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S947BZDGEUB", waiting until "load"
+. Retrying in 1s...
+[2026-03-11 11:13:56] WARNING: Attempt 1 failed: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S942BZDGEUB", waiting until "load"
+. Retrying in 1s...
+[2026-03-11 11:14:07] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S942BZDGEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:14:11] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s26/buy/?modelCode=SM-S947BZDGEUB> (referer: https://www.google.com/search?q=samsung)
+[32m11:14:13[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy S25 FE 5G 128GB: source apunta a 256GB (https://www.samsung.com/es/smartphones/galaxy-s/galaxy-s25-fe-jetblack-256gb-sm-s731bzkgeub/)
+[2026-03-11 11:14:46] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s25/buy/?modelCode=SM-S931BZKHEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:14:50] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-s25/buy/?modelCode=SM-S931BZRHEUB> (referer: https://www.google.com/search?q=samsung)
+[32m11:15:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy A56 5G 128GB: source apunta a 256GB (https://www.samsung.com/es/smartphones/galaxy-a/galaxy-a56-5g-awesome-graphite-256gb-sm-a566bzkceub/)
+[32m11:15:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy A36 5G 128GB: source apunta a 256GB (https://www.samsung.com/es/smartphones/galaxy-a/galaxy-a36-5g-awesome-black-256gb-sm-a366bzkgeub/)
+[32m11:15:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy A17 5G 128GB: source apunta a 256GB (https://www.samsung.com/es/smartphones/galaxy-a/galaxy-a17-5g-black-256gb-sm-a176bzkdeub/)
+[32m11:15:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy A17 5G 128GB: source apunta a 256GB (https://www.samsung.com/es/smartphones/galaxy-a/galaxy-a17-gray-256gb-sm-a175fzaeeub/)
+[2026-03-11 11:15:59] WARNING: Attempt 1 failed: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-z-fold7/buy/?modelCode=SM-F966BDBCEUB", waiting until "load"
+. Retrying in 1s...
+[2026-03-11 11:16:03] WARNING: Attempt 1 failed: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-z-flip7/buy/?modelCode=SM-F766BZRGEUB", waiting until "load"
+. Retrying in 1s...
+[2026-03-11 11:16:32] WARNING: Attempt 2 failed: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-z-fold7/buy/?modelCode=SM-F966BDBCEUB", waiting until "load"
+. Retrying in 1s...
+[2026-03-11 11:16:36] WARNING: Attempt 2 failed: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-z-flip7/buy/?modelCode=SM-F766BZRGEUB", waiting until "load"
+. Retrying in 1s...
+[2026-03-11 11:16:59] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-z-flip7/buy/?modelCode=SM-F766BZRGEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:18:05] ERROR: Failed after 3 attempts: Page.goto: Timeout 30000ms exceeded.
+Call log:
+  - navigating to "https://www.samsung.com/es/smartphones/galaxy-z-fold7/buy/?modelCode=SM-F966BDBCEUB", waiting until "load"
+
+[2026-03-11 11:19:59] INFO: Fetched (200) <GET https://www.samsung.com/es/smartphones/galaxy-z-fold7/buy/?modelCode=SM-F966BLGCEUB> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:20:03] INFO: Fetched (200) <GET https://www.samsung.com/es/tablets/galaxy-tab-s/galaxy-tab-s11-ultra-gray-256gb-sm-x930nzareub/> (referer: https://www.google.com/search?q=samsung)
+[32m11:20:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy Tab S11 Ultra wifi 256GB: source apunta a 512GB (https://www.samsung.com/es/tablets/galaxy-tab-s/galaxy-tab-s11-ultra-gray-512gb-sm-x936bzapeub/)
+[32m11:20:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy Tab S10 FE Wi-Fi 128GB: source apunta a 256GB (https://www.samsung.com/es/tablets/galaxy-tab-s/galaxy-tab-s10-fe-gray-256gb-sm-x526bzapeub/)
+[32m11:20:08[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy Tab S10 Lite WiFi 128GB: source apunta a 256GB (https://www.samsung.com/es/tablets/galaxy-tab-s/galaxy-tab-s10-lite-gray-256gb-sm-x400nzapeub/)
+[2026-03-11 11:20:37] INFO: Fetched (200) <GET https://www.samsung.com/es/tablets/galaxy-tab-a/galaxy-tab-a11-plus-silver-128gb-sm-x230nzsreub/> (referer: https://www.google.com/search?q=samsung)
+[2026-03-11 11:20:37] INFO: Fetched (200) <GET https://www.samsung.com/es/tablets/galaxy-tab-s/galaxy-tab-s10-fe-blue-128gb-sm-x520nlbreub/> (referer: https://www.google.com/search?q=samsung)
+[32m11:20:46[0m | [1mINFO    [0m | [Samsung Store] Drop Samsung Galaxy Tab A11+ Wifi 128GB: source apunta a 256GB (https://www.samsung.com/es/tablets/galaxy-tab-a/galaxy-tab-a11-plus-gray-256gb-sm-x236bzapeub/)
+[32m11:20:49[0m | [1mINFO    [0m | [Samsung Store] Validacion PDP: descartadas 9 filas incompatibles
+[32m11:20:49[0m | [1mINFO    [0m | [Samsung Store] Financiacion: +14 filas
+[32m11:20:49[0m | [1mINFO    [0m | [Samsung Store] Total: 28 filas (20 tras dedupe)
+[32m11:20:49[0m | [32m[1mSUCCESS [0m | ✓ Samsung Store: 20 filas
+[32m11:20:49[0m | [1mINFO    [0m | ▶ Apple Store (apple_store)
+[2026-03-11 11:20:49] WARNING: This logic is deprecated now, and have no effect; It will be removed with v0.3. Use `Fetcher.configure(auto_match=False)` instead before fetching
+[32m11:20:49[0m | [1mINFO    [0m | [Apple Store] 49 targets Apple
+[2026-03-11 11:20:50] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-iphone> (referer: https://www.google.com/search?q=apple)
+[32m11:20:50[0m | [1mINFO    [0m | [Apple Store] 5 URLs iPhone en tienda España
+[2026-03-11 11:20:50] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-iphone/iphone-17-pro> (referer: https://www.google.com/search?q=apple)
+[32m11:20:50[0m | [1mINFO    [0m | [Apple Store] iphone-17-pro: 7 filas
+[2026-03-11 11:20:53] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-iphone/iphone-air> (referer: https://www.google.com/search?q=apple)
+[32m11:20:53[0m | [1mINFO    [0m | [Apple Store] iphone-air: 3 filas
+[2026-03-11 11:20:54] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-iphone/iphone-17> (referer: https://www.google.com/search?q=apple)
+[32m11:20:54[0m | [1mINFO    [0m | [Apple Store] iphone-17: 2 filas
+[2026-03-11 11:20:56] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-iphone/iphone-17e> (referer: https://www.google.com/search?q=apple)
+[32m11:20:56[0m | [1mINFO    [0m | [Apple Store] iphone-17e: 2 filas
+[2026-03-11 11:20:57] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-iphone/iphone-16> (referer: https://www.google.com/search?q=apple)
+[32m11:20:58[0m | [1mINFO    [0m | [Apple Store] iphone-16: 3 filas
+[2026-03-11 11:21:00] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-ipad/ipad-pro> (referer: https://www.google.com/search?q=apple)
+[32m11:21:00[0m | [1mINFO    [0m | [Apple Store] ipad-pro: 4 filas
+[2026-03-11 11:21:01] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-ipad/ipad-air> (referer: https://www.google.com/search?q=apple)
+[32m11:21:01[0m | [1mINFO    [0m | [Apple Store] ipad-air: 2 filas
+[2026-03-11 11:21:04] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-ipad/ipad-mini> (referer: https://www.google.com/search?q=apple)
+[32m11:21:04[0m | [1mINFO    [0m | [Apple Store] ipad-mini: 2 filas
+[2026-03-11 11:21:05] INFO: Fetched (200) <GET https://www.apple.com/es/shop/buy-ipad/ipad> (referer: https://www.google.com/search?q=apple)
+[32m11:21:05[0m | [1mINFO    [0m | [Apple Store] ipad: 3 filas
+[32m11:21:06[0m | [1mINFO    [0m | [Apple Store] Total: 26 filas
+[32m11:21:06[0m | [32m[1mSUCCESS [0m | ✓ Apple Store: 26 filas
+[32m11:21:06[0m | [32m[1mSUCCESS [0m | CSV exportado: C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\output\daily_refresh_20260311_100249_7a692adc_20260311_1102.csv (1054 filas)
+[32m11:21:06[0m | [32m[1mSUCCESS [0m | 
+============================================================
+[32m11:21:06[0m | [32m[1mSUCCESS [0m | CSV generado: C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\output\daily_refresh_20260311_100249_7a692adc_20260311_1102.csv
+[32m11:21:06[0m | [32m[1mSUCCESS [0m |   • 1054 filas de precio en total
+[32m11:21:06[0m | [1mINFO    [0m |   Filas por retailer:
+[32m11:21:06[0m | [1mINFO    [0m |     Santander Boutique: 478
+[32m11:21:06[0m | [1mINFO    [0m |     MediaMarkt: 380
+[32m11:21:06[0m | [1mINFO    [0m |     Amazon: 62
+[32m11:21:06[0m | [1mINFO    [0m |     Movistar: 47
+[32m11:21:06[0m | [1mINFO    [0m |     Grover: 28
+[32m11:21:06[0m | [1mINFO    [0m |     Apple Store: 26
+[32m11:21:06[0m | [1mINFO    [0m |     Samsung Store: 20
+[32m11:21:06[0m | [1mINFO    [0m |     Rentik: 13
+[32m11:21:06[0m | [1mINFO    [0m |   Filas por offer_type:
+[32m11:21:06[0m | [1mINFO    [0m |     financing_max_term: 686
+[32m11:21:06[0m | [1mINFO    [0m |     cash: 216
+[32m11:21:06[0m | [1mINFO    [0m |     renting_no_insurance: 123
+[32m11:21:06[0m | [1mINFO    [0m |     renting_with_insurance: 29
+[32m11:21:06[0m | [32m[1mSUCCESS [0m | ============================================================
+{
+  "snapshot_id": "20260311_102107_fd13f22f",
+  "created_at": "2026-03-11T10:21:07.479314+00:00",
+  "records_total": 1033,
+  "generated_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\output\\daily_refresh_20260311_100249_7a692adc_20260311_1102.csv",
+  "removed_snapshots": [],
+  "retention": 90
+}

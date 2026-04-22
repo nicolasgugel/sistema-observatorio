@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparador de Precios Samsung &amp; Apple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root { --red:#EC0000; --red2:#CC0000; --ink:#1A1A2E; --muted:#646c80; --bg:#F7F8FA; --line:#EAEDF1; --shadow:0 1px 3px rgba(0,0,0,.04),0 10px 30px rgba(0,0,0,.06); }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:Inter,sans-serif; background:radial-gradient(1100px 380px at 12% -12%, rgba(236,0,0,.16), transparent 60%), linear-gradient(180deg,#f6f7fa,#f7f8fa); color:var(--ink); padding:20px; }
+    .dash { max-width:1360px; margin:0 auto; background:#fff; border-radius:28px; box-shadow:0 22px 54px rgba(30,35,60,.14); overflow:hidden; }
+    .hero { padding:30px 34px; display:flex; justify-content:space-between; gap:18px; align-items:center; color:#fff; background:linear-gradient(135deg,var(--red2),var(--red)); position:relative; overflow:hidden; }
+    .hero:before { content:""; position:absolute; inset:-30% -10%; background:radial-gradient(circle at 15% 18%, rgba(255,255,255,.28), transparent 20%), linear-gradient(120deg, transparent 30%, rgba(255,255,255,.16) 45%, transparent 60%); }
+    .hero h1,.hero p,.hero .brand { position:relative; z-index:1; }
+    h1 { font-family:Outfit,sans-serif; font-size:clamp(1.6rem,3vw,2.3rem); letter-spacing:-.02em; line-height:1.1; margin-bottom:6px; }
+    .hero p { font-size:.98rem; opacity:.95; font-weight:600; }
+    .brand { border:1px solid rgba(255,255,255,.45); border-radius:16px; background:rgba(255,255,255,.1); padding:10px 14px; min-width:232px; text-align:right; }
+    .brand strong { font-family:Outfit,sans-serif; font-weight:800; font-size:1.05rem; display:block; }
+    .brand span { opacity:.92; font-size:.84rem; }
+    .content { padding:20px 24px 0; background:linear-gradient(180deg, rgba(247,248,250,.75), #fff); }
+    .kpis { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:14px; }
+    .kpi { border:1px solid rgba(236,0,0,.14); border-left:4px solid var(--red); border-radius:14px; padding:12px; background:linear-gradient(140deg,#fff,rgba(255,255,255,.86)); box-shadow:var(--shadow); min-height:102px; animation:up .45s ease both; }
+    .kpi:nth-child(2){animation-delay:.05s;} .kpi:nth-child(3){animation-delay:.1s;} .kpi:nth-child(4){animation-delay:.15s;}
+    .kpi .h { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; }
+    .kpi .t { font-size:.73rem; text-transform:uppercase; letter-spacing:.08em; color:#737a8d; font-weight:700; }
+    .ki { width:24px; height:24px; border-radius:8px; border:1px solid rgba(236,0,0,.22); background:rgba(236,0,0,.1); color:var(--red); display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; }
+    .ki svg { width:14px; height:14px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+    .kpi .v { font-family:Outfit,sans-serif; font-size:clamp(1.15rem,2.2vw,1.55rem); font-weight:800; line-height:1.15; }
+    .kpi .m { margin-top:5px; font-size:.79rem; color:var(--muted); min-height:16px; }
+    .panel { border:1px solid var(--line); border-radius:22px; background:#fff; box-shadow:var(--shadow); padding:14px; margin-bottom:14px; }
+    .filters { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:10px; align-items:end; }
+    .f { display:flex; flex-direction:column; gap:7px; min-width:0; }
+    .f label { font-size:.71rem; text-transform:uppercase; letter-spacing:.07em; color:#727b8f; font-weight:700; }
+    .pill, .multi-toggle { height:44px; border-radius:999px; border:1px solid #d9dde6; background:#fff; padding:0 14px; font:600 .94rem Inter,sans-serif; color:var(--ink); width:100%; outline:none; transition:.2s; }
+    .pill:focus, .multi-toggle:focus-visible { border-color:rgba(236,0,0,.65); box-shadow:0 0 0 3px rgba(236,0,0,.14); }
+    .multi { position:relative; grid-column:span 2; }
+    .multi-toggle { text-align:left; cursor:pointer; display:flex; align-items:center; justify-content:space-between; }
+    .menu { display:none; position:absolute; left:0; right:0; top:calc(100% + 8px); z-index:30; background:#fff; border:1px solid #e4e8ef; border-radius:14px; box-shadow:0 16px 34px rgba(16,20,31,.14); overflow:hidden; }
+    .menu.open { display:block; }
+    .menu-head { display:flex; justify-content:space-between; padding:10px 12px; background:#f8fafc; border-bottom:1px solid #edf0f5; }
+    .menu-head button { border:none; background:none; font-size:.78rem; font-weight:700; color:#53617e; cursor:pointer; }
+    .opts { max-height:270px; overflow:auto; padding:7px; display:grid; gap:4px; }
+    .opt { display:grid; grid-template-columns:auto auto 1fr; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; cursor:pointer; }
+    .opt:hover { background:rgba(236,0,0,.06); }
+    .opt input { width:16px; height:16px; accent-color:var(--red); }
+    .opt img { width:18px; height:18px; object-fit:contain; border:1px solid #e7eaf0; border-radius:4px; padding:1px; background:#fff; }
+    .opt span { font-size:.9rem; font-weight:600; color:#2b3042; }
+    .btn { height:46px; border:none; border-radius:999px; padding:0 24px; font:800 .98rem Outfit,sans-serif; color:#fff; background:linear-gradient(140deg,var(--red),var(--red2)); cursor:pointer; box-shadow:0 10px 24px rgba(236,0,0,.3); transition:.2s; }
+    .btn:hover { transform:translateY(-1px) scale(1.01); box-shadow:0 14px 28px rgba(236,0,0,.35); }
+    .title { font:700 1.05rem Outfit,sans-serif; color:#20243a; margin-bottom:10px; }
+    .placeholder { min-height:430px; border:1px dashed #d7dce6; border-radius:15px; background:linear-gradient(180deg,#fbfcff,#f7f8fb); display:grid; place-items:center; text-align:center; color:#80879a; font-weight:600; padding:20px; }
+    .chart-wrap { height:430px; border:1px solid #edf0f5; border-radius:15px; background:linear-gradient(180deg,#fdfefe,#f7f9fc); padding:8px 12px; display:none; position:relative; overflow:hidden; }
+    .chart-wrap.on { display:block; }
+    .chart-canvas-box { height:calc(100% - 72px); position:relative; }
+    .chart-canvas-box canvas { width:100% !important; height:100% !important; display:block; }
+    .logo-strip { display:none; position:absolute; left:12px; right:12px; bottom:6px; height:64px; }
+    .logo-strip.on { display:block; }
+    .logo-pill { position:absolute; left:0; top:0; width:94px; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .logo-pill img { width:44px; height:22px; object-fit:contain; background:#fff; border:1px solid #e7eaf0; border-radius:6px; padding:2px; }
+    .logo-pill span { text-align:center; font-size:.67rem; color:#727b8f; font-weight:600; line-height:1.2; }
+    .empty { display:none; border:1px dashed #d6dce7; border-radius:14px; background:#f8fafe; color:#7b8398; padding:24px; text-align:center; font-weight:600; margin-bottom:10px; }
+    .table-wrap { border:1px solid #e5e8ef; border-radius:14px; overflow:auto; max-height:460px; }
+    table { width:100%; border-collapse:collapse; min-width:920px; font-size:.91rem; }
+    thead th { position:sticky; top:0; z-index:1; background:#1A1A2E; color:#fff; text-transform:uppercase; letter-spacing:.06em; font-size:.76rem; text-align:left; padding:11px 12px; white-space:nowrap; }
+    tbody td { border-bottom:1px solid #edf0f5; padding:10px 12px; color:#22293e; white-space:nowrap; }
+    tbody tr:hover { background:#f7fafe; }
+    tbody tr.santander { background:rgba(236,0,0,.04); box-shadow:inset 3px 0 0 var(--red); }
+    .price { font-weight:700; }
+    .badge { display:inline-flex; border-radius:999px; padding:4px 10px; font-size:.75rem; font-weight:700; border:1px solid transparent; }
+    .b-rn { background:rgba(236,0,0,.09); color:#b30000; border-color:rgba(179,0,0,.18); }
+    .b-rw { background:rgba(230,0,126,.09); color:#a60062; border-color:rgba(166,0,98,.22); }
+    .b-fin { background:rgba(3,78,162,.10); color:#034ea2; border-color:rgba(3,78,162,.24); }
+    .b-cash { background:rgba(0,103,57,.11); color:#005832; border-color:rgba(0,88,50,.24); }
+    .yes { color:#0d7a46; font-weight:700; } .no { color:#b02a37; font-weight:700; }
+    footer { border-top:1px solid #edf1f6; background:#fafbfd; color:#6f7890; font-size:.8rem; display:flex; justify-content:space-between; gap:8px; padding:12px 22px 14px; flex-wrap:wrap; }
+    @keyframes up { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:1200px){ .kpis{grid-template-columns:repeat(2,minmax(0,1fr));} .filters{grid-template-columns:repeat(2,minmax(0,1fr));} .multi{grid-column:span 2;} .btn{width:100%;} }
+    @media (max-width:760px){ body{padding:12px 8px;} .hero{padding:22px 16px; flex-direction:column; align-items:flex-start;} .brand{width:100%; text-align:left; min-width:0;} .content{padding:14px 10px 0;} .kpis,.filters{grid-template-columns:1fr;} .multi{grid-column:span 1;} }
+
+    .brand-tabs { display:flex; gap:0; padding:0; background:#fff; }
+    .brand-tab { flex:1; padding:16px 28px; font:700 1.05rem Outfit,sans-serif; color:var(--muted); border:none; background:none; cursor:pointer; border-bottom:3px solid transparent; transition:all .25s; display:flex; align-items:center; justify-content:center; gap:10px; }
+    .brand-tab:hover { color:var(--ink); background:rgba(0,0,0,.02); }
+    .brand-tab.active[data-brand="Samsung"] { color:var(--red); border-bottom-color:var(--red); background:rgba(236,0,0,.03); }
+    .brand-tab.active[data-brand="Apple"] { color:#1d1d1f; border-bottom-color:#1d1d1f; background:rgba(0,0,0,.02); }
+    .brand-tab .tab-icon { width:20px; height:20px; flex-shrink:0; }
+  </style>
+</head>
+<body>
+  <main class="dash">
+    <header class="hero">
+      <div>
+        <h1>Comparador de Precios</h1>
+        <p>Santander Boutique &middot; Inteligencia de Mercado &middot; Samsung &amp; Apple</p>
+      </div>
+      <div class="brand"><strong>Santander Boutique</strong><span>Dashboard de monitorizacion competitiva</span></div>
+    </header>
+    <nav class="brand-tabs" id="brandTabs">
+      <button class="brand-tab active" data-brand="Samsung" type="button">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2.5"/><path d="M12 18h.01"/></svg>
+        Samsung
+      </button>
+      <button class="brand-tab" data-brand="Apple" type="button">
+        <svg class="tab-icon" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Apple
+      </button>
+    </nav>
+
+    <section class="content">
+      <section class="kpis">
+        <article class="kpi">
+          <div class="h"><div class="t">Modelo seleccionado</div><span class="ki"><svg viewBox="0 0 24 24"><rect x="7" y="2.8" width="10" height="18.4" rx="2.2"></rect><path d="M11 18.2h2"></path></svg></span></div>
+          <div class="v" id="kModel">-</div><div class="m" id="kModelMeta"></div>
+        </article>
+        <article class="kpi">
+          <div class="h"><div class="t">Mejor precio renting</div><span class="ki"><svg viewBox="0 0 24 24"><path d="M4 7h12"></path><path d="M13 3l3.8 4L13 11"></path><path d="M20 17H8"></path><path d="M11 13l-3.8 4L11 21"></path></svg></span></div>
+          <div class="v" id="kRenting">-</div><div class="m" id="kRentingMeta"></div>
+        </article>
+        <article class="kpi">
+          <div class="h"><div class="t">Mejor precio contado</div><span class="ki"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="12" rx="2"></rect><path d="M3 11h18"></path><path d="M7 15h3"></path></svg></span></div>
+          <div class="v" id="kCash">-</div><div class="m" id="kCashMeta"></div>
+        </article>
+        <article class="kpi">
+          <div class="h"><div class="t">Retailers activos</div><span class="ki"><svg viewBox="0 0 24 24"><path d="M3 21h18"></path><path d="M5 21V8h5v13"></path><path d="M14 21V3h5v18"></path></svg></span></div>
+          <div class="v" id="kRetailers">0</div><div class="m" id="kRetailersMeta"></div>
+        </article>
+      </section>
+      <section class="panel">
+        <div class="filters">
+          <div class="f">
+            <label for="fModality">Modalidad</label>
+            <select id="fModality" class="pill">
+              <option value="renting_no_insurance">Renting SIN seguro</option>
+              <option value="renting_with_insurance" selected>Renting CON seguro</option>
+              <option value="financing_max_term">Financiacion</option>
+              <option value="cash">Compra al contado</option>
+            </select>
+          </div>
+          <div class="f"><label for="fModel">Modelo</label><select id="fModel" class="pill"></select></div>
+          <div class="f"><label for="fCapacity">Capacidad</label><select id="fCapacity" class="pill"></select></div>
+          <div class="f" id="termField" style="display:none;"><label for="fTerm">Plazo</label><select id="fTerm" class="pill"></select></div>
+          <div class="f multi">
+            <label for="retailerToggle">Retailers</label>
+            <button id="retailerToggle" class="multi-toggle" type="button" aria-expanded="false"><span id="retailerText">Todos los retailers</span><span>v</span></button>
+            <div class="menu" id="retailerMenu">
+              <div class="menu-head"><button type="button" id="retailerAll">Seleccionar todos</button><button type="button" id="retailerNone">Limpiar</button></div>
+              <div class="opts" id="retailerOpts"></div>
+            </div>
+          </div>
+          <div class="f"><label>&nbsp;</label><button type="button" id="btnGenerate" class="btn">Generar Comparativa</button></div>
+        </div>
+      </section>
+      <section class="panel">
+        <h2 class="title">Comparativa de precios por retailer</h2>
+        <div id="placeholder" class="placeholder">Selecciona filtros y pulsa <strong>Generar Comparativa</strong>.</div>
+        <div id="chartWrap" class="chart-wrap"><div class="chart-canvas-box"><canvas id="chart" height="365"></canvas></div><div id="logoStrip" class="logo-strip"></div></div>
+      </section>
+      <section class="panel" id="tcPanel" style="display:none;">
+        <h2 class="title">Coste Total Renting vs PVP Contado (Santander Boutique)</h2>
+        <div id="tcPlaceholder" class="placeholder" style="display:none;">Selecciona un modelo, modalidad de renting y plazo concreto.</div>
+        <div id="tcChartWrap" class="chart-wrap"><div class="chart-canvas-box"><canvas id="tcChart" height="365"></canvas></div><div id="tcLogoStrip" class="logo-strip"></div></div>
+      </section>
+      <section class="panel">
+        <h2 class="title">Ofertas filtradas (ordenadas por precio)</h2>
+        <div id="empty" class="empty">No hay ofertas para los filtros seleccionados.</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Retailer</th><th>Modelo</th><th>Capacidad</th><th>Modalidad</th><th>Plazo</th><th>Precio</th><th>Unidad</th><th>Stock</th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+    <footer><span id="footerTs">Extraccion: --</span><span>Santander Boutique &middot; Dashboard v10.0 Premium</span></footer>
+  </main>
+  <script>
+    const DATA = [
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "renting_no_insurance",
+    "price_value": 24.99,
+    "price_text": "24.99 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 36,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "renting_with_insurance",
+    "price_value": 27.0,
+    "price_text": "27.00 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 36,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 30.21,
+    "price_text": "30.21 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 30,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 35.05,
+    "price_text": "35.05 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 24,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 45.45,
+    "price_text": "45.45 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 18,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 66.58,
+    "price_text": "66.58 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 12,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 133.17,
+    "price_text": "133.17 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 6,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 266.33,
+    "price_text": "266.33 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 3,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "cash",
+    "price_value": 799.0,
+    "price_text": "799.00 EUR",
+    "price_unit": "EUR",
+    "term_months": null,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.116845+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25/p/SM-S931BZSGEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "renting_no_insurance",
+    "price_value": 31.99,
+    "price_text": "31.99 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 36,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "renting_with_insurance",
+    "price_value": 34.99,
+    "price_text": "34.99 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 36,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 41.55,
+    "price_text": "41.55 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 30,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 48.21,
+    "price_text": "48.21 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 24,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 62.52,
+    "price_text": "62.52 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 18,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 91.58,
+    "price_text": "91.58 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 12,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 183.17,
+    "price_text": "183.17 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 6,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 366.33,
+    "price_text": "366.33 EUR",
+    "price_unit": "EUR/month",
+    "term_months": 3,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Santander Boutique",
+    "retailer_slug": "santander_boutique",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "cash",
+    "price_value": 1099.0,
+    "price_text": "1099.00 EUR",
+    "price_unit": "EUR",
+    "term_months": null,
+    "in_stock": true,
+    "data_quality_tier": "santander_api_live",
+    "extracted_at": "2026-02-25T10:15:44.505163+00:00",
+    "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-S25-Ultra/p/SM-S938BZKDEUB?previousPriceSelected=renting",
+    "source_title": "Galaxy S25 Ultra"
+  },
+  {
+    "country": "ES",
+    "retailer": "Samsung Oficial",
+    "retailer_slug": "samsung_oficial",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "cash",
+    "price_value": 969.0,
+    "price_text": "969.00 €",
+    "price_unit": "EUR",
+    "term_months": null,
+    "in_stock": null,
+    "data_quality_tier": "samsung_oficial_adapter_live",
+    "extracted_at": "2026-02-25T10:16:58.517767+00:00",
+    "source_url": "https://www.samsung.com/es/smartphones/galaxy-s25/buy/",
+    "source_title": "Comprar Galaxy S25+, S25 y s25 FE | Precios | Samsung ES"
+  },
+  {
+    "country": "ES",
+    "retailer": "Samsung Oficial",
+    "retailer_slug": "samsung_oficial",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 26.92,
+    "price_text": "26.92 €/mes",
+    "price_unit": "EUR/month",
+    "term_months": 36,
+    "in_stock": null,
+    "data_quality_tier": "samsung_oficial_adapter_live",
+    "extracted_at": "2026-02-25T10:16:58.517767+00:00",
+    "source_url": "https://www.samsung.com/es/smartphones/galaxy-s25/buy/",
+    "source_title": "Comprar Galaxy S25+, S25 y s25 FE | Precios | Samsung ES"
+  },
+  {
+    "country": "ES",
+    "retailer": "Samsung Oficial",
+    "retailer_slug": "samsung_oficial",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "cash",
+    "price_value": 1459.01,
+    "price_text": "1459.01 €",
+    "price_unit": "EUR",
+    "term_months": null,
+    "in_stock": null,
+    "data_quality_tier": "samsung_oficial_adapter_live",
+    "extracted_at": "2026-02-25T10:17:02.603351+00:00",
+    "source_url": "https://www.samsung.com/es/smartphones/galaxy-s25-ultra/buy/",
+    "source_title": "Comprar Galaxy S25 Ultra | S25 Edge | Precio y ofertas | Samsung España"
+  },
+  {
+    "country": "ES",
+    "retailer": "Samsung Oficial",
+    "retailer_slug": "samsung_oficial",
+    "product_family": "Samsung",
+    "brand": "Samsung",
+    "device_type": "mobile",
+    "model": "Samsung Galaxy S25 Ultra",
+    "capacity_gb": 256,
+    "offer_type": "financing_max_term",
+    "price_value": 40.53,
+    "price_text": "40.53 €/mes",
+    "price_unit": "EUR/month",
+    "term_months": 36,
+    "in_stock": null,
+    "data_quality_tier": "samsung_oficial_adapter_live",
+    "extracted_at": "2026-02-25T10:17:02.603351+00:00",
+    "source_url": "https://www.samsung.com/es/smartphones/galaxy-s25-ultra/buy/",
+    "source_title": "Comprar Galaxy S25 Ultra | S25 Edge | Precio y ofertas | Samsung España"
+  }
+];
+    const EXTRACTED_AT = "2026-02-25T10:17:02.603351+00:00";
+    const OFFER_LABELS = { renting_no_insurance:"Renting SIN seguro", renting_with_insurance:"Renting CON seguro", financing_max_term:"Financiacion", cash:"Compra al contado" };
+    const BADGES = { renting_no_insurance:"b-rn", renting_with_insurance:"b-rw", financing_max_term:"b-fin", cash:"b-cash" };
+    const COLORS = { "Santander Boutique":"#EC0000", "Movistar":"#019DF4", "Rentik":"#E6007E", "Grover":"#FF245B", "Media Markt":"#DF0000", "El Corte Inglés":"#006739", "El Corte Ingles":"#006739", "Samsung Oficial":"#034EA2", "Qonexa":"#333333", "Amazon":"#FF9900","Apple Oficial":"#1d1d1f" };
+    const LOGOS = {
+      "Santander Boutique":[
+        "https://upload.wikimedia.org/wikipedia/commons/b/b8/Santander_Logotipo.svg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/Santander_Logotipo.svg/512px-Santander_Logotipo.svg.png"
+      ],
+      "Movistar":[
+        "https://upload.wikimedia.org/wikipedia/commons/1/1c/Movistar_logo.svg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Movistar_logo.svg/512px-Movistar_logo.svg.png"
+      ],
+      "Rentik":[
+        "https://www.rentik.com/img/footer/logo_rentik.svg",
+        "https://www.rentik.com/favicon.ico"
+      ],
+      "Grover":[
+        "https://upload.wikimedia.org/wikipedia/commons/c/c5/Grover_Logo.svg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Grover_Logo.svg/512px-Grover_Logo.svg.png"
+      ],
+      "Media Markt":[
+        "https://upload.wikimedia.org/wikipedia/commons/b/b3/MediaMarkt_logo.svg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/MediaMarkt_logo.svg/512px-MediaMarkt_logo.svg.png"
+      ],
+      "El Corte Inglés":[
+        "https://upload.wikimedia.org/wikipedia/en/c/ca/El_Corte_Ingles_Logo.svg",
+        "https://upload.wikimedia.org/wikipedia/en/thumb/c/ca/El_Corte_Ingles_Logo.svg/512px-El_Corte_Ingles_Logo.svg.png"
+      ],
+      "El Corte Ingles":[
+        "https://upload.wikimedia.org/wikipedia/en/c/ca/El_Corte_Ingles_Logo.svg",
+        "https://upload.wikimedia.org/wikipedia/en/thumb/c/ca/El_Corte_Ingles_Logo.svg/512px-El_Corte_Ingles_Logo.svg.png"
+      ],
+      "Samsung Oficial":[
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/1200px-Samsung_Logo.svg.png"
+      ],
+      "Qonexa":[
+        "https://qonexa.com/wp-content/uploads/2021/04/logo-qonexa.png",
+        "https://qonexa.com/favicon.ico"
+      ],
+      "Apple Oficial":[
+        "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Apple_logo_black.svg/512px-Apple_logo_black.svg.png"
+      ],
+      "Amazon":[
+        "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Amazon_logo.svg/512px-Amazon_logo.svg.png"
+      ]
+    };
+    const FALLBACK_DOMAINS = {
+      "Santander Boutique":"bancosantander.es",
+      "Movistar":"movistar.es",
+      "Rentik":"rentik.com",
+      "Grover":"grover.com",
+      "Media Markt":"mediamarkt.es",
+      "El Corte Inglés":"elcorteingles.es",
+      "El Corte Ingles":"elcorteingles.es",
+      "Samsung Oficial":"samsung.com",
+      "Qonexa":"qonexa.com",
+      "Amazon":"amazon.es","Apple Oficial":"apple.com"
+    };
+    const ORDER = ["Santander Boutique","Amazon","Apple Oficial","Movistar","Rentik","Samsung Oficial","Media Markt","El Corte Inglés","Grover","Qonexa"];
+    const TRANSPARENT_PNG = "https://upload.wikimedia.org/wikipedia/commons/8/89/HD_transparent_picture.png";
+    const nf = new Intl.NumberFormat("es-ES", { style:"currency", currency:"EUR", maximumFractionDigits:2, minimumFractionDigits:2 });
+    const s = { chart:null, tcChart:null, generated:false, selected:new Set(), brand:"Samsung" };
+    function BD() { return DATA.filter(r => r.brand === s.brand); }
+    const d = {
+      modality:document.getElementById("fModality"), model:document.getElementById("fModel"), capacity:document.getElementById("fCapacity"), term:document.getElementById("fTerm"), termField:document.getElementById("termField"),
+      toggle:document.getElementById("retailerToggle"), toggleText:document.getElementById("retailerText"), menu:document.getElementById("retailerMenu"), opts:document.getElementById("retailerOpts"),
+      all:document.getElementById("retailerAll"), none:document.getElementById("retailerNone"), btn:document.getElementById("btnGenerate"),
+      placeholder:document.getElementById("placeholder"), chartWrap:document.getElementById("chartWrap"), chart:document.getElementById("chart"), logoStrip:document.getElementById("logoStrip"),
+      rows:document.getElementById("rows"), empty:document.getElementById("empty"), footerTs:document.getElementById("footerTs"),
+      kModel:document.getElementById("kModel"), kModelMeta:document.getElementById("kModelMeta"), kRenting:document.getElementById("kRenting"), kRentingMeta:document.getElementById("kRentingMeta"),
+      kCash:document.getElementById("kCash"), kCashMeta:document.getElementById("kCashMeta"), kRetailers:document.getElementById("kRetailers"), kRetailersMeta:document.getElementById("kRetailersMeta"),
+      tcPanel:document.getElementById("tcPanel"), tcPlaceholder:document.getElementById("tcPlaceholder"), tcChartWrap:document.getElementById("tcChartWrap"), tcChart:document.getElementById("tcChart"), tcLogoStrip:document.getElementById("tcLogoStrip")
+    };
+    const esc = (v) => String(v ?? "").replace(/[&<>"']/g, (m) => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[m]));
+    const euro = (v, compact=false) => (typeof v === "number" && Number.isFinite(v)) ? (compact ? new Intl.NumberFormat("es-ES",{style:"currency",currency:"EUR",maximumFractionDigits:0}).format(v) : nf.format(v)) : "-";
+    const cap = (v) => (typeof v === "number" && Number.isFinite(v)) ? (v >= 1024 ? `${(v / 1024).toFixed(v % 1024 ? 1 : 0)} TB` : `${v} GB`) : "-";
+    const rSort = (a,b) => ((ORDER.indexOf(a) === -1 ? 999 : ORDER.indexOf(a)) - (ORDER.indexOf(b) === -1 ? 999 : ORDER.indexOf(b))) || a.localeCompare(b, "es");
+    const uniq = (arr) => [...new Set(arr)];
+    const fill = (sel, vals, allV, allL) => { const prev = sel.value; sel.innerHTML = ""; const o = document.createElement("option"); o.value = allV; o.textContent = allL; sel.appendChild(o); vals.forEach((x) => { const n = document.createElement("option"); n.value = String(x.value); n.textContent = x.label; sel.appendChild(n); }); sel.value = [...sel.options].some((x) => x.value === prev) ? prev : allV; };
+    function logoCandidates(ret) {
+      const base = Array.isArray(LOGOS[ret]) ? LOGOS[ret] : (LOGOS[ret] ? [LOGOS[ret]] : []);
+      const domain = FALLBACK_DOMAINS[ret];
+      const fallback = domain ? `https://www.google.com/s2/favicons?sz=64&domain_url=${encodeURIComponent(domain)}` : TRANSPARENT_PNG;
+      return [...base, fallback, TRANSPARENT_PNG];
+    }
+    function buildLogoImg(ret) {
+      const img = document.createElement("img");
+      img.alt = `${ret} logo`;
+      const candidates = logoCandidates(ret);
+      let idx = 0;
+      img.src = candidates[idx];
+      img.addEventListener("error", () => {
+        idx += 1;
+        if (idx < candidates.length) img.src = candidates[idx];
+      });
+      return img;
+    }
+    function buildRetailers() {
+      const retailers = uniq(BD().map((r) => r.retailer).filter(Boolean)).sort(rSort);
+      s.selected = new Set(retailers);
+      d.opts.innerHTML = "";
+      retailers.forEach((ret) => {
+        const label = document.createElement("label"); label.className = "opt";
+        const c = document.createElement("input"); c.type = "checkbox"; c.value = ret; c.checked = true;
+        c.addEventListener("change", () => { c.checked ? s.selected.add(ret) : s.selected.delete(ret); syncRetailers(); updateKpis(); if (s.generated) render(); });
+        const img = buildLogoImg(ret);
+        const span = document.createElement("span"); span.textContent = ret;
+        label.appendChild(c); label.appendChild(img); label.appendChild(span); d.opts.appendChild(label);
+      });
+      syncRetailers();
+    }
+    function syncRetailers() {
+      const total = d.opts.querySelectorAll("input[type='checkbox']").length;
+      const selected = s.selected.size;
+      d.toggleText.textContent = selected === 0 ? "Sin retailers" : (selected === total ? "Todos los retailers" : `${selected} de ${total} retailers`);
+    }
+    function selectRetailers(checked) {
+      s.selected.clear();
+      d.opts.querySelectorAll("input[type='checkbox']").forEach((i) => { i.checked = checked; if (checked) s.selected.add(i.value); });
+      syncRetailers(); updateKpis(); if (s.generated) render();
+    }
+    function updateModels() { fill(d.model, uniq(BD().map((r) => r.model).filter(Boolean)).sort((a,b) => a.localeCompare(b,"es")).map((v) => ({ value:v, label:v })), "all", "Todos los modelos"); }
+    function updateCapacities() {
+      const m = d.model.value; const o = d.modality.value;
+      const caps = uniq(BD().filter((r) => (m === "all" || r.model === m) && (!o || r.offer_type === o) && typeof r.capacity_gb === "number").map((r) => r.capacity_gb)).sort((a,b) => a-b);
+      fill(d.capacity, caps.map((v) => ({ value:v, label:cap(v) })), "all", "Todas las capacidades");
+    }
+    const HAS_TERMS = new Set(["financing_max_term","renting_with_insurance","renting_no_insurance"]);
+    function updateTerms() {
+      if (!HAS_TERMS.has(d.modality.value)) { d.termField.style.display = "none"; d.term.value = "all"; return; }
+      d.termField.style.display = "flex";
+      const m = d.model.value; const c = d.capacity.value; const o = d.modality.value;
+      const terms = uniq(BD().filter((r) => r.offer_type === o && (m === "all" || r.model === m) && (c === "all" || String(r.capacity_gb) === c) && typeof r.term_months === "number").map((r) => r.term_months)).sort((a,b) => a-b);
+      fill(d.term, terms.map((v) => ({ value:v, label:`${v} meses` })), "all", "Todos los plazos");
+    }
+    function updateKpis() {
+      const m = d.model.value;
+      const rows = BD().filter((r) => (m === "all" || r.model === m) && s.selected.has(r.retailer) && typeof r.price_value === "number" && r.price_value >= 0);
+      d.kModel.textContent = m === "all" ? "Todos los modelos" : m;
+      d.kModelMeta.textContent = `${new Set(rows.map((r) => r.model)).size} modelo(s) visibles`;
+      const renting = rows.filter((r) => r.offer_type === "renting_no_insurance" || r.offer_type === "renting_with_insurance");
+      if (renting.length) { const best = renting.reduce((a,b) => b.price_value < a.price_value ? b : a); d.kRenting.textContent = euro(best.price_value, best.price_value >= 1000); const termHint = typeof best.term_months === "number" ? ` · ${best.term_months}m` : ""; d.kRentingMeta.textContent = `${best.retailer} · ${cap(best.capacity_gb)}${termHint}`; }
+      else { d.kRenting.textContent = "-"; d.kRentingMeta.textContent = "Sin oferta de renting"; }
+      const cash = rows.filter((r) => r.offer_type === "cash");
+      if (cash.length) { const best = cash.reduce((a,b) => b.price_value < a.price_value ? b : a); d.kCash.textContent = euro(best.price_value, best.price_value >= 1000); d.kCashMeta.textContent = `${best.retailer} · ${cap(best.capacity_gb)}`; }
+      else { d.kCash.textContent = "-"; d.kCashMeta.textContent = "Sin oferta al contado"; }
+      d.kRetailers.textContent = String(new Set(rows.map((r) => r.retailer)).size);
+      d.kRetailersMeta.textContent = `${rows.length} oferta(s) detectadas`;
+    }
+    function filtered() {
+      const m = d.model.value, c = d.capacity.value, o = d.modality.value, t = d.term.value;
+      return BD().filter((r) => (o ? r.offer_type === o : true) && (m === "all" || r.model === m) && (c === "all" || String(r.capacity_gb) === c) && (!HAS_TERMS.has(o) || t === "all" || String(r.term_months) === t) && s.selected.has(r.retailer) && typeof r.price_value === "number" && Number.isFinite(r.price_value) && r.price_value >= 0);
+    }
+    function renderLogoStrip(labels) {
+      d.logoStrip.innerHTML = "";
+      if (!labels.length) {
+        d.logoStrip.classList.remove("on");
+        return;
+      }
+      labels.forEach((ret) => {
+        const item = document.createElement("div");
+        item.className = "logo-pill";
+        item.appendChild(buildLogoImg(ret));
+        const txt = document.createElement("span");
+        txt.textContent = ret;
+        item.appendChild(txt);
+        d.logoStrip.appendChild(item);
+      });
+      d.logoStrip.classList.add("on");
+    }
+    function alignLogoStrip(chart, labels) {
+      if (!chart || !labels.length) return;
+      const x = chart.scales.x;
+      if (!x) return;
+      const pills = [...d.logoStrip.children];
+      pills.forEach((pill, i) => {
+        pill.style.left = `${x.getPixelForValue(i)}px`;
+      });
+    }
+    const pricePlugin = { id:"pricePlugin", afterDatasetsDraw(chart){ const ds = chart.data.datasets[0]; if (!ds) return; const ctx = chart.ctx; const bars = chart.getDatasetMeta(0).data; ctx.save(); ctx.textAlign = "center"; ctx.textBaseline = "bottom"; ctx.font = "700 12px Inter"; ctx.fillStyle = "#1A1A2E"; bars.forEach((b,i) => { const v = Number(ds.data[i]); if (Number.isFinite(v)) ctx.fillText(euro(v, v >= 1000), b.x, b.y - 8); }); ctx.restore(); } };
+    const htmlLogoAlignPlugin = { id:"htmlLogoAlignPlugin", afterRender(chart){ alignLogoStrip(chart, chart.data.labels || []); } };
+    function drawChart(rows) {
+      const map = new Map(); rows.forEach((r) => { const cur = map.get(r.retailer); if (!cur || r.price_value < cur.price_value) map.set(r.retailer, r); });
+      const labels = [...map.keys()].sort(rSort); const values = labels.map((k) => map.get(k).price_value); const colors = labels.map((k) => COLORS[k] || "#7A8193");
+      renderLogoStrip(labels);
+      if (s.chart) s.chart.destroy();
+      s.chart = new Chart(d.chart.getContext("2d"), { type:"bar", data:{ labels, datasets:[{ data:values, backgroundColor:colors, borderColor:colors, borderWidth:1, borderRadius:16, borderSkipped:false, maxBarThickness:72 }] }, options:{ responsive:true, maintainAspectRatio:false, onResize:(chart) => alignLogoStrip(chart, labels), layout:{ padding:{ top:22, left:8, right:8, bottom:20 } }, plugins:{ legend:{display:false}, tooltip:{ backgroundColor:"#1A1A2E", callbacks:{ label:(ctx) => ` ${euro(ctx.parsed.y, ctx.parsed.y >= 1000)}` } } }, scales:{ x:{ ticks:{display:false}, grid:{display:false, drawBorder:false} }, y:{ beginAtZero:true, grid:{ color:"rgba(26,26,46,.07)", drawBorder:false }, ticks:{ color:"#646B80", callback:(v) => euro(Number(v), Number(v) >= 1000) } } } }, plugins:[pricePlugin, htmlLogoAlignPlugin] });
+      alignLogoStrip(s.chart, labels);
+    }
+    const stock = (v) => v === true ? '<span class="yes">Disponible</span>' : (v === false ? '<span class="no">No disponible</span>' : "-");
+    function drawTable(rows) {
+      const sorted = [...rows].sort((a,b) => a.price_value - b.price_value);
+      d.rows.innerHTML = sorted.map((r) => {
+        const cls = r.retailer === "Santander Boutique" ? "santander" : "";
+        const term = (HAS_TERMS.has(r.offer_type) && typeof r.term_months === "number") ? `${r.term_months} meses` : "-";
+        return `<tr class="${cls}"><td>${esc(r.retailer)}</td><td>${esc(r.model)}</td><td>${esc(cap(r.capacity_gb))}</td><td><span class="badge ${BADGES[r.offer_type] || "b-fin"}">${esc(OFFER_LABELS[r.offer_type] || r.offer_type)}</span></td><td>${esc(term)}</td><td class="price">${esc(euro(r.price_value, r.price_value >= 1000))}</td><td>${esc(r.price_unit || "EUR")}</td><td>${stock(r.in_stock)}</td></tr>`;
+      }).join("");
+      d.empty.style.display = sorted.length ? "none" : "block";
+    }
+    const pvpLinePlugin = {
+      id: "pvpLinePlugin",
+      afterDraw(chart) {
+        const pvp = chart.options.plugins.pvpLinePlugin?.pvp;
+        if (typeof pvp !== "number" || !Number.isFinite(pvp)) return;
+        const { ctx, chartArea: { left, right }, scales: { y } } = chart;
+        const yPx = y.getPixelForValue(pvp);
+        if (yPx < y.top || yPx > y.bottom) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.setLineDash([8, 5]);
+        ctx.lineWidth = 2.5;
+        ctx.strokeStyle = "#D32F2F";
+        ctx.moveTo(left, yPx);
+        ctx.lineTo(right, yPx);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font = "700 12px Inter";
+        ctx.fillStyle = "#D32F2F";
+        ctx.textAlign = "right";
+        ctx.textBaseline = "bottom";
+        ctx.fillText(`PVP ${euro(pvp)} `, right, yPx - 5);
+        ctx.restore();
+      }
+    };
+    function renderTcLogoStrip(labels) {
+      d.tcLogoStrip.innerHTML = "";
+      if (!labels.length) { d.tcLogoStrip.classList.remove("on"); return; }
+      labels.forEach((ret) => {
+        const item = document.createElement("div");
+        item.className = "logo-pill";
+        item.appendChild(buildLogoImg(ret));
+        const txt = document.createElement("span");
+        txt.textContent = ret;
+        item.appendChild(txt);
+        d.tcLogoStrip.appendChild(item);
+      });
+      d.tcLogoStrip.classList.add("on");
+    }
+    function alignTcLogoStrip(chart, labels) {
+      if (!chart || !labels.length) return;
+      const x = chart.scales.x;
+      if (!x) return;
+      [...d.tcLogoStrip.children].forEach((pill, i) => { pill.style.left = `${x.getPixelForValue(i)}px`; });
+    }
+    const tcPricePlugin = {
+      id: "tcPricePlugin",
+      afterDatasetsDraw(chart) {
+        const ds = chart.data.datasets[0];
+        if (!ds) return;
+        const pvp = chart.options.plugins.pvpLinePlugin?.pvp;
+        const ctx = chart.ctx;
+        const bars = chart.getDatasetMeta(0).data;
+        ctx.save();
+        ctx.textAlign = "center";
+        bars.forEach((b, i) => {
+          const v = Number(ds.data[i]);
+          if (!Number.isFinite(v)) return;
+          ctx.font = "700 13px Inter";
+          ctx.fillStyle = "#1A1A2E";
+          ctx.textBaseline = "bottom";
+          ctx.fillText(euro(v, v >= 1000), b.x, b.y - 22);
+          if (typeof pvp === "number" && pvp > 0) {
+            const pct = ((v - pvp) / pvp * 100);
+            const sign = pct >= 0 ? "+" : "";
+            const label = `${sign}${pct.toFixed(1)}%`;
+            ctx.font = "700 11px Inter";
+            ctx.fillStyle = pct <= 0 ? "#2E7D32" : "#C62828";
+            ctx.textBaseline = "bottom";
+            ctx.fillText(label, b.x, b.y - 6);
+          }
+        });
+        ctx.restore();
+      }
+    };
+    const tcLogoAlignPlugin = { id: "tcLogoAlignPlugin", afterRender(chart) { alignTcLogoStrip(chart, chart.data.labels || []); } };
+    function drawTotalCostChart(rentingRows, pvp) {
+      const map = new Map();
+      rentingRows.forEach((r) => {
+        const tc = r.price_value * r.term_months;
+        const cur = map.get(r.retailer);
+        if (!cur || tc < cur) map.set(r.retailer, tc);
+      });
+      const labels = [...map.keys()].sort(rSort);
+      const values = labels.map((k) => map.get(k));
+      const colors = labels.map((k) => COLORS[k] || "#7A8193");
+      renderTcLogoStrip(labels);
+      if (s.tcChart) s.tcChart.destroy();
+      const maxVal = Math.max(...values, pvp || 0);
+      s.tcChart = new Chart(d.tcChart.getContext("2d"), {
+        type: "bar",
+        data: { labels, datasets: [{ data: values, backgroundColor: colors, borderColor: colors, borderWidth: 1, borderRadius: 16, borderSkipped: false, maxBarThickness: 72 }] },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          onResize: (chart) => alignTcLogoStrip(chart, labels),
+          layout: { padding: { top: 38, left: 8, right: 8, bottom: 20 } },
+          plugins: { legend: { display: false }, tooltip: { backgroundColor: "#1A1A2E", callbacks: { label: (ctx) => ` ${euro(ctx.parsed.y, ctx.parsed.y >= 1000)}` } }, pvpLinePlugin: { pvp } },
+          scales: {
+            x: { ticks: { display: false }, grid: { display: false, drawBorder: false } },
+            y: { beginAtZero: true, suggestedMax: maxVal * 1.15, grid: { color: "rgba(26,26,46,.07)", drawBorder: false }, ticks: { color: "#646B80", callback: (v) => euro(Number(v), Number(v) >= 1000) } }
+          }
+        },
+        plugins: [pvpLinePlugin, tcPricePlugin, tcLogoAlignPlugin]
+      });
+      alignTcLogoStrip(s.tcChart, labels);
+    }
+    function render() {
+      const rows = filtered();
+      if (!rows.length) {
+        d.placeholder.style.display = "grid";
+        d.chartWrap.classList.remove("on");
+        renderLogoStrip([]);
+        if (s.chart) { s.chart.destroy(); s.chart = null; }
+        drawTable(rows);
+        hideTcPanel();
+        return;
+      }
+      d.placeholder.style.display = "none";
+      d.chartWrap.classList.add("on");
+      drawChart(rows);
+      drawTable(rows);
+      maybeShowTcPanel(rows);
+    }
+    function hideTcPanel() {
+      d.tcPanel.style.display = "none";
+      if (s.tcChart) { s.tcChart.destroy(); s.tcChart = null; }
+      renderTcLogoStrip([]);
+    }
+    function maybeShowTcPanel(rows) {
+      const o = d.modality.value;
+      const m = d.model.value;
+      const t = d.term.value;
+      if (!HAS_TERMS.has(o) || o === "financing_max_term" || m === "all" || t === "all") { hideTcPanel(); return; }
+      const rentingRows = rows.filter((r) => HAS_TERMS.has(r.offer_type) && r.offer_type !== "financing_max_term" && typeof r.term_months === "number" && typeof r.price_value === "number");
+      if (!rentingRows.length) { hideTcPanel(); return; }
+      const selectedModel = m;
+      const selectedCapacity = d.capacity.value;
+      const pvpRow = BD().find((r) => r.offer_type === "cash" && r.retailer === "Santander Boutique" && r.model === selectedModel && (selectedCapacity === "all" || String(r.capacity_gb) === selectedCapacity));
+      const pvp = pvpRow ? pvpRow.price_value : null;
+      d.tcPanel.style.display = "";
+      d.tcPlaceholder.style.display = "none";
+      d.tcChartWrap.classList.add("on");
+      drawTotalCostChart(rentingRows, pvp);
+    }
+    function fmtTs(raw) { if (!raw) return "--"; const dt = new Date(raw); if (Number.isNaN(dt.getTime())) return raw; return new Intl.DateTimeFormat("es-ES", { dateStyle:"long", timeStyle:"short" }).format(dt); }
+    function init() {
+      updateModels(); buildRetailers(); updateCapacities(); updateTerms(); updateKpis();
+      d.footerTs.textContent = `Extraccion: ${fmtTs(EXTRACTED_AT)}`;
+      d.modality.addEventListener("change", () => { updateCapacities(); updateTerms(); updateKpis(); if (s.generated) render(); });
+      d.model.addEventListener("change", () => { updateCapacities(); updateTerms(); updateKpis(); if (s.generated) render(); });
+      d.capacity.addEventListener("change", () => { updateTerms(); if (s.generated) render(); });
+      d.term.addEventListener("change", () => { if (s.generated) render(); });
+      d.btn.addEventListener("click", () => { s.generated = true; render(); });
+      d.toggle.addEventListener("click", () => { const o = d.menu.classList.toggle("open"); d.toggle.setAttribute("aria-expanded", o ? "true" : "false"); });
+      d.all.addEventListener("click", () => selectRetailers(true));
+      d.none.addEventListener("click", () => selectRetailers(false));
+      document.addEventListener("click", (ev) => { if (!d.menu.classList.contains("open")) return; const t = ev.target; if (t instanceof Node && !d.menu.contains(t) && !d.toggle.contains(t)) { d.menu.classList.remove("open"); d.toggle.setAttribute("aria-expanded", "false"); } });
+    }
+    init();
+
+    document.querySelectorAll('.brand-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.brand-tab').forEach(function(t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        s.brand = tab.dataset.brand;
+        s.generated = false;
+        updateModels(); buildRetailers(); updateCapacities(); updateTerms(); updateKpis();
+        d.placeholder.style.display = 'grid';
+        d.chartWrap.classList.remove('on');
+        renderLogoStrip([]);
+        if (s.chart) { s.chart.destroy(); s.chart = null; }
+        d.rows.innerHTML = '';
+        d.empty.style.display = 'none';
+        hideTcPanel();
+      });
+    });
+  </script>
+</body>
+</html>

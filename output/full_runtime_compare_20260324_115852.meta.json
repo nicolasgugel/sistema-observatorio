@@ -1,0 +1,7 @@
+﻿{
+    "stdout":  "output\\full_runtime_compare_20260324_115852.stdout.log",
+    "pid":  23000,
+    "stderr":  "output\\full_runtime_compare_20260324_115852.stderr.log",
+    "cmdline":  "python scripts/run_published_runtime.py --brand all \"--competitors=Amazon,Grover,Media Markt,Movistar,Rentik,Samsung Oficial,Apple Oficial,Orange,El Corte Ingles\" --output full_runtime_compare_20260324_115852",
+    "output_prefix":  "full_runtime_compare_20260324_115852"
+}

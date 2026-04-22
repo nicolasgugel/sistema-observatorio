@@ -1,0 +1,106 @@
+{
+  "runtime_name": "legacy_hybrid_validated_runtime",
+  "mode": "full",
+  "brand_scope": "Samsung",
+  "requested_competitors": [
+    "Media Markt"
+  ],
+  "retailer_runtime_map": {
+    "Santander Boutique": "legacy",
+    "Media Markt": "legacy"
+  },
+  "retailers_blocked": [
+    "Media Markt"
+  ],
+  "selected_key_count": 18,
+  "raw_record_count": 248,
+  "raw_generated_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\output\\mediamarkt_run_20260325_direct_20260325_100154.csv",
+  "retailers": [
+    {
+      "retailer": "Santander Boutique",
+      "runtime_used": "legacy",
+      "status": "passed",
+      "validated_products": [
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 11.31,
+          "term_months": 30,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-A36-5G-128GB/p/SM-A366BZKBEEB?previousPriceSelected=renting"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 13.12,
+          "term_months": 24,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-A36-5G-128GB/p/SM-A366BZKBEEB?previousPriceSelected=renting"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 17.01,
+          "term_months": 18,
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-A36-5G-128GB/p/SM-A366BZKBEEB?previousPriceSelected=renting"
+        }
+      ],
+      "mismatches": [],
+      "blocked_publication": false,
+      "evidence_urls": [
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-A36-5G-128GB/p/SM-A366BZKBEEB?previousPriceSelected=renting",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-A36-5G-128GB/p/SM-A366BZKBEEB?previousPriceSelected=renting",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Electr%C3%B3nica/M%C3%B3viles/Galaxy-A36-5G-128GB/p/SM-A366BZKBEEB?previousPriceSelected=renting"
+      ]
+    },
+    {
+      "retailer": "Media Markt",
+      "runtime_used": "legacy",
+      "status": "failed",
+      "validated_products": [
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 120.03,
+          "term_months": 3,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 61.42,
+          "term_months": 6,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A36 5G",
+          "capacity_gb": 128,
+          "offer_type": "financing_max_term",
+          "price_value": 32.15,
+          "term_months": 12,
+          "source_url": "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html"
+        }
+      ],
+      "mismatches": [
+        "Media Markt: mismatch en Samsung Galaxy A36 5G 128GB",
+        "Media Markt: mismatch en Samsung Galaxy A36 5G 128GB",
+        "Media Markt: mismatch en Samsung Galaxy A36 5G 128GB"
+      ],
+      "blocked_publication": true,
+      "evidence_urls": [
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html",
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html",
+        "https://www.mediamarkt.es/es/product/_movil-samsung-galaxy-a36-5g-negro-128-gb-6-gb-ram-67-fhd-super-amoled-qualcomm-snapdragon-6-gen-3-5000-mah-android-15-1594687.html"
+      ]
+    }
+  ]
+}

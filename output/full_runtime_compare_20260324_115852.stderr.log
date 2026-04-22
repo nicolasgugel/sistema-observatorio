@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\scripts\run_published_runtime.py", line 84, in <module>
+    main()
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\scripts\run_published_runtime.py", line 55, in main
+    result = run_full_runtime_sync(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\app_backend\published_runtime.py", line 443, in run_full_runtime_sync
+    return asyncio.run(run_full_runtime(**kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\app_backend\published_runtime.py", line 327, in run_full_runtime
+    bundle_rows = await _run_bundle_targets(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\app_backend\published_runtime.py", line 226, in _run_bundle_targets
+    print(text)
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u25b6' in position 39: character maps to <undefined>
+Exception ignored in: <function BaseSubprocessTransport.__del__ at 0x0000025F48E84680>
+Traceback (most recent call last):
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_subprocess.py", line 126, in __del__
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_subprocess.py", line 104, in close
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\proactor_events.py", line 109, in close
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 799, in call_soon
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 545, in _check_closed
+RuntimeError: Event loop is closed

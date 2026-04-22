@@ -1,0 +1,51 @@
+Traceback (most recent call last):
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\scripts\run_published_runtime.py", line 84, in <module>
+    main()
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\scripts\run_published_runtime.py", line 55, in main
+    result = run_full_runtime_sync(
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\app_backend\published_runtime.py", line 444, in run_full_runtime_sync
+    return asyncio.run(run_full_runtime(**kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\base_events.py", line 691, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\app_backend\published_runtime.py", line 316, in run_full_runtime
+    legacy_records = await run_live_scrape_from_seeds(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\observatorio\scraper.py", line 5553, in run_live_scrape_from_seeds
+    records, _ = await _run_targets_for_seeds(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\observatorio\scraper.py", line 5450, in _run_targets_for_seeds
+    competitor_records = await asyncio.wait_for(
+                         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\asyncio\tasks.py", line 520, in wait_for
+    return await fut
+           ^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\observatorio\scraper.py", line 5308, in scrape_prices_for_competitor
+    return await _scrape_movistar_prices(browser=browser, seeds=seeds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\OneDrive - Accenture\ACCENTURE\NewCo\Sistema_Observatorio\observatorio\scraper.py", line 4167, in _scrape_movistar_prices
+    title = await page.title()
+            ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\site-packages\playwright\async_api\_generated.py", line 9766, in title
+    return mapping.from_maybe_impl(await self._impl_obj.title())
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\site-packages\playwright\_impl\_page.py", line 827, in title
+    return await self._main_frame.title()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\site-packages\playwright\_impl\_frame.py", line 864, in title
+    return await self._channel.send("title", None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\site-packages\playwright\_impl\_connection.py", line 69, in send
+    return await self._connection.wrap_api_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\juan.gugel.gonzalez\AppData\Local\Programs\Python\Python312\Lib\site-packages\playwright\_impl\_connection.py", line 559, in wrap_api_call
+    raise rewrite_error(error, f"{parsed_st['apiName']}: {error}") from None
+playwright._impl._errors.Error: Page.title: Execution context was destroyed, most likely because of a navigation
