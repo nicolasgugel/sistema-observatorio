@@ -1,0 +1,50 @@
+{
+  "id": "20260608_122616_c40534cb",
+  "created_at": "2026-06-08T12:26:16.369027+00:00",
+  "run_id": null,
+  "mode": "scheduled",
+  "brand_scope": "all",
+  "competitors": [
+    "Amazon",
+    "Grover",
+    "Media Markt",
+    "Movistar",
+    "Rentik",
+    "Samsung Oficial",
+    "Apple Oficial",
+    "Orange",
+    "El Corte Ingles"
+  ],
+  "record_count": 1184,
+  "raw_generated_csv": "/home/runner/work/sistema-observatorio/sistema-observatorio/output/daily_refresh_20260608_121731_a4fc2508_20260608_122615.csv",
+  "raw_record_count": 517,
+  "published_record_count": 1184,
+  "selected_key_count": 46,
+  "runtime_name": "santander_20260409_bundle_runtime",
+  "validation_report_path": "/home/runner/work/sistema-observatorio/sistema-observatorio/data/history/20260608_122616_c40534cb/validation_report.json",
+  "retailers_blocked": [
+    "Grover",
+    "Media Markt",
+    "Samsung Oficial",
+    "El Corte Ingles"
+  ],
+  "retailer_runtime_map": {
+    "Santander Boutique": "current_dedicated",
+    "Amazon": "current_dedicated",
+    "Grover": "current_dedicated",
+    "Media Markt": "current_dedicated",
+    "Movistar": "current_dedicated",
+    "Rentik": "current_dedicated",
+    "Samsung Oficial": "current_dedicated",
+    "Apple Oficial": "current_dedicated",
+    "Orange": "current_dedicated",
+    "El Corte Ingles": "current_dedicated"
+  },
+  "files": {
+    "master_prices_csv": "master_prices.csv",
+    "latest_prices_csv": "latest_prices.csv",
+    "latest_prices_json": "latest_prices.json",
+    "price_comparison_live_html": "price_comparison_live.html",
+    "validation_report_json": "validation_report.json"
+  }
+}
