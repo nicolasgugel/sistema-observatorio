@@ -30,9 +30,9 @@
     "Media Markt",
     "Samsung Oficial"
   ],
-  "selected_key_count": 48,
-  "raw_record_count": 980,
-  "raw_generated_csv": "/home/runner/work/sistema-observatorio/sistema-observatorio/output/daily_refresh_20260615_124537_3c456fe2_20260615_125428.csv",
+  "selected_key_count": 62,
+  "raw_record_count": 1143,
+  "raw_generated_csv": "/home/runner/work/sistema-observatorio/sistema-observatorio/output/daily_refresh_20260615_133947_d69f281d_20260615_134938.csv",
   "retailers": [
     {
       "retailer": "Santander Boutique",
@@ -41,38 +41,38 @@
       "validated_products": [
         {
           "brand": "Apple",
-          "model": "Apple MacBook Air",
+          "model": "Apple Mac Studio M4 Max",
           "capacity_gb": 512,
           "offer_type": "financing_max_term",
-          "price_value": 45.34,
+          "price_value": 88.06,
           "term_months": 30,
-          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/MacBook-Air/p/MDH74Y_A"
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
         },
         {
           "brand": "Apple",
-          "model": "Apple MacBook Air",
+          "model": "Apple Mac Studio M4 Max",
           "capacity_gb": 512,
           "offer_type": "financing_max_term",
-          "price_value": 49.96,
+          "price_value": 97.04,
           "term_months": 24,
-          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/MacBook-Air/p/MDH74Y_A"
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
         },
         {
           "brand": "Apple",
-          "model": "Apple MacBook Air",
+          "model": "Apple Mac Studio M4 Max",
           "capacity_gb": 512,
           "offer_type": "financing_max_term",
-          "price_value": 66.61,
+          "price_value": 129.39,
           "term_months": 18,
-          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/MacBook-Air/p/MDH74Y_A"
+          "source_url": "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
-        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/MacBook-Air/p/MDH74Y_A",
-        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/MacBook-Air/p/MDH74Y_A",
-        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/MacBook-Air/p/MDH74Y_A"
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A",
+        "https://boutique.bancosantander.es/es/Cat%C3%A1logo/Apple/Mac/Mac-Studio-M4/p/MU963YP_A"
       ]
     },
     {
@@ -80,15 +80,6 @@
       "runtime_used": "current_dedicated",
       "status": "passed",
       "validated_products": [
-        {
-          "brand": "Apple",
-          "model": "Apple MacBook Pro",
-          "capacity_gb": 2048,
-          "offer_type": "cash",
-          "price_value": 2099.0,
-          "term_months": null,
-          "source_url": "https://www.amazon.es/dp/B07FQZRJ8Y"
-        },
         {
           "brand": "Apple",
           "model": "Apple iPhone 17 Pro",
@@ -99,21 +90,30 @@
           "source_url": "https://www.amazon.es/dp/B0FLFBKWHP"
         },
         {
-          "brand": "Apple",
-          "model": "Apple iPhone 17 Pro",
-          "capacity_gb": 1024,
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A17 5G",
+          "capacity_gb": 128,
           "offer_type": "cash",
-          "price_value": 63.71,
+          "price_value": 248.49,
           "term_months": null,
-          "source_url": "https://www.amazon.es/dp/B0FLFBKWHP"
+          "source_url": "https://www.amazon.es/dp/B0FPPQ5T37"
+        },
+        {
+          "brand": "Samsung",
+          "model": "Samsung Galaxy A37 5G",
+          "capacity_gb": 256,
+          "offer_type": "cash",
+          "price_value": 387.6,
+          "term_months": null,
+          "source_url": "https://www.amazon.es/dp/B0GNNQK18G"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
-        "https://www.amazon.es/dp/B07FQZRJ8Y",
         "https://www.amazon.es/dp/B0FLFBKWHP",
-        "https://www.amazon.es/dp/B0FLFBKWHP"
+        "https://www.amazon.es/dp/B0FPPQ5T37",
+        "https://www.amazon.es/dp/B0GNNQK18G"
       ]
     },
     {
@@ -220,6 +220,15 @@
       "validated_products": [
         {
           "brand": "Apple",
+          "model": "Apple MacBook Neo",
+          "capacity_gb": 256,
+          "offer_type": "renting_no_insurance",
+          "price_value": 35.9,
+          "term_months": 24,
+          "source_url": "https://www.rentik.com/es/ofertas-alquilar/renting-ordenadores/apple-macbooks/macbook-neo-13-a18/?color=azul&capacity=256-gb"
+        },
+        {
+          "brand": "Apple",
           "model": "Apple iPhone 16",
           "capacity_gb": 128,
           "offer_type": "renting_no_insurance",
@@ -235,23 +244,14 @@
           "price_value": 34.9,
           "term_months": 24,
           "source_url": "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/?color=negro&capacity=128-gb"
-        },
-        {
-          "brand": "Apple",
-          "model": "Apple iPhone 17",
-          "capacity_gb": 256,
-          "offer_type": "renting_no_insurance",
-          "price_value": 52.9,
-          "term_months": 24,
-          "source_url": "https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17/?color=verde&capacity=256-gb"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
+        "https://www.rentik.com/es/ofertas-alquilar/renting-ordenadores/apple-macbooks/macbook-neo-13-a18/?color=azul&capacity=256-gb",
         "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16/?color=negro&capacity=128-gb",
-        "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/?color=negro&capacity=128-gb",
-        "https://www.rentik.com/es/ofertas-alquilar/iphone/iphone-17/?color=verde&capacity=256-gb"
+        "https://www.rentik.com/es/ofertas-alquilar/iphone/iPhone-16e/?color=negro&capacity=128-gb"
       ]
     },
     {
@@ -314,29 +314,29 @@
         },
         {
           "brand": "Apple",
-          "model": "Apple iPad mini Wi Fi",
+          "model": "Apple iPad Air M4 Wi-Fi",
           "capacity_gb": 128,
           "offer_type": "cash",
-          "price_value": 549.0,
+          "price_value": 649.0,
           "term_months": null,
-          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad-mini"
+          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad-air"
         },
         {
           "brand": "Apple",
-          "model": "Apple iPad mini Wi Fi",
+          "model": "Apple iPad Air M4 Wi-Fi",
           "capacity_gb": 256,
           "offer_type": "cash",
-          "price_value": 679.0,
+          "price_value": 779.0,
           "term_months": null,
-          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad-mini"
+          "source_url": "https://www.apple.com/es/shop/buy-ipad/ipad-air"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
         "https://www.apple.com/es/shop/buy-ipad/ipad",
-        "https://www.apple.com/es/shop/buy-ipad/ipad-mini",
-        "https://www.apple.com/es/shop/buy-ipad/ipad-mini"
+        "https://www.apple.com/es/shop/buy-ipad/ipad-air",
+        "https://www.apple.com/es/shop/buy-ipad/ipad-air"
       ]
     },
     {
@@ -355,29 +355,29 @@
         },
         {
           "brand": "Apple",
-          "model": "Apple iPhone 17",
-          "capacity_gb": 256,
+          "model": "Apple iPad Air M4 Wi-Fi",
+          "capacity_gb": 128,
           "offer_type": "financing_max_term",
-          "price_value": 17.5,
+          "price_value": 12.5,
           "term_months": 48,
-          "source_url": "https://www.orange.es/dispositivos/moviles/apple/iphone-17-256gb-morado/3004070.html"
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-128gb-azul/3711297.html"
         },
         {
           "brand": "Apple",
-          "model": "Apple iPhone 17 Pro",
-          "capacity_gb": 256,
+          "model": "Apple iPad Air M4 Wi-Fi",
+          "capacity_gb": 128,
           "offer_type": "financing_max_term",
-          "price_value": 24.5,
+          "price_value": 16.25,
           "term_months": 48,
-          "source_url": "https://www.orange.es/dispositivos/moviles/apple/iphone-17-pro-256gb-naranja/3004084.html"
+          "source_url": "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
         }
       ],
       "mismatches": [],
       "blocked_publication": false,
       "evidence_urls": [
         "https://www.orange.es/dispositivos/tablets/apple/ipad-wifi-11-2025-128gb-plata/3711018.html",
-        "https://www.orange.es/dispositivos/moviles/apple/iphone-17-256gb-morado/3004070.html",
-        "https://www.orange.es/dispositivos/moviles/apple/iphone-17-pro-256gb-naranja/3004084.html"
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-11-128gb-azul/3711297.html",
+        "https://www.orange.es/dispositivos/tablets/apple/ipad-air-m4-wifi-13-128gb-gris/3711299.html"
       ]
     },
     {
