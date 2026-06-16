@@ -1,6 +1,6 @@
 {
-  "id": "20260325_152848_d77f8f9a",
-  "created_at": "2026-03-25T15:28:48.530464+00:00",
+  "id": "20260616_114729_12173d58",
+  "created_at": "2026-06-16T11:47:29.157251+00:00",
   "run_id": null,
   "mode": "scheduled",
   "brand_scope": "all",
@@ -15,14 +15,16 @@
     "Orange",
     "El Corte Ingles"
   ],
-  "record_count": 682,
-  "raw_generated_csv": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\output\\daily_refresh_20260325_151813_21943605_20260325_152848.csv",
-  "raw_record_count": 1211,
-  "published_record_count": 682,
-  "selected_key_count": 67,
-  "runtime_name": "santander_20260325_bundle_runtime",
-  "validation_report_path": "C:\\Users\\juan.gugel.gonzalez\\OneDrive - Accenture\\ACCENTURE\\NewCo\\Sistema_Observatorio\\data\\history\\20260325_152848_d77f8f9a\\validation_report.json",
+  "record_count": 1198,
+  "raw_generated_csv": "/home/runner/work/sistema-observatorio/sistema-observatorio/output/daily_refresh_20260616_113729_ff15181e_20260616_114728.csv",
+  "raw_record_count": 996,
+  "published_record_count": 1198,
+  "selected_key_count": 48,
+  "runtime_name": "santander_20260409_bundle_runtime",
+  "validation_report_path": "/home/runner/work/sistema-observatorio/sistema-observatorio/data/history/20260616_114729_12173d58/validation_report.json",
   "retailers_blocked": [
+    "Grover",
+    "Media Markt",
     "Samsung Oficial"
   ],
   "retailer_runtime_map": {
